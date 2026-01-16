@@ -2229,7 +2229,7 @@
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/ai_provider_mistral.git",
-                "reference": "d6498cb17a1fc4f527bbbaa1e701dc39d2e7e487"
+                "reference": "bd03252e94b0121ca9c368624052440acdfc2a17"
             },
             "require": {
                 "drupal/ai": "^1.2.0",
@@ -2245,7 +2245,7 @@
                 },
                 "drupal": {
                     "version": "1.1.x-dev",
-                    "datestamp": "1768573079",
+                    "datestamp": "1768573627",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Dev releases are not covered by Drupal security advisories."
