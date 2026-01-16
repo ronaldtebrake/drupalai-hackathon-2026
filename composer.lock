@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d64c393658bc4f6a63430e436448f625",
+    "content-hash": "1ec9edda62a4a63a69a542393c930d21",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2077,6 +2077,96 @@
             ],
             "support": {
                 "source": "https://git.drupalcode.org/project/ai_image_alt_text"
+            }
+        },
+        {
+            "name": "drupal/ai_provider_amazeeio",
+            "version": "1.2.4",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/ai_provider_amazeeio.git",
+                "reference": "1.2.4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/ai_provider_amazeeio-1.2.4.zip",
+                "reference": "1.2.4",
+                "shasum": "173999b00bfc3dd0e3823287d2442e8484849cb8"
+            },
+            "require": {
+                "drupal/ai": "^1.2",
+                "drupal/core": "^10.4 || ^11",
+                "drupal/key": "*",
+                "drupal/search_api": ">1.20"
+            },
+            "require-dev": {
+                "drupal/config_ignore": "^3.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "1.2.4",
+                    "datestamp": "1768471224",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "andrewbelcher",
+                    "homepage": "https://www.drupal.org/user/655282"
+                },
+                {
+                    "name": "bryangruneberg",
+                    "homepage": "https://www.drupal.org/user/2600012"
+                },
+                {
+                    "name": "dan2k3k4",
+                    "homepage": "https://www.drupal.org/user/2437398"
+                },
+                {
+                    "name": "justanothermark",
+                    "homepage": "https://www.drupal.org/user/1369624"
+                },
+                {
+                    "name": "kellyknight",
+                    "homepage": "https://www.drupal.org/user/3843555"
+                },
+                {
+                    "name": "marcus_johansson",
+                    "homepage": "https://www.drupal.org/user/385947"
+                },
+                {
+                    "name": "matthews",
+                    "homepage": "https://www.drupal.org/user/114486"
+                },
+                {
+                    "name": "pmelab",
+                    "homepage": "https://www.drupal.org/user/555322"
+                },
+                {
+                    "name": "schnitzel",
+                    "homepage": "https://www.drupal.org/user/643820"
+                },
+                {
+                    "name": "vasi1186",
+                    "homepage": "https://www.drupal.org/user/342104"
+                },
+                {
+                    "name": "yanniboi",
+                    "homepage": "https://www.drupal.org/user/1837556"
+                }
+            ],
+            "description": "amazee.ai AI provider integration.",
+            "homepage": "https://www.drupal.org/project/ai_provider_amazeeio",
+            "support": {
+                "source": "https://git.drupalcode.org/project/ai_provider_amazeeio"
             }
         },
         {
@@ -4853,17 +4943,17 @@
         },
         {
             "name": "drupal/editoria11y",
-            "version": "2.2.19",
+            "version": "2.2.20",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/editoria11y.git",
-                "reference": "2.2.19"
+                "reference": "2.2.20"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/editoria11y-2.2.19.zip",
-                "reference": "2.2.19",
-                "shasum": "634952a21120424af2ae02a4832d22294f0537bf"
+                "url": "https://ftp.drupal.org/files/projects/editoria11y-2.2.20.zip",
+                "reference": "2.2.20",
+                "shasum": "886e3e268b29574833096d29bebfb42e419bd6cc"
             },
             "require": {
                 "drupal/core": "^9 || ^10 || ^11"
@@ -4874,8 +4964,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "2.2.19",
-                    "datestamp": "1766259194",
+                    "version": "2.2.20",
+                    "datestamp": "1768410721",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -7905,17 +7995,17 @@
         },
         {
             "name": "drupal/webform",
-            "version": "6.3.0-beta6",
+            "version": "6.3.0-beta7",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/webform.git",
-                "reference": "6.3.0-beta6"
+                "reference": "6.3.0-beta7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/webform-6.3.0-beta6.zip",
-                "reference": "6.3.0-beta6",
-                "shasum": "f19f78f27d9a91c8ce3a2c41d8adb3e5198a0a25"
+                "url": "https://ftp.drupal.org/files/projects/webform-6.3.0-beta7.zip",
+                "reference": "6.3.0-beta7",
+                "shasum": "405d46b32e0536f9f854cf1f2620eddd87cc853b"
             },
             "require": {
                 "drupal/core": "^10.3 || ^11.0"
@@ -7960,8 +8050,8 @@
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "6.3.0-beta6",
-                    "datestamp": "1764797531",
+                    "version": "6.3.0-beta7",
+                    "datestamp": "1768489801",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Beta releases are not covered by Drupal security advisories."
@@ -8956,16 +9046,16 @@
         },
         {
             "name": "laravel/prompts",
-            "version": "v0.3.9",
+            "version": "v0.3.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/prompts.git",
-                "reference": "5c41bf0555b7cfefaad4e66d3046675829581ac4"
+                "reference": "360ba095ef9f51017473505191fbd4ab73e1cab3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/prompts/zipball/5c41bf0555b7cfefaad4e66d3046675829581ac4",
-                "reference": "5c41bf0555b7cfefaad4e66d3046675829581ac4",
+                "url": "https://api.github.com/repos/laravel/prompts/zipball/360ba095ef9f51017473505191fbd4ab73e1cab3",
+                "reference": "360ba095ef9f51017473505191fbd4ab73e1cab3",
                 "shasum": ""
             },
             "require": {
@@ -9009,9 +9099,9 @@
             "description": "Add beautiful and user-friendly forms to your command-line applications.",
             "support": {
                 "issues": "https://github.com/laravel/prompts/issues",
-                "source": "https://github.com/laravel/prompts/tree/v0.3.9"
+                "source": "https://github.com/laravel/prompts/tree/v0.3.10"
             },
-            "time": "2026-01-07T21:00:29+00:00"
+            "time": "2026-01-13T20:29:29+00:00"
         },
         {
             "name": "league/commonmark",

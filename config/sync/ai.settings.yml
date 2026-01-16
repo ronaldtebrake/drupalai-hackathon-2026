@@ -5,19 +5,19 @@ prompt_logging_tags: ''
 default_providers:
   chat:
     provider_id: mistral
-    model_id: mistral-tiny
+    model_id: mistral-large-latest
   chat_with_complex_json:
     provider_id: mistral
-    model_id: mistral-tiny
+    model_id: mistral-large-latest
   chat_with_image_vision:
     provider_id: mistral
-    model_id: pixtral-12b
+    model_id: pixtral-large-latest
   chat_with_structured_response:
     provider_id: mistral
-    model_id: mistral-tiny
+    model_id: mistral-large-latest
   chat_with_tools:
     provider_id: mistral
-    model_id: mistral-tiny
+    model_id: mistral-large-latest
   embeddings:
     provider_id: mistral
     model_id: mistral-embed

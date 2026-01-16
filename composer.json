@@ -19,6 +19,7 @@
         "composer/composer": "^2.8",
         "composer/installers": "^2.3",
         "cweagans/composer-patches": "^2.0",
+        "drupal/ai_provider_amazeeio": "^1.2",
         "drupal/ai_provider_mistral": "1.1.x-dev@dev",
         "drupal/byte": "^1@beta",
         "drupal/byte_theme": "@beta",
@@ -106,7 +107,7 @@
                 "#3564735: Synthetic service (kernel) error during non-interactive install from existing config in Drupal 11.3": "https://git.drupalcode.org/project/drupal/-/merge_requests/14169.patch"
             },
             "drupal/ai_provider_mistral": {
-                "#3567414: TypeError when assistant message includes tool calls": "https://git.drupalcode.org/project/ai_provider_mistral/-/merge_requests/10.patch"
+                "#3567184: Add support for Mistral \"thinking\" models": "https://git.drupalcode.org/project/ai_provider_mistral/-/merge_requests/11.patch"
             }
         }
     },

@@ -1,5 +1,5 @@
 {
-    "_hash": "917abd05124f3caca31abd473ce249657d63cae62a94add3e662c18a1334a2b2",
+    "_hash": "e710ac09900d95ef6605e2cc286da61f3f7adfddda026f806f4e015ee24527f3",
     "patches": {
         "drupal/core": [
             {
@@ -16,9 +16,9 @@
         "drupal/ai_provider_mistral": [
             {
                 "package": "drupal/ai_provider_mistral",
-                "description": "#3567414: TypeError when assistant message includes tool calls",
-                "url": "https://git.drupalcode.org/project/ai_provider_mistral/-/merge_requests/10.patch",
-                "sha256": "b956845cf4e4fea273de33ef2151c87d8d63f8c314afa36798cebaa35eb32e48",
+                "description": "#3567184: Add support for Mistral \"thinking\" models",
+                "url": "https://git.drupalcode.org/project/ai_provider_mistral/-/merge_requests/11.patch",
+                "sha256": "7fdab3f7c30d84abe82e1be669a0b4542057c84d898ca75e43037bec2cbf2b88",
                 "depth": 1,
                 "extra": {
                     "provenance": "root"
