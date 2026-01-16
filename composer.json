@@ -105,9 +105,6 @@
         "patches": {
             "drupal/core": {
                 "#3564735: Synthetic service (kernel) error during non-interactive install from existing config in Drupal 11.3": "https://git.drupalcode.org/project/drupal/-/merge_requests/14169.patch"
-            },
-            "drupal/ai_provider_mistral": {
-                "#3567184: Add support for Mistral \"thinking\" models": "https://git.drupalcode.org/project/ai_provider_mistral/-/merge_requests/11.patch"
             }
         }
     },
