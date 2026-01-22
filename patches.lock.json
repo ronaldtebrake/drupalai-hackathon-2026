@@ -1,5 +1,5 @@
 {
-    "_hash": "3af0e85af97b652b3d88aec6de48f7dc73e610e2742709954137f65661534b00",
+    "_hash": "d79639641d4d0fed6a424950536f5b0c3d65a4d1852b28c9f684501f3a17b796",
     "patches": {
         "drupal/core": [
             {
@@ -8,6 +8,30 @@
                 "url": "https://git.drupalcode.org/project/drupal/-/merge_requests/14169.patch",
                 "sha256": "71fb6ea138a76694e061d9180489fdaf1008f6c9bfdd766cc1fb3ae5f06bd5f1",
                 "depth": 2,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ],
+        "drupal/ai": [
+            {
+                "package": "drupal/ai",
+                "description": "#3567784: Tools Function Input should give back an empty json schema skeleton",
+                "url": "https://git.drupalcode.org/project/ai/-/merge_requests/1120.patch",
+                "sha256": "2318e645dbb7e17c6fff6b51687d6f063ec7fa70355d44733be467f88e7020da",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ],
+        "drupal/canvas": [
+            {
+                "package": "drupal/canvas",
+                "description": "#3568950: Let the agent know that the tools were succesful",
+                "url": "https://git.drupalcode.org/project/canvas/-/merge_requests/493.patch",
+                "sha256": "e0fd9587ebcd9dc70843374473a1026c2c8cccece310de558959b3132822ca9d",
+                "depth": 1,
                 "extra": {
                     "provenance": "root"
                 }

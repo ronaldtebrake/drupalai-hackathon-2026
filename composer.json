@@ -23,6 +23,7 @@
         "drupal/ai_provider_mistral": "1.1.x-dev@dev",
         "drupal/byte": "^1@beta",
         "drupal/byte_theme": "@beta",
+        "drupal/config_ignore": "^3.3",
         "drupal/core": "^11.3",
         "drupal/core-composer-scaffold": "^11.3",
         "drupal/core-project-message": "^11.3",
@@ -105,6 +106,12 @@
         "patches": {
             "drupal/core": {
                 "#3564735: Synthetic service (kernel) error during non-interactive install from existing config in Drupal 11.3": "https://git.drupalcode.org/project/drupal/-/merge_requests/14169.patch"
+            },
+            "drupal/ai": {
+                "#3567784: Tools Function Input should give back an empty json schema skeleton": "https://git.drupalcode.org/project/ai/-/merge_requests/1120.patch"
+            },
+            "drupal/canvas": {
+                "#3568950: Let the agent know that the tools were succesful": "https://git.drupalcode.org/project/canvas/-/merge_requests/493.patch"
             }
         }
     },
