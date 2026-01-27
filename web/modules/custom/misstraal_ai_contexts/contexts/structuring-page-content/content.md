@@ -1,0 +1,81 @@
+# Structuring Page Content
+
+There are certain guidelines to follow when structuring page content. On this page, you will find more information about the page setup, SEO, and translation recommendations.
+
+## Self-Contained Pages
+
+Users may find your page through a search engine or by clicking a link on a different website. Each page needs to make sense as a free-standing unit. It should not rely on the context provided by navigating through the site's architecture.
+
+Make sure the following page elements are clear and descriptive enough for every page. This ensures it will make sense on its own, without any additional context:
+
+- Title
+- Description/introduction (page banner)
+- Headings
+
+Bear in mind that users will often arrive at the page via a search engine or a link from elsewhere. They won't have the context provided by navigating through our site to help them. Users should not need to navigate back or forward in the architecture to understand what the page is about.
+
+## Main Points First
+
+What is the top task(s) your readers are visiting this page for? Make sure that you put these at the top of the page. Don't make your reader hunt for the information they want by burying it lower down the page.
+
+## SEO Recommendations
+
+### Production (Creating a New Page)
+
+One of the most important website features evaluated by search engines is content. Presenting well-written and well-organised content to the users is vital to the success of a webpage. As a rule of thumb, if the content is relevant for human users, it will also be relevant for search engines.
+
+Once you have considered the above points, you should follow these three steps to optimise your page content for search engines.
+
+When building your page structure, be sure to:
+
+- Pick a meaningful title, preferably shorter than 60 characters
+- Insert a meta description for the page which:
+  - If appropriate, contains a call to action (what can you do with that page, e.g. 'learn' about the EU, 'contribute' to law creation)
+  - Matches the page content
+  - Contains the focus keyword
+  - Is no longer than 160 characters
+- Write the text in a clear way with concise sentences relating to each other:
+  - Avoid over-long sentences or too many commas
+  - Avoid jargon or overly bureaucratic language
+- Divide the page into a hierarchy of content sections. Give each of these sections a title using the headings (h2 to h4). Remember: headings create a hierarchy (e.g. h2 followed by h3 means that h3 is a subsection of h2). The hierarchy needs to be respected to avoid orphaned subheadings (e.g. h2 followed by h4 is wrong. h3 is always the subsection of h2 and h4 is a subsection of h3. Therefore, h4 can only be used as an h3 subsection)
+  - Ideally write at least 1000-2500 words per page
+  - If you have less, consider integrating the content with the parent or child page
+  - If you have more, consider breaking down the content into other pages
+- Start the sentences with the most relevant information (e.g. 'On 22 May I did this' => 'I did this on 22 May')
+- Place any call to action buttons at the top of the page, so that users can see them immediately. Don't place call to action buttons at the end of the page
+- Use culturally specific references if you are writing for a specific region or country
+- Use meaningful text for links which explain what the linked page is about (especially if it's an internal page)
+- Don't rely uniquely on images to convey concepts:
+  - If you have an image with a graph, include a caption which explains exactly what is in the image. Ensure that the content around the image is somehow related to it
+  - Don't forget to insert proper alternative text attributes
+
+### Correction (Revamping an Existing Page)
+
+When you are revamping an existing page:
+
+- Remove unclear phrasing
+- Check that keywords are used on the page
+- Ensure that the first sentence of each paragraph conveys the sense of the whole paragraph
+- Ensure that the page you created fits in the overall structure. Consider hierarchical constraints. Verify that the page is still reachable from the main landing page (i.e. don't create orphaned pages)
+- Check HTML markup:
+  - Prefer <em> or <strong> over <i> or <b>, as they have a semantic meaning and work better with screen readers and are therefore better for accessibility
+  - Use semantic markup (header, nav, section, article, figure, footer)
+  - Add title attribute on links
+  - Ensure that there are no broken links on the website, especially if the link is internal
+
+### Translation and Localisation
+
+When it comes to page translation:
+
+- Always translate cultural references
+- Link only to social media in the local language
+- Translate hidden parts of content (title tags, descriptions, alternative text)
+- If possible, translate file names
+
+## Optimising Content for AI
+
+In recent years, the growing use of AI tools has reduced website traffic by an estimated 7–13%. To address this, we need to complement our SEO strategy with AEO (Answer Engine Optimisation), which makes our content easier to find and use by AI systems.
+
+The most effective AEO approach today is to structure our content around question clusters, reflecting how people (and AI) search for information. Each sub-question should be marked with semantic HTML headings (<h2>, <h3>) and followed by a short, direct answer. This will help AI engines extract relevant information efficiently. Supporting each cluster with internal links, related topics, and structured data further enhances crawlability and context recognition (same SEO rules apply).
+
+For example, instead of focusing on a single keyword per page, we should structure the content to answer a main question (e.g. 'How does renewable energy work?'), followed by a cluster of related sub-questions ('What are the types of renewable energy?', 'Is solar energy efficient?', 'What are the pros and cons of wind power?'). This reflects how modern AI systems, such as Google's Search Generative Experience (SGE) or ChatGPT, gather and present information.

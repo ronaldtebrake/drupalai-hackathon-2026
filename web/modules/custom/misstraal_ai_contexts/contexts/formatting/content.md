@@ -1,0 +1,48 @@
+# Formatting
+
+## Headings
+
+- Use a maximum of 3 levels of nested headings (heading 2, heading 3, heading 4 - note: the page title is equivalent to heading 1)
+- Help users and search engines scan your page by following the hierarchical order of headings: <h1> headings should be used for main headings, followed by <h2> headings, then the less important <h3>, and so on
+- Write clear headings which let the user know what they'll find in the following section so they know if that's what they're looking for
+- Headings should be a maximum 60 characters including spaces - because search engines cut off longer titles when displaying search results
+- Do not use colons at the end of headings
+- Break up blocks of text with sub-headings to help users scan your content
+- Use subheadings every 2-4 paragraphs
+
+## Paragraphs
+
+- Try to vary paragraph lengths, so readers can tell them apart and find their way as the page scrolls down
+- Short is good. Even one sentence. Aim for no more than 3 or 4 sentences
+- Each paragraph should have just 1 main idea
+
+## Bold Type
+
+Use bold text very sparingly, and only to emphasise key ideas in each paragraph. Never use bold type merely to make your text look better (such as in captions, names etc.). Limit bolding to just the relevant words, not whole phrases, sentences or paragraphs.
+
+## Italics
+
+Avoid using italics, because italicised text is difficult for vision-impaired users to read on low‑resolution displays.
+
+## Underline
+
+Don't underline anything but links. On webpages most people assume that anything that is underlined is a link no matter what colour it is.
+
+## Bullet Points
+
+Bulleted lists help users to scan. If you have 3 or more items listed in running text, consider putting them in a bulleted list. Remember, however, that having too many bullets in the same list looks odd.
+
+Use the bulleted list format in the rich text editor in the CMS (as opposed to manually adding numbers/asterisks to a list of items). This is necessary for text-to-speech software.
+
+For ease of reading, we generally:
+
+- Don't use a colon before the list
+- Limit the text by each bullet point
+- Do not capitalise the first letter of each point
+- Do not use punctuation such as commas, full stops or semicolons at the end of each point
+
+However, if your bullet point is composed of more than 1 complete sentence, punctuation becomes necessary. Also, a final point is recommended for a bulleted list that is part of a sentence.
+
+## Numbering
+
+Numbering should be preferred to the bulleted list only when there is an order to the list. The punctuation rules are the same as for bullet points, there should only be a final full-point if the list is part of a sentence and no other punctuation.

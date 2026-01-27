@@ -1,0 +1,8 @@
+name: 'MissTraal AI Contexts'
+type: module
+description: 'Reads Markdown files and creates AI Context entities for the ai_context module on install.'
+core_version_requirement: ^11
+package: 'MissTraal'
+dependencies:
+  - drupal:ai_context
+
