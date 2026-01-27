@@ -1,0 +1,32 @@
+uuid: 7cb02275-43ba-447b-b87c-24796273e33b
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.card
+    - field.field.node.article.field_ai_reasoning
+    - field.field.node.article.field_ai_score
+    - field.field.node.article.field_description
+    - node.type.article
+  module:
+    - user
+id: node.article.card
+targetEntityType: node
+bundle: article
+mode: card
+content:
+  field_description:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_ai_reasoning: true
+  field_ai_score: true

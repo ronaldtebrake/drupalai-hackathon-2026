@@ -1,0 +1,22 @@
+uuid: 36e16526-2ae0-4b1d-82e2-c620d9808c48
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ai_reasoning
+    - node.type.article
+  module:
+    - text
+id: node.article.field_ai_reasoning
+field_name: field_ai_reasoning
+entity_type: node
+bundle: article
+label: ai_reasoning
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long
