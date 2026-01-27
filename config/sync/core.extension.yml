@@ -12,6 +12,7 @@ module:
   automated_cron: 0
   automatic_updates: 0
   autosave_form: 0
+  basic_auth: 0
   big_pipe: 0
   block: 0
   bpmn_io: 0
@@ -54,6 +55,7 @@ module:
   flowdrop_node_category: 0
   flowdrop_node_processor: 0
   flowdrop_node_type: 0
+  flowdrop_orchestration_connector: 0
   flowdrop_pipeline: 0
   flowdrop_playground: 0
   flowdrop_runtime: 0
@@ -93,6 +95,7 @@ module:
   navigation_extra_tools: 0
   node: 0
   options: 0
+  orchestration: 0
   package_manager: 0
   page_cache: 0
   path: 0
