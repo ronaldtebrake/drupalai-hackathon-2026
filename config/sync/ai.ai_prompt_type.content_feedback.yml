@@ -1,0 +1,8 @@
+uuid: 7b31299e-85c8-481c-9b08-59fd06352784
+langcode: en
+status: true
+dependencies: {  }
+id: content_feedback
+label: 'Content Feedback'
+variables: {  }
+tokens: {  }
