@@ -1,0 +1,39 @@
+uuid: 59b0d54e-9133-40cf-ba4b-ce6d8a5d5ee9
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: g6ZEcIPxz7yGGJDhpBds3sODQkl9z6rNa0PGvBKntfc
+id: orchestration_trigger
+label: 'Orchestration Trigger'
+description: 'Trigger workflow from external automation platforms (Activepieces, etc.)'
+category: inputs
+icon: 'mdi:webhook'
+plugin_version: 1.0.0
+enabled: true
+parameters:
+  variant:
+    configurable: false
+    connectable: false
+    required: false
+    default: start
+  event_type:
+    configurable: false
+    connectable: false
+    required: false
+    default: orchestration.invoke
+outputs:
+  data:
+    exposed: true
+tags:
+  - integration
+  - orchestration
+  - external
+executor_plugin: 'flowdrop_orchestration_connector:orchestration_trigger'
+visual_type: terminal
+supported_visual_types:
+  - default
+  - simple
+  - terminal
+unified_input_exposed: false
+unified_output_exposed: false
