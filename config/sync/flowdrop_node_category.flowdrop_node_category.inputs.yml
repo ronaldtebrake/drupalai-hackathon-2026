@@ -1,0 +1,12 @@
+uuid: ba156844-59cd-495c-8ea6-f48e2f62b827
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: 8XK2ko5IbB9iIsHtaSPL_LIzkOsJyExihVkVqbRygEc
+id: inputs
+label: Inputs
+description: 'Bring data into your workflow from various sources like text fields, file uploads, API endpoints, or user interactions.'
+icon: 'mdi:arrow-down-circle'
+color: '#10b981'
+enabled: true

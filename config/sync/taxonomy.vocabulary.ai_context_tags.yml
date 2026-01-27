@@ -1,0 +1,11 @@
+uuid: 23faddae-d8f4-41d5-b3c8-b488faa4e9b9
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: '-wajf9vNOOFx9qqNvW_E441vbu7t8HwRARpJmlWNt7U'
+name: 'AI Context Tags'
+vid: ai_context_tags
+description: 'Tags to categorize AI Context documents.'
+weight: 0
+new_revision: false

@@ -1,0 +1,13 @@
+uuid: 0b09a384-b647-42d0-b734-3f54f69fd6e8
+langcode: en
+status: true
+dependencies:
+  module:
+    - flowdrop_pipeline
+_core:
+  default_config_hash: SUawNDC3pbUp2edLRYVAQYttI1S9mqP619vJb4aMZOU
+id: flowdrop_pipeline_save_action
+label: 'Save flowdrop pipelines'
+type: flowdrop_pipeline
+plugin: 'entity:save_action:flowdrop_pipeline'
+configuration: {  }
