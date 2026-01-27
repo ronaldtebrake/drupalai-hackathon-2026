@@ -1,0 +1,44 @@
+uuid: 4be1c490-fe36-458f-8b64-55517cbc9619
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: Q9kzk2q3lhs6Sx0jE7y2f7NWmXXX7Hrf0C4QknTlV6A
+id: message_to_data
+label: 'Message to Data'
+description: 'Convert messages to structured data'
+category: data
+icon: 'mdi:message-cog-outline'
+plugin_version: 1.0.0
+enabled: true
+parameters:
+  extractFields:
+    configurable: true
+    connectable: false
+    required: false
+    default: {  }
+  format:
+    configurable: true
+    connectable: false
+    required: false
+    default: json
+  message:
+    configurable: false
+    connectable: true
+    required: false
+outputs:
+  data:
+    exposed: true
+  extracted_fields:
+    exposed: true
+  format:
+    exposed: true
+  original_message:
+    exposed: true
+tags: {  }
+executor_plugin: 'flowdrop_node_processor:message_to_data'
+visual_type: default
+supported_visual_types:
+  - default
+unified_input_exposed: false
+unified_output_exposed: false

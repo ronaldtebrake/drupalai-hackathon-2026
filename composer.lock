@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "34c70c889048d0869a2641717d518459",
+    "content-hash": "4b201e2571e23f8a7a88b3b4f2e1e1db",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2018,6 +2018,60 @@
             "homepage": "https://www.drupal.org/project/ai",
             "support": {
                 "source": "https://git.drupalcode.org/project/ai"
+            }
+        },
+        {
+            "name": "drupal/ai_context",
+            "version": "0.1.0-alpha1",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/ai_context.git",
+                "reference": "0.1.0-alpha1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/ai_context-0.1.0-alpha1.zip",
+                "reference": "0.1.0-alpha1",
+                "shasum": "11c274d692e07ccb6805ffca4774029153ef9b04"
+            },
+            "require": {
+                "drupal/ai": "*",
+                "drupal/ai_agents": "*",
+                "drupal/core": "^10.3 || ^11"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "0.1.0-alpha1",
+                    "datestamp": "1765643106",
+                    "security-coverage": {
+                        "status": "not-covered",
+                        "message": "Alpha releases are not covered by Drupal security advisories."
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "ahmedjabar",
+                    "homepage": "https://www.drupal.org/user/3150677"
+                },
+                {
+                    "name": "kristen pol",
+                    "homepage": "https://www.drupal.org/user/8389"
+                },
+                {
+                    "name": "kurtfoster",
+                    "homepage": "https://www.drupal.org/user/403040"
+                }
+            ],
+            "description": "Provides site-specific AI context entities and dynamic routing for sub-agents.",
+            "homepage": "https://www.drupal.org/project/ai_context",
+            "support": {
+                "source": "https://git.drupalcode.org/project/ai_context"
             }
         },
         {
@@ -5243,6 +5297,57 @@
             "homepage": "https://www.drupal.org/project/flowdrop",
             "support": {
                 "source": "https://git.drupalcode.org/project/flowdrop"
+            }
+        },
+        {
+            "name": "drupal/flowdrop_ui-flowdrop_ui",
+            "version": "0.0.38",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/flowdrop_ui.git",
+                "reference": "0.0.38"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/flowdrop_ui-0.0.38.zip",
+                "reference": "0.0.38",
+                "shasum": "16303573f979729e9ae06d8827a785f8ac2d65e3"
+            },
+            "require": {
+                "drupal/core": "^11"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "0.0.38",
+                    "datestamp": "1769277695",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Shibin Das (d34dman)",
+                    "homepage": "https://www.drupal.org/u/d34dman",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "David Galeano (gxleano)",
+                    "homepage": "https://www.drupal.org/u/gxleano",
+                    "role": "Co-maintainer"
+                }
+            ],
+            "description": "FlowDrop is a visual workflow editor for Drupal",
+            "homepage": "https://drupal.org/project/flowdrop_ui",
+            "support": {
+                "source": "https://git.drupalcode.org/project/flowdrop_ui",
+                "issues": "https://drupal.org/project/issues/flowdrop_ui"
             }
         },
         {
@@ -15098,6 +15203,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "drupal/ai_context": 15,
         "drupal/ai_provider_amazeeio": 20,
         "drupal/byte": 10,
         "drupal/byte_theme": 10,
