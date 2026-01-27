@@ -487,7 +487,7 @@ nodes:
     measured:
       width: 288
       height: 590
-    selected: true
+    selected: false
     dragging: true
   -
     id: misstraal_ai_contexts_chat_model.1
@@ -672,6 +672,170 @@ nodes:
       height: 890
     selected: false
     dragging: false
+  -
+    id: misstraal_ai_contexts_guideline_scoring.2
+    type: universalNode
+    position:
+      x: 1230
+      'y': 230
+    data:
+      label: 'Guideline Scoring'
+      config: {  }
+      metadata:
+        id: misstraal_ai_contexts_guideline_scoring
+        name: 'Guideline Scoring'
+        type: default
+        supportedTypes:
+          - default
+        description: 'Builds prompts from ai_context pools and scores content in two categories (AI and Editorial)'
+        category: processing
+        icon: 'mdi:cog'
+        color: '#14b8a6'
+        plugin_version: 1.0.0
+        enabled: true
+        tags: {  }
+        executor_plugin: 'misstraal_ai_contexts:guideline_scoring'
+        inputs:
+          -
+            id: content
+            name: Content
+            type: input
+            dataType: string
+            required: false
+            description: 'The content to be scored against guidelines'
+          -
+            id: input
+            name: Input
+            type: input
+            dataType: mixed
+            required: false
+            description: 'Input from any previous node (unified input port)'
+          -
+            id: response
+            name: Response
+            type: input
+            dataType: string
+            required: false
+            description: 'Response from a previous node (e.g., ChatModel response output)'
+          -
+            id: raw_response
+            name: 'Raw Response'
+            type: input
+            dataType: string
+            required: false
+            description: 'Raw response from a previous node (e.g., ChatModel raw_response output)'
+          -
+            id: data
+            name: Data
+            type: input
+            dataType: mixed
+            required: false
+            description: 'Data from trigger or other nodes'
+          -
+            id: trigger
+            name: Trigger
+            type: input
+            dataType: trigger
+            required: false
+            description: ''
+        outputs:
+          -
+            id: ai_score
+            name: 'AI Score'
+            type: output
+            dataType: number
+            required: false
+            description: 'Score for AI/LLM optimization category (0-100)'
+          -
+            id: ai_reasoning
+            name: 'AI Reasoning'
+            type: output
+            dataType: string
+            required: false
+            description: 'Reasoning for the AI score'
+          -
+            id: editorial_score
+            name: 'Editorial Score'
+            type: output
+            dataType: string
+            required: false
+            description: 'Score for editorial/style category (0-100)'
+          -
+            id: editorial_reasoning
+            name: 'Editorial Reasoning'
+            type: output
+            dataType: string
+            required: false
+            description: 'Reasoning for the editorial score'
+          -
+            id: raw_response
+            name: 'Raw Response'
+            type: output
+            dataType: string
+            required: false
+            description: 'The raw JSON response from the AI model'
+          -
+            id: model
+            name: Model
+            type: output
+            dataType: string
+            required: false
+            description: 'The model identifier that was used'
+          -
+            id: trigger
+            name: Trigger
+            type: output
+            dataType: trigger
+            required: false
+            description: 'Emitted when this node completes execution'
+        config: {  }
+        configSchema:
+          type: object
+          properties:
+            content:
+              type: string
+              title: Content
+              description: 'The content to be scored against guidelines'
+              required: false
+            input:
+              type: mixed
+              title: Input
+              description: 'Input from any previous node (unified input port)'
+              required: false
+            response:
+              type: string
+              title: Response
+              description: 'Response from a previous node (e.g., ChatModel response output)'
+              required: false
+            raw_response:
+              type: string
+              title: 'Raw Response'
+              description: 'Raw response from a previous node (e.g., ChatModel raw_response output)'
+              required: false
+            data:
+              type: mixed
+              title: Data
+              description: 'Data from trigger or other nodes'
+              required: false
+            instanceTitle:
+              type: string
+              title: Title
+              description: 'Override the default node title for this instance.'
+              x-display-order: -2
+            instanceDescription:
+              type: string
+              title: Description
+              description: 'Override the default description for this instance.'
+              format: multiline
+              x-display-order: -1
+          required: {  }
+      nodeId: misstraal_ai_contexts_guideline_scoring.2
+    deletable: true
+    measured:
+      width: 288
+      height: 1115
+    selected: true
+    dragging: false
 edges:
   -
     id: xy-edge__trigger.1trigger.1-output-data-prompt_template.1prompt_template.1-input-variables
@@ -712,10 +876,30 @@ edges:
       height: 16
       color: '#9ca3af'
     class: flowdrop--edge--data
+    selected: false
+  -
+    id: xy-edge__misstraal_ai_contexts_chat_model.1misstraal_ai_contexts_chat_model.1-output-response-misstraal_ai_contexts_guideline_scoring.2misstraal_ai_contexts_guideline_scoring.2-input-response
+    source: misstraal_ai_contexts_chat_model.1
+    target: misstraal_ai_contexts_guideline_scoring.2
+    data:
+      targetNodeType: universalNode
+      targetCategory: processing
+      metadata:
+        edgeType: data
+        sourcePortDataType: string
+    sourceHandle: misstraal_ai_contexts_chat_model.1-output-response
+    targetHandle: misstraal_ai_contexts_guideline_scoring.2-input-response
+    style: 'stroke: var(--flowdrop-edge-data-color);'
+    markerEnd:
+      type: arrowclosed
+      width: 16
+      height: 16
+      color: '#9ca3af'
+    class: flowdrop--edge--data
 metadata:
   version: 1.0.0
   createdAt: '2026-01-27T15:34:49.378Z'
-  updatedAt: '2026-01-27T16:48:39.641Z'
+  updatedAt: '2026-01-27T21:43:42.044Z'
 created: 1769528027
-changed: 1769532519
+changed: 1769550222
 uid: 0

@@ -12,16 +12,16 @@ icon: 'mdi:webhook'
 plugin_version: 1.0.0
 enabled: true
 parameters:
-  variant:
-    configurable: false
-    connectable: false
-    required: false
-    default: start
   event_type:
     configurable: false
     connectable: false
     required: false
     default: orchestration.invoke
+  variant:
+    configurable: false
+    connectable: false
+    required: false
+    default: start
 outputs:
   data:
     exposed: true
