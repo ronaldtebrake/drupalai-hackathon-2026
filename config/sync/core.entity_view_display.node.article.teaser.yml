@@ -1,0 +1,32 @@
+uuid: f6b20b75-5c23-46c3-8c05-f11a700236d1
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.article.field_ai_reasoning
+    - field.field.node.article.field_ai_score
+    - field.field.node.article.field_description
+    - node.type.article
+  module:
+    - user
+id: node.article.teaser
+targetEntityType: node
+bundle: article
+mode: teaser
+content:
+  field_description:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_ai_reasoning: true
+  field_ai_score: true
