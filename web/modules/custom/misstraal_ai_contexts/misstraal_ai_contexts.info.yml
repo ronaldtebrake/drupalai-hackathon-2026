@@ -5,4 +5,6 @@ core_version_requirement: ^11
 package: 'MissTraal'
 dependencies:
   - drupal:ai_context
+  - drupal:flowdrop
+  - drupal:ai
 
