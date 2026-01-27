@@ -1,0 +1,66 @@
+uuid: d0e600ce-7eab-493e-a978-dc40ebadfc37
+langcode: en
+status: true
+dependencies: {  }
+id: misstraal_ai_contexts_guideline_scoring
+label: 'Guideline Scoring'
+description: 'Builds prompts from ai_context pools and scores content in two categories (AI and Editorial)'
+category: processing
+icon: 'mdi:cog'
+plugin_version: 1.0.0
+enabled: true
+parameters:
+  agent_pool_id:
+    configurable: false
+    connectable: false
+    required: true
+    default: europa_web_guide_expert
+  content:
+    configurable: true
+    connectable: true
+    required: false
+  data:
+    configurable: true
+    connectable: true
+    required: false
+  input:
+    configurable: true
+    connectable: true
+    required: false
+  model:
+    configurable: false
+    connectable: false
+    required: false
+  raw_response:
+    configurable: true
+    connectable: true
+    required: false
+  response:
+    configurable: true
+    connectable: true
+    required: false
+  temperature:
+    configurable: false
+    connectable: false
+    required: false
+    default: 0.7
+outputs:
+  ai_reasoning:
+    exposed: true
+  ai_score:
+    exposed: true
+  editorial_reasoning:
+    exposed: true
+  editorial_score:
+    exposed: true
+  model:
+    exposed: true
+  raw_response:
+    exposed: true
+tags: {  }
+executor_plugin: 'misstraal_ai_contexts:guideline_scoring'
+visual_type: default
+supported_visual_types:
+  - default
+unified_input_exposed: false
+unified_output_exposed: false
