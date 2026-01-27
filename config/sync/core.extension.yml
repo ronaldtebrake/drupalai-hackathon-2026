@@ -3,7 +3,6 @@ _core:
 module:
   ai: 0
   ai_agents: 0
-  ai_agents_explorer: 0
   ai_context: 0
   ai_provider_amazeeio: 0
   ai_search: 0
@@ -55,7 +54,6 @@ module:
   flowdrop_node_category: 0
   flowdrop_node_processor: 0
   flowdrop_node_type: 0
-  flowdrop_orchestration_connector: 0
   flowdrop_pipeline: 0
   flowdrop_playground: 0
   flowdrop_runtime: 0
@@ -89,13 +87,13 @@ module:
   menu_link_attributes: 0
   menu_link_content: 0
   menu_ui: 0
+  misstraal_ai_contexts: 0
   modeler_api: 0
   mysql: 0
   navigation: 0
   navigation_extra_tools: 0
   node: 0
   options: 0
-  orchestration: 0
   package_manager: 0
   page_cache: 0
   path: 0

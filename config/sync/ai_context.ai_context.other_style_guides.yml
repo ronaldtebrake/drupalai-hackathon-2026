@@ -1,0 +1,34 @@
+uuid: a4216721-d501-4080-8364-526f15445f0d
+langcode: en
+status: true
+dependencies: {  }
+id: other_style_guides
+label: 'Other Style Guides'
+description: ''
+content: |
+  # Other Style Guides
+
+  ## In-House Guides
+
+  - **Interinstitutional style guide** - useful for lists of countries, currencies, official names of institutions (in 24 languages). Note that such full official titles are not always applicable in websites aimed at a general readership.
+
+  - **Commission style guide** - similar to the Interinstitutional style guide. Recommended reference for writing European Commission internal documents, as well as its communications with the outside world.
+
+  - **How to write clearly** - a booklet that can be downloaded as a PDF from the Publications Office
+
+  ## Language Aids
+
+  - **Drafting aids in EU languages**
+
+  - **DG Translation in-house English style guide** - useful reference, expanding on the Interinstitutional style guide.
+
+  - **Terminology database IATE** - various languages
+
+  ## General Writing Guides
+
+  - **International Telecommunications Union style guide**
+
+  - **Guardian style guide**
+
+  - **Plain language resources**
+tags: {  }

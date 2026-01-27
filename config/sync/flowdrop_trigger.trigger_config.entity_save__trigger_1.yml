@@ -1,0 +1,31 @@
+uuid: 3623cedc-25a2-4682-b39e-2b8631f1d41c
+langcode: en
+status: true
+dependencies: {  }
+id: entity_save__trigger_1
+label: 'entity save (trigger.1)'
+description: ''
+workflow_id: entity_save
+node_id: trigger.1
+event_type: entity.update
+conditions:
+  entity_types:
+    - node
+  bundles:
+    - article
+orchestrator_settings:
+  type: synchronous_pipeline
+  priority: normal
+  timeout: 300
+  pipeline_mode: new
+  pipeline_id: ''
+  max_concurrent_jobs: 5
+  job_priority_strategy: dependency_order
+  retry:
+    enabled: false
+    max_attempts: 3
+    delay: 5
+    backoff: constant
+  retry_strategy: individual
+initial_data_mapping: {  }
+weight: 0

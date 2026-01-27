@@ -1,0 +1,574 @@
+uuid: 258a506d-8181-4c5c-ba53-43d857007fe7
+langcode: en
+status: true
+dependencies: {  }
+id: entity_save
+label: 'entity save'
+description: ''
+nodes:
+  -
+    id: trigger.1
+    type: universalNode
+    position:
+      x: -210
+      'y': 160
+    data:
+      label: Trigger
+      config:
+        nodeType: default
+        instanceTitle: ''
+        instanceDescription: ''
+      metadata:
+        id: trigger
+        name: Trigger
+        type: terminal
+        supportedTypes:
+          - default
+          - simple
+          - terminal
+        description: 'Start workflow on events (entity changes, user actions, form submissions, cron, etc.)'
+        category: inputs
+        icon: 'mdi:flash-outline'
+        color: '#10b981'
+        plugin_version: 2.2.0
+        enabled: true
+        tags: {  }
+        executor_plugin: 'flowdrop_trigger:trigger'
+        inputs:
+          -
+            id: trigger
+            name: Trigger
+            type: input
+            dataType: trigger
+            required: false
+            description: ''
+        outputs:
+          -
+            id: data
+            name: 'Event Data'
+            type: output
+            dataType: json
+            required: false
+            description: 'Complete trigger data. Contains event_type, timestamp, and event-specific properties.'
+          -
+            id: user
+            name: 'User Data'
+            type: output
+            dataType: json
+            required: false
+            description: 'User entity data (user.* events only)'
+          -
+            id: form
+            name: Form
+            type: output
+            dataType: json
+            required: false
+            description: 'Form structure (form.* events only)'
+          -
+            id: form_values
+            name: 'Form Values'
+            type: output
+            dataType: json
+            required: false
+            description: 'Submitted form values (form.* events only)'
+          -
+            id: form_id
+            name: 'Form ID'
+            type: output
+            dataType: string
+            required: false
+            description: 'The form ID (form.* events only)'
+          -
+            id: form_state
+            name: 'Form State'
+            type: output
+            dataType: json
+            required: false
+            description: 'Form state (form.* events only)'
+          -
+            id: cron
+            name: 'Cron Data'
+            type: output
+            dataType: json
+            required: false
+            description: 'Cron execution info (cron.* events only)'
+          -
+            id: trigger
+            name: Trigger
+            type: output
+            dataType: trigger
+            required: false
+            description: 'Emitted when this node completes execution'
+        config:
+          type: terminal
+        configSchema:
+          type: object
+          properties:
+            nodeType:
+              type: string
+              title: 'Visual Type'
+              description: 'Select the visual appearance for this node instance.'
+              enum:
+                - default
+                - simple
+                - terminal
+              default: terminal
+            instanceTitle:
+              type: string
+              title: Title
+              description: 'Override the default node title for this instance.'
+              x-display-order: -2
+            instanceDescription:
+              type: string
+              title: Description
+              description: 'Override the default description for this instance.'
+              format: multiline
+              x-display-order: -1
+          required: {  }
+        configEdit:
+          dynamicSchema:
+            url: /api/flowdrop/triggers/schema
+            method: GET
+            parameterMapping:
+              event_type: config.event_type
+            headers: {  }
+            cacheSchema: false
+            timeout: 10000
+          externalEditLink:
+            url: '/admin/flowdrop/triggers/configure?workflow={workflowId}&node={nodeId}'
+            label: 'Configure Trigger'
+            icon: 'mdi:flash-outline'
+            description: 'Open trigger configuration form in admin interface'
+            parameterMapping:
+              workflowId: workflowId
+              nodeId: id
+            openInNewTab: true
+          api:
+            create: /api/flowdrop/triggers
+            read: '/api/flowdrop/triggers/{trigger_config_id}'
+            update: '/api/flowdrop/triggers/{trigger_config_id}'
+            delete: '/api/flowdrop/triggers/{trigger_config_id}'
+            eventTypes: /api/flowdrop/triggers/event-types
+          preferDynamicSchema: false
+          showRefreshButton: true
+          loadingMessage: 'Loading trigger configuration...'
+          errorMessage: 'Failed to load trigger configuration'
+      nodeId: trigger.1
+      extensions:
+        ui:
+          hideUnconnectedHandles: false
+    deletable: true
+    measured:
+      width: 288
+      height: 815
+    selected: false
+    dragging: false
+  -
+    id: prompt_template.1
+    type: universalNode
+    position:
+      x: 260
+      'y': 220
+    data:
+      label: 'Prompt Template'
+      config:
+        template: |-
+          You are an automated SEO-for-LLMs content quality and machine-consumability assessor.
+          Your role is to evaluate whether content is optimised for large language models (LLMs), AI agents, and retrieval-augmented generation (RAG) systems, according to an explicit SEO-for-LLMs style guide.
+          INPUTS YOU WILL RECEIVE
+          You will receive three inputs, wrapped exactly as follows:
+          STYLE_GUIDE:
+          <<<
+          …SEO for LLMs & AI Agents criteria, recommendations, and best practices…
+          <<<
+          CONTENT:
+          <<<
+          …text to be assessed…
+          <<<
+          CONTENT_REVISION_ID:
+          <<<
+          …revision identifier…
+          <<<
+          YOUR TASK
+          Assess CONTENT against STYLE_GUIDE and return one single JSON object suitable for automated ingestion by evaluation pipelines.
+          Your assessment must follow these constraints:
+          Sentence-triggered issues
+          • Identify issues only where a specific sentence or consecutive sentences trigger non-compliance with the SEO-for-LLMs criteria.
+          • Each issue must map directly to the sentence(s) that caused it.
+          • Do not infer intent or assess hypothetical downstream effects.
+          Chronological ordering
+          • Issues must appear in the same order as the triggering sentences occur in CONTENT, from beginning to end.
+          Root-cause grouping
+          • If multiple adjacent sentences reflect the same underlying optimisation failure, group them into a single issue.
+          • Do not split one conceptual failure into multiple issues.
+          Title-driven classification
+          • Do not output categories or subcategories.
+          • Each issue must instead have a short, neutral, descriptive title that clearly signals the nature of the optimisation problem
+          (e.g. “Implicit answer requiring inference”, “Inconsistent terminology for core entity”, “Non–RAG-friendly section structure”, “Ambiguous referent”).
+          Mandatory improvement guidance
+          • Every identified issue must include a concrete suggestion for improvement.
+          • Suggestions must be directly actionable, text-focused, and limited to changes that resolve the specific optimisation failure identified.
+          • Do not propose new content unless required by the STYLE_GUIDE.
+          • Do not suggest stylistic rewrites unrelated to machine-consumability.
+          SCORING MODEL (MANDATORY)
+          For each identified issue, assign:
+          • score: integer from 0–100
+          ○ 0 = severely non-optimised for LLM or agent consumption
+          ○ 50 = partially optimised / material improvement needed
+          ○ 100 = fully optimised (do not create an issue for “no issue”)
+          • severity: one of
+          ["critical","high","medium","low","info"]
+          Severity definitions (LLM-focused):
+          • critical: prevents reliable extraction by LLMs; causes high hallucination risk; breaks entity definition; content unusable in RAG or agent workflows
+          • high: major ambiguity; missing explicit answers; inconsistent entities or terminology; intent unclear to AI agents
+          • medium: structure, chunking, or formatting issues that reduce retrievability or embedding quality
+          • low: minor clarity, wording, or predictability issues affecting machine parsing
+          • info: optional best-practice observations for improved LLM alignment
+          ISSUE IDENTIFICATION RULES
+          • Identify only real issues evidenced in CONTENT relative to STYLE_GUIDE.
+          • Do not invent missing information unless the STYLE_GUIDE explicitly requires it (e.g. missing explicit definition, missing declared purpose).
+          • Optimisation issues must be directly observable in the text, not inferred from absence of external metadata unless stated in STYLE_GUIDE.
+          OUTPUT REQUIREMENTS (STRICT)
+          • Return one JSON object only
+          • No markdown
+          • No comments
+          • No trailing commas
+          • No prose outside JSON
+
+          title is this value {{ variables.entity.label }} {{ entity.label }}
+          text is this value {{ entity.field_description.value }} {{ entity.fields.field_description[0].value }}
+        nodeType: default
+        instanceTitle: ''
+        instanceDescription: ''
+      metadata:
+        id: prompt_template
+        name: 'Prompt Template'
+        type: simple
+        supportedTypes:
+          - default
+          - simple
+        description: 'Create prompts using templates with variable substitution'
+        category: prompts
+        icon: 'mdi:code-block-braces'
+        color: '#f59e0b'
+        plugin_version: 1.0.0
+        enabled: true
+        tags: {  }
+        executor_plugin: 'flowdrop_node_processor:prompt_template'
+        inputs:
+          -
+            id: variables
+            name: Variables
+            type: input
+            dataType: json
+            required: false
+            description: 'Default variables for the template'
+            defaultValue: {  }
+          -
+            id: trigger
+            name: Trigger
+            type: input
+            dataType: trigger
+            required: false
+            description: ''
+        outputs:
+          -
+            id: prompt
+            name: prompt
+            type: output
+            dataType: string
+            required: false
+            description: 'The generated prompt'
+          -
+            id: template
+            name: template
+            type: output
+            dataType: string
+            required: false
+            description: 'The original template'
+          -
+            id: variables
+            name: variables
+            type: output
+            dataType: json
+            required: false
+            description: 'The variables used'
+          -
+            id: trigger
+            name: Trigger
+            type: output
+            dataType: trigger
+            required: false
+            description: 'Emitted when this node completes execution'
+        config:
+          template: ''
+          type: simple
+        configSchema:
+          type: object
+          properties:
+            template:
+              type: string
+              title: Template
+              description: 'The prompt template with variables in {{variable}} format'
+              default: ''
+              format: template
+            nodeType:
+              type: string
+              title: 'Visual Type'
+              description: 'Select the visual appearance for this node instance.'
+              enum:
+                - default
+                - simple
+              default: simple
+            instanceTitle:
+              type: string
+              title: Title
+              description: 'Override the default node title for this instance.'
+              x-display-order: -2
+            instanceDescription:
+              type: string
+              title: Description
+              description: 'Override the default description for this instance.'
+              format: multiline
+              x-display-order: -1
+          required: {  }
+      nodeId: prompt_template.1
+      extensions:
+        ui:
+          hideUnconnectedHandles: false
+    deletable: true
+    measured:
+      width: 288
+      height: 590
+    selected: false
+    dragging: true
+  -
+    id: misstraal_ai_contexts_chat_model.1
+    type: universalNode
+    position:
+      x: 830
+      'y': 150
+    data:
+      label: 'Chat Model'
+      config:
+        system_message: ''
+        model: ''
+        temperature: 0.7
+        response_format: ''
+        nodeType: default
+      metadata:
+        id: misstraal_ai_contexts_chat_model
+        name: 'Chat Model'
+        type: default
+        supportedTypes:
+          - default
+          - gateway
+          - note
+          - idea
+          - simple
+          - square
+          - tool
+          - terminal
+        description: 'Calls AI chat models using the Drupal AI module'
+        category: processing
+        icon: 'mdi:cog'
+        color: '#14b8a6'
+        plugin_version: 1.0.0
+        enabled: true
+        tags: {  }
+        executor_plugin: 'misstraal_ai_contexts:chat_model'
+        inputs:
+          -
+            id: prompt
+            name: Prompt
+            type: input
+            dataType: string
+            required: false
+            description: 'The input prompt to send to the AI model'
+          -
+            id: system_message
+            name: 'System Message'
+            type: input
+            dataType: string
+            required: false
+            description: 'Optional system message to set context for the AI'
+            defaultValue: ''
+          -
+            id: model
+            name: Model
+            type: input
+            dataType: string
+            required: false
+            description: 'Optional model identifier (uses default if not specified)'
+            defaultValue: ''
+          -
+            id: temperature
+            name: Temperature
+            type: input
+            dataType: number
+            required: false
+            description: 'Sampling temperature (0.0 to 2.0)'
+            defaultValue: '0.7'
+          -
+            id: response_format
+            name: 'Response Format'
+            type: input
+            dataType: string
+            required: false
+            description: 'Response format (e.g., "json_object" for structured JSON)'
+            defaultValue: ''
+          -
+            id: trigger
+            name: Trigger
+            type: input
+            dataType: trigger
+            required: false
+            description: ''
+        outputs:
+          -
+            id: response
+            name: Response
+            type: output
+            dataType: string
+            required: false
+            description: 'The AI model response text'
+          -
+            id: raw_response
+            name: 'Raw Response'
+            type: output
+            dataType: string
+            required: false
+            description: 'The raw response from the AI model'
+          -
+            id: model
+            name: Model
+            type: output
+            dataType: string
+            required: false
+            description: 'The model identifier that was used'
+          -
+            id: trigger
+            name: Trigger
+            type: output
+            dataType: trigger
+            required: false
+            description: 'Emitted when this node completes execution'
+        config:
+          system_message: ''
+          model: ''
+          temperature: 0.7
+          response_format: json_object
+          type: default
+        configSchema:
+          type: object
+          properties:
+            prompt:
+              type: string
+              title: Prompt
+              description: 'The input prompt to send to the AI model'
+              required: true
+            system_message:
+              type: string
+              title: 'System Message'
+              description: 'Optional system message to set context for the AI'
+              default: ''
+            model:
+              type: string
+              title: Model
+              description: 'Optional model identifier (uses default if not specified)'
+              default: ''
+            temperature:
+              type: number
+              title: Temperature
+              description: 'Sampling temperature (0.0 to 2.0)'
+              default: 0.7
+              minimum: 0
+              maximum: 2
+            response_format:
+              type: string
+              title: 'Response Format'
+              description: 'Response format (e.g., "json_object" for structured JSON)'
+              default: ''
+              enum:
+                - ''
+                - json_object
+            nodeType:
+              type: string
+              title: 'Visual Type'
+              description: 'Select the visual appearance for this node instance.'
+              enum:
+                - default
+                - gateway
+                - note
+                - idea
+                - simple
+                - square
+                - tool
+                - terminal
+              default: default
+            instanceTitle:
+              type: string
+              title: Title
+              description: 'Override the default node title for this instance.'
+              x-display-order: -2
+            instanceDescription:
+              type: string
+              title: Description
+              description: 'Override the default description for this instance.'
+              format: multiline
+              x-display-order: -1
+          required: {  }
+      nodeId: misstraal_ai_contexts_chat_model.1
+    deletable: true
+    measured:
+      width: 288
+      height: 890
+    selected: false
+    dragging: false
+edges:
+  -
+    id: xy-edge__trigger.1trigger.1-output-data-prompt_template.1prompt_template.1-input-variables
+    source: trigger.1
+    target: prompt_template.1
+    data:
+      targetNodeType: universalNode
+      targetCategory: prompts
+      metadata:
+        edgeType: data
+        sourcePortDataType: json
+    sourceHandle: trigger.1-output-data
+    targetHandle: prompt_template.1-input-variables
+    style: 'stroke: var(--flowdrop-edge-data-color);'
+    markerEnd:
+      type: arrowclosed
+      width: 16
+      height: 16
+      color: '#9ca3af'
+    class: flowdrop--edge--data
+    selected: false
+  -
+    id: xy-edge__prompt_template.1prompt_template.1-output-prompt-misstraal_ai_contexts_chat_model.1misstraal_ai_contexts_chat_model.1-input-prompt
+    source: prompt_template.1
+    target: misstraal_ai_contexts_chat_model.1
+    data:
+      targetNodeType: universalNode
+      targetCategory: processing
+      metadata:
+        edgeType: data
+        sourcePortDataType: string
+    sourceHandle: prompt_template.1-output-prompt
+    targetHandle: misstraal_ai_contexts_chat_model.1-input-prompt
+    style: 'stroke: var(--flowdrop-edge-data-color);'
+    markerEnd:
+      type: arrowclosed
+      width: 16
+      height: 16
+      color: '#9ca3af'
+    class: flowdrop--edge--data
+metadata:
+  version: 1.0.0
+  createdAt: '2026-01-27T15:34:49.378Z'
+  updatedAt: '2026-01-27T16:37:04.302Z'
+created: 1769528027
+changed: 1769531824
+uid: 0

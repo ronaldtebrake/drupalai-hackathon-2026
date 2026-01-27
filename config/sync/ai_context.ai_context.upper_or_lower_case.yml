@@ -1,0 +1,298 @@
+uuid: fc6fdccb-42db-4da4-bcb7-2d79db3e1c95
+langcode: en
+status: true
+dependencies: {  }
+id: upper_or_lower_case
+label: 'Upper Or Lower Case'
+description: ''
+content: |
+  # Upper or Lower Case
+
+  ## General
+
+  The basic rule is that proper nouns have an initial capital but common nouns do not. Initial capitals are often employed to excess in commercial and administrative circles, but they can be visually distracting and are often unnecessary, so should be used sparingly. When in doubt, use lower case.
+
+  ## Proper Names and Titles
+
+  Use initial capitals for proper nouns:
+
+  **Mr Goldsmith is a baker but Mr Baker is a goldsmith**
+
+  **Sir Francis Drake**
+
+  **the Archbishop of Canterbury**
+
+  **Dame Judi Dench**
+
+  **honourable Member (of the European Parliament)**
+
+  ## Programmes, Policies, Agendas, Strategies, Action Plans, Frameworks, etc.
+
+  Should be in lower case:
+
+  **the programme on research and development in advanced communications technologies in Europe**
+
+  **Europe 2020 strategy**
+
+  **common agricultural policy**
+
+  **EU action plan on urban mobility**
+
+  ## Acronyms/Initialisms
+
+  The existence of an acronym or initialism does not mean that initial capitals must be used when the corresponding expression is written out in full:
+
+  **non-governmental organisation (NGO)**
+
+  but
+
+  **European Central Bank (ECB)** (as this is the official name of the institution)
+
+  ## Titles of Organisations, Institutions, Departments, Sections, Office Holders, Functions, Committees, Delegations, etc.
+
+  Use initial capitals on all nouns and adjectives when referring to the name in full.
+
+  **Publications and Dissemination Directorate**
+
+  **Business Development and Support Unit**
+
+  **Editorial Partnerships Section**
+
+  **Future Policies Working Group**
+
+  **President of the Council**
+
+  **Director-General for Agriculture**
+
+  **Council of Europe**
+
+  **European Development Fund**
+
+  **Markets in Crop Products Directorate**
+
+  **President of the French Republic**
+
+  **Vice-Chair of the Committee on International Relations** (but refer back to the chair, the vice-chair of the committee)
+
+  Use capitals for a particular institution or person, but small letters for groups of institutions or people. Exception: references to permanent EU bodies/formations (e.g. 'College of Commissioners', 'Directorates-General', 'Cabinets') and to official functions within the EU institutions (e.g. 'Members of the Commission', 'Directors-General') always take a capital letter, whether in the singular or the plural.
+
+  Ad hoc groups (e.g. the Polish delegation to a meeting) do not require the use of capitals.
+
+  For long names that read more like a description than a real title use an initial capital for the head word and lower case for the rest:
+
+  **Committee for the adaptation to technical progress of the directive on the introduction of recording equipment in road transport (tachograph)**
+
+  **Joint FAO/EU working party on forest and forest product statistics**
+
+  Names of institutions reproduced in a foreign language should retain the capitalisation of the original language, e.g. Banque centrale du Luxembourg. If you translate the name directly, then English capitalisation rules apply, e.g. the Central bank of Luxembourg.
+
+  ## References to EU Legislation
+
+  Always write Regulation, Decision, Directive, Annex and Article (followed by a number) with capitals if they refer to specific acts:
+
+  **On 14 March 2018, the European Parliament and the Council adopted Directive (EU) 2018/10.**
+
+  **The competences of the European Union are defined in Articles 2 to 6 of the Treaty on the Functioning of the European Union (TFEU).**
+
+  Use lower case for references to regulations, directives, etc. in a generalised sense and when referring to proposed legislation (i.e. draft regulation, a possible new directive on ...):
+
+  **The European Commission monitors the implementation of EU directives.**
+
+  **Several organisations have asked the Commission to propose a new regulation on artificial intelligence.**
+
+  ## Full Names of International Agreements, Conferences, Conventions, etc.
+
+  Nouns and adjectives have an initial capital when using the full name:
+
+  **International Coffee Agreement**
+
+  **Conference on Security and Cooperation in Europe**
+
+  **General Agreement on Tariffs and Trade**
+
+  but use lower case when referring back to the agreement, the conference, etc.
+
+  ## Publications
+
+  Titles of books, journals, newspapers and periodicals normally take a capital on each word except articles, prepositions and conjunctions, and when cited are written in italics:
+
+  _New York Times_
+
+  _Cambridge Journal of Economics_
+
+  _European Economy_
+
+  _PM2 Project Management Methodology Guide_
+
+  _Commission Style Guide_
+
+  However, for long titles and subtitles use a capital only on the first word, on any proper nouns and on any adjectives formed from proper nouns:
+
+  **Economic and budgetary outlook for the European Union 2017**
+
+  **Handbook on European law relating to asylum, borders and immigration**
+
+  Likewise, titles of papers included in journals or as chapters in books, along with newspaper articles, take a capital only on the first word, on any proper nouns and on any adjectives formed from proper nouns. They are written in roman type in quotation marks.
+
+  ## Periods, Events, Festivals, Seasons
+
+  Use initial capitals for periods such as:
+
+  **Second World War**
+
+  **Dark Ages**
+
+  and events such as:
+
+  **International Year of the Child**
+
+  **European Job Day**
+
+  **Second UN Development Decade**
+
+  **Edinburgh Festival**
+
+  Use capitals for days of the week, months and feast days:
+
+  **Tuesday, August, Ascension Day, pre-Christmas business**
+
+  Do not use capitals, however, for the 2018/2019 marketing year, the 2019 budget year, and so on.
+
+  Do not use capitals for spring, summer, autumn or winter.
+
+  ## Graphics, Tables and Cross References
+
+  Figure (Fig.), Number (No), Volume (Vol.), Part, Chapter (Chap.), Section (Sect.), Article (Art.) should always have an initial capital when followed by a numeral; conversely, paragraph, point and line should not be capitalised.
+
+  The abbreviations shown here should be spelt out in running text:
+
+  **see page 250**
+
+  **as shown in Figure 5**
+
+  **refer to footnote 6**
+
+  **see also the following chapter/section**
+
+  ## Party Denominations and Organisations
+
+  Use capitals for their names:
+
+  **Socialist Group, Fianna Fail Party**
+
+  but
+
+  **liberal, socialist, etc.**
+
+  ## State or State?
+
+  Generally use lower case, e.g.:
+
+  **state-owned**
+
+  **reasons of state**
+
+  **nation states**
+
+  **the Arab states**
+
+  except in an abstract or legal sense, e.g.:
+
+  **the separation of Church and State**
+
+  and in the following instances, which are rooted in the Treaties:
+
+  **Member States** (when referring to EU Member States)
+
+  **State aid**
+
+  **Heads of State or Government** (when referring to the heads of state or government of all of the Member States as a group)
+
+  ## Geographical Names and Political Divisions
+
+  Use initial capitals for proper nouns:
+
+  **North Pole**
+
+  **River Plate**
+
+  **Trafalgar Square**
+
+  **Third World**
+
+  **North Rhine-Westphalia**
+
+  **Northern Ireland**
+
+  **East Midlands**
+
+  **the North-West Frontier**
+
+  but lower case when describing a geographical area:
+
+  **northern England**
+
+  **western, central and eastern Europe**
+
+  **central European countries**
+
+  **Industry is concentrated in the north of the country.**
+
+  NUTS (Nomenclature of Territorial Units for Statistics) region names do not follow these rules as they refer to the name of the authority for each region.
+
+  The South East is an administrative region of England, but do not use capitals in the general expression 'Rain is forecast for London and the south-east'.
+
+  Adjectival forms of points of the compass are not capitalised unless they form part of a proper name, e.g. an administrative or political unit or a distinct regional entity. Hence, southern Africa, northern France, eastern Europe but South Africa, Northern Ireland, East Indies. Noun forms are capitalised when they refer to geopolitical concepts (the West, the East) or geographical concepts (the North of England, the South of France), but not otherwise (the sun rises in the east and sets in the west). Compass bearings are abbreviated without a point (54° E).
+
+  Compound compass points follow the same rule and are hyphenated. Hence, south-eastern Europe but the North-West Passage, South-East Asia; they are always abbreviated as capitals without points (NW France).
+
+  ## Proprietary Names and Generic Terms
+
+  Proprietary names (or trade names) are normally capitalised, for example:
+
+  **Airbus**
+
+  **Mercedes**
+
+  **Zara**
+
+  **Lego**
+
+  unless they have become generic terms, such as
+
+  **aspirin**
+
+  **gramophone**
+
+  **linoleum**
+
+  **nylon**
+
+  **celluloid**
+
+  Note:
+
+  **internet**
+
+  **the web**
+
+  ## Botanical Works
+
+  The name of the genus appears with initial capitals, in italics (e.g. _Rosa, Felis_).
+
+  ## Adjectives Derived from Proper Nouns
+
+  Not all adjectives derived from proper nouns take a capital:
+
+  **arabic (numerals)**
+
+  **french (chalk, polish, windows)**
+
+  **morocco (leather)**
+
+  **roman (type)**
+
+  ## Hyphenated Constructions
+
+  Where constructions starting with one letter followed by a hyphen appear as a heading or at the beginning of a sentence, the letter preceding the hyphen should remain in lower case, e.g. 'e-Evidence' or 'o-Toluidine'.
+tags: {  }

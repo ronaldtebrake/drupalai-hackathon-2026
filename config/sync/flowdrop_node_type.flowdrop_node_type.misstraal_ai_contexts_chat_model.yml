@@ -1,0 +1,55 @@
+uuid: b7285e28-36e8-4dd1-9b58-50e9b5fdfeb9
+langcode: en
+status: true
+dependencies: {  }
+id: misstraal_ai_contexts_chat_model
+label: 'Chat Model'
+description: 'Calls AI chat models using the Drupal AI module'
+category: processing
+icon: 'mdi:cog'
+plugin_version: 1.0.0
+enabled: true
+parameters:
+  model:
+    configurable: true
+    connectable: true
+    required: false
+  prompt:
+    configurable: true
+    connectable: true
+    required: false
+  response_format:
+    configurable: true
+    connectable: true
+    required: false
+    default: json_object
+  system_message:
+    configurable: true
+    connectable: true
+    required: false
+  temperature:
+    configurable: true
+    connectable: true
+    required: false
+    default: 0.7
+outputs:
+  model:
+    exposed: true
+  raw_response:
+    exposed: true
+  response:
+    exposed: true
+tags: {  }
+executor_plugin: 'misstraal_ai_contexts:chat_model'
+visual_type: default
+supported_visual_types:
+  - default
+  - gateway
+  - note
+  - idea
+  - simple
+  - square
+  - tool
+  - terminal
+unified_input_exposed: false
+unified_output_exposed: false

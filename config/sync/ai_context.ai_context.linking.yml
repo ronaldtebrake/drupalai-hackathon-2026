@@ -1,0 +1,127 @@
+uuid: 512f3f18-5011-42e4-b4d0-a06564a9a755
+langcode: en
+status: true
+dependencies: {  }
+id: linking
+label: Linking
+description: ''
+content: |
+  # Linking
+
+  ## What Are Links
+
+  Websites interconnect via the web through (hyper)links. Links can be:
+
+  - **Internal** to the website or domain, to the pages and documents constituting the website or the websites within the domain
+  - **External** to websites outside the europa.eu domain and out of control of the owner of the website containing the link
+
+  ## When to Use Links
+
+  Use links to help users get the information they came for. Link to:
+
+  - Where your users might need to go next
+  - High-quality, closely related content
+  - Content that explains key words and concepts that are difficult or complex
+
+  Please note: while studies show that links in a text may distract users from the information and would read better at the end of a paragraph, links embedded in a paragraph send useful, additional contextual information to search engine crawlers. Please bear this in mind and balance usability and search engine optimisation (SEO) when adding links to your text.
+
+  Don't link to pages just to provide general background information that might be of interest. Users should be confident that all our links are truly valuable.
+
+  For that reason, don't use 'Useful links' as a heading. Why would we give users any other type of links? Choose a heading that tells the reader **why** the links are useful:
+
+  - other organisations dealing with …
+  - legislative documents
+  - studies on …
+
+  ## How to Write Meaningful Link Labels
+
+  Link labels should tell the user where they will end up when they click on them. Use keywords or the title of the page you're linking to, as long as it describes the content clearly. It is always better to:
+
+  - Keep them short, so they're easy to scan both for people and for machines such as refreshable Braille displays
+  - Remember that machine readers usually read every word in a link label, they can't skim over them
+  - Accurately describe what the user will find at the link destination
+
+  But:
+
+  - Don't use generic labels such as click here, here, more or read more
+  - Don't use URLs (http://…), even when shortened
+  - Don't make an article number of a legal document part of the link unless you are anchor-linking to the article
+
+  It's okay if your link label doesn't exactly match the title of the page you're linking to – especially if the label is nice and short – as long as it describes the content clearly.
+
+  **Instead of:** Overview of EU's relations with China
+
+  **Write:** EU-China relations
+
+  **Instead of:** European Union report to the UNCCD of the policies, financial instruments and projects that have contributed and are currently supporting sustainable drylands management activities in Africa over the period January 2000-December 2003
+
+  **Write:** Report: EU support for sustainable drylands management in Africa (2000-03)
+
+  **Instead of:** Regulation (EC) No 689/2007 of the European Parliament and of the Council of 21 March 2007 establishing and amending the rules on data protection
+
+  **Write:** EU regulation 689/2007 on data protection
+
+  **Instead of:** This is covered by article 99 of the Financial Regulation. (unless you are actually linking directly to the article)
+
+  **Write:** This is covered by article 99 of the Financial Regulation.
+
+  ## Internal Links
+
+  When adding internal links, avoid automatically opening a new window or tab. It can be confusing for some people, such as those using assistive technology.
+
+  The W3C Web Accessibility Initiative (WAI), which develops standards to help understand and implement accessibility, states:
+
+  "In general, it is better not to open new windows and tabs since they can be disorienting for people, especially people who have difficulty perceiving visual content."
+
+  Sometimes it is acceptable to open a link in a new tab or window, if opening on the same page would interrupt a process. For example, if the user is:
+
+  - Filling out a form
+  - Consenting to cookies but wants to read the privacy statement
+  - Requesting a translation but wants to read the disclaimer
+
+  Automatically opening the link in the same tab or window in these situations might cause the user to lose their input or have to start over. In such cases, it is good practice to give users advanced warning of the change of context (for example, by adding the label "opens in new window").
+
+  ## External Links
+
+  When publishing an external link on a page owned by a European Commission service, the linked website is considered as a third party. This has implications in at least two areas:
+
+  ### Content
+
+  As stated in the corporate legal notice, Commission services have no control over the content of linked third-party websites, so the Commission can assume no responsibility for the running/functioning of the external sites or for any pages they link to.
+
+  Nevertheless, the fact that the Commission links to third-party content can be seen as an endorsement of a third-party service, content or policies.
+
+  ### Data Protection
+
+  The European Commission is subject to specific legal obligations concerning the protection and processing of personal data, described in Regulation (EU) 2018/1725. The Commission must comply with these obligations in all operations involving personal data, including processing via Commission websites.
+
+  While organisations and websites must in general respect the General Data Protection Regulation (EU) 2016/67, the Commission cannot ensure that data processing on the linked external websites follows the mandatory data protection principles.
+
+  Therefore, the Commission cannot ensure that the privacy of website users who follow external links is not put at risk, especially if data processing on the linked third-party websites is not compatible with the processing by EUIs, e.g. when third-party websites track users across websites for advertising and profiling purposes.
+
+  ### Rule
+
+  Link to external pages only if they provide high-quality content that is different from the information on your page but relevant to it.
+
+  It is important to ensure that external websites linked to from official Commission websites are accurate, relevant and appropriate.
+
+  **Please note: it is also important to check external links from your content at least once a quarter as URLs change and you may find your content linking to a site that is completely inappropriate.**
+
+  The European Commission is not legally responsible for the content of the sites to which you link, but their quality, content and tone should not reflect badly on the Commission.
+
+  ### External Links Evaluation Criteria
+
+  Before publishing an external link, site owners must evaluate the accuracy, relevance, and appropriateness of all external links in a consistent way. External sites must meet the following criteria:
+
+  - The external website is **relevant** and **useful** to visitors to the specific Commission website where the link is published
+  - The external website deals with an issue, policy or outside organisation **in greater depth** than is appropriate on Europa
+  - The content on the external website is **not available elsewhere** on an official Commission website
+  - The external website is **authoritative, accurate** and **up-to-date**
+  - The external website is **representative** - if your page covers a range of countries, organisations or languages, then your links should too
+  - The relevant content on the external website is **freely available** and no registration or payment is required to access it
+  - The external website **does not contain abusive or discriminatory content**, or infringe any third party rights, including third parties' intellectual property rights
+
+  Site owners must monitor the relevance, timeliness and availability of any published external links, and remove any such links that are no longer relevant to visitors to Commission websites.
+
+  If in doubt, do not link. The Web Communication Unit (COMM A2) reserves the right to disallow or remove any such links.
+tags: {  }

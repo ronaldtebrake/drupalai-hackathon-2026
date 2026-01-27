@@ -1,3 +1,17 @@
 _core:
   default_config_hash: x6RSyMWd1iQYhYS3zBLWYbRgqKfghEjz5rbA025_uJo
-agents: {  }
+agents:
+  -
+    id: europa_web_guide_expert
+    contexts: {  }
+    always_include:
+      - dates_numbers_and_symbols
+      - formatting
+      - jargon_and_clear_writing_alternatives
+      - linking
+      - other_style_guides
+      - punctuation
+      - structuring_page_content
+      - style_guide
+      - upper_or_lower_case
+      - web_writing_overview

@@ -80,16 +80,34 @@ class ChatModelNode extends AbstractFlowDropNodeProcessor {
    * {@inheritdoc}
    */
   public function process(ParameterBagInterface $params): array {
-    $prompt = $params->getString('prompt', '');
+    // Check for prompt in unified input port first, then direct parameter.
+    $unifiedInput = $params->get('input', NULL);
+    if (is_array($unifiedInput) && isset($unifiedInput['prompt'])) {
+      $prompt = (string) $unifiedInput['prompt'];
+    }
+    else {
+      $prompt = $params->getString('prompt', '');
+    }
+
     $systemMessage = $params->getString('system_message', '');
     $model = $params->getString('model', '');
     $temperature = $params->getFloat('temperature', 0.7);
     $responseFormat = $params->getString('response_format', '');
 
     try {
+      // Validate prompt is not empty.
+      $prompt = trim($prompt);
+      if (empty($prompt)) {
+        $allParams = $params->all();
+        \Drupal::logger('misstraal_ai_contexts')->error('Empty prompt received. Available params: @params. Make sure the "prompt" parameter is marked as connectable in the node type configuration, or connect the prompt output from a previous node.', [
+          '@params' => json_encode(array_keys($allParams)),
+        ]);
+        throw new \RuntimeException('Prompt cannot be empty. Please ensure: 1) The "prompt" parameter is marked as connectable in the node type configuration, 2) A prompt value is provided via input connection or node configuration, or 3) The prompt output from a previous node (e.g., PromptTemplate) is connected to this node\'s prompt input.');
+      }
+
       // Get default provider for chat operations.
       $defaults = $this->aiProviderPluginManager->getDefaultProviderForOperationType('chat');
-      
+
       if (empty($defaults['provider_id']) || empty($defaults['model_id'])) {
         throw new \RuntimeException('No AI provider configured for chat operations');
       }
@@ -101,14 +119,22 @@ class ChatModelNode extends AbstractFlowDropNodeProcessor {
       // Create provider instance.
       $provider = $this->aiProviderPluginManager->createInstance($providerId);
 
-      // Prepare chat messages.
-      $messages = new ChatInput([
-        new ChatMessage('user', $prompt),
-      ]);
+      // Prepare chat messages - ensure we have at least one message with content.
+      $userMessage = new ChatMessage('user', $prompt);
+      $messages = new ChatInput([$userMessage]);
+
+      // Verify the message was created correctly.
+      $messageArray = $messages->getMessages();
+      if (empty($messageArray) || empty($messageArray[0]->getText())) {
+        \Drupal::logger('misstraal_ai_contexts')->error('Failed to create valid message. Prompt: @prompt', [
+          '@prompt' => $prompt,
+        ]);
+        throw new \RuntimeException('Failed to create valid chat message. Message text cannot be empty.');
+      }
 
       // Set system message if provided.
       if (!empty($systemMessage)) {
-        $messages->setSystemPrompt($systemMessage);
+        $messages->setSystemPrompt(trim($systemMessage));
       }
 
       // Configure model settings.
