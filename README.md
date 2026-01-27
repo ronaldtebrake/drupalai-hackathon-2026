@@ -1,4 +1,4 @@
-![DrupalAI Hackathon 2026 Banner](assets/banner.jpg)
+![Miss Traal Team logo](assets/logo.png)
 
 # DrupalAI Hackathon 2026
 
