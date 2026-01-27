@@ -1,0 +1,245 @@
+# Style Guide
+
+## Acronyms
+
+In most cases, write out the long form the first time it is used on the page, followed by the acronym in brackets. After that, use the acronym.
+
+In some cases it can be acceptable to use the short form only, if it is:
+
+- More common than the long form (hint: if you have to stop to think what the long form actually stands for, it's probably okay to use the short form)
+- Very widely known to and entered into search engines by the general public (NATO, for example)
+
+When in doubt, write it out.
+
+## Active and Passive Voice
+
+In most cases, use the active voice so that the reader knows who is taking the action.
+
+**Instead of:** Complaints can be submitted to the Commission in writing.
+
+**Write:** You can submit a complaint to the Commission in writing. or You can complain to the Commission in writing.
+
+On the other hand, the passive voice can be useful to avoid mentioning the actor, for example if this information is politically sensitive or irrelevant.
+
+## Addresses
+
+### General
+
+In most cases, write out postal addresses as follows:
+
+**Name of building**
+
+**Street name and number**
+
+**Town (with post code, if known)**
+
+**Country**
+
+**Example:**
+
+Tabačka Kulturfabrik
+
+Gorkého 2
+
+Košice
+
+Slovakia
+
+### Bilingual Addresses
+
+For addresses in Brussels, Belgium, provide the street name in French and Dutch, separated by a forward slash.
+
+**Example:**
+
+Berlaymont Building
+
+Rue de la Loi/Wetstraat 200
+
+1049 Brussels
+
+Belgium
+
+### Exceptions
+
+On the European Commission website, postal addresses of Commission departments must never include a street name and use the generic postal address of the Commission instead.
+
+**Example:**
+
+Infrastructure and Logistics in Brussels
+
+European Commission
+
+1049 Brussels
+
+Belgium
+
+If applicable, you may include the street name in postal addresses of Commission executive agencies.
+
+**Example:**
+
+Research Executive Agency
+
+Place Rogier 16
+
+1049 Brussels
+
+Belgium
+
+## British English
+
+Follow British English spelling conventions, but avoid colloquial terms and expressions that will be familiar only to native English speakers.
+
+## Contractions
+
+Use contractions: don't, can't, they've, we'll – unless you want to emphasise the contracted word (not, have, will).
+
+## Conversational Tone
+
+Writing on the web is more conversational than the administrative style used in typical Commission writing - it makes your content more accessible and easier to understand.
+
+Use language that your audience uses, rather than what your colleagues in the European Commission probably use.
+
+**If your audience is people looking for jobs in other EU countries:**
+- Use terms like: jobs abroad, live and work in another EU country
+- Instead of: free movement/circulation of labour
+
+**If your audience is companies wanting to do business with the Commission:**
+- Use terms like: tenders or contracts
+- Instead of: public procurement
+
+## Duplication
+
+Make sure that the user need your writing is meant to meet is not already covered somewhere else on the European Commission's web presence. Search for the subject on the site or ask a policy expert. If relevant content exists elsewhere, link to it, don't duplicate.
+
+## FAQs – Frequently Asked Questions
+
+FAQs are poor web writing practice because:
+
+- They make information harder to find, by bringing together unrelated points - content is easier to understand in context
+- They're hard to scan quickly, because the term(s) users are looking for usually appears at the end of the question
+- FAQs are generally not questions that users actually ask, but information that the organisation imagines that people want to know about its work
+- They often duplicate other content on the site
+
+If you take the time to understand your users' needs, and plan and write your content accordingly, it will answer their questions that are genuinely frequently asked.
+
+## Gender-Neutral Language
+
+Use gender-inclusive language that does not refer to the gender of the person where this is not relevant.
+
+**Don't say:** Policeman, Air steward/ess
+
+**Do say:** Police officer, Flight attendant
+
+Do not use the male pronoun to refer to a generic individual, but also avoid he or she and (s)he. You can do this by:
+
+- Addressing the user directly as you
+- Using plural nouns
+- Using they, them, their to refer to an individual. This is perfectly acceptable in standard English today.
+
+**Don't say:** If a user wants to change his password, he should contact the administrator.
+
+**Do say:** If you want to change your password, contact the administrator. or If users want to change their password, they should contact the administrator. or If a user wants to change their password, they should contact the administrator.
+
+## Numbers
+
+Write out numbers one to nine in words. Use numerals for 10 and above.
+
+**Examples:**
+- Five people attended the meeting
+- 15 people attended the meeting
+- The project received 25 applications
+
+Use numerals for:
+- Percentages: 5%, 25%
+- Measurements: 3 km, 10 kg
+- Money: €5, €25
+- Ages: 5 years old, 25 years old
+- Times: 5 pm, 3:30 am
+
+## Plain Language
+
+### Avoid Unnecessary Words
+
+Remove words that don't add meaning to your text.
+
+**Don't say:** It is important to note that the Commission has decided to implement a new policy.
+
+**Do say:** The Commission has decided to implement a new policy.
+
+### Avoid Redundancy
+
+Don't repeat the same information in different ways.
+
+**Don't say:** Dialogue between cultures is a necessary pre-condition for bringing the people closer. The mass media can play an important role in the reciprocal recognition and understanding of cultures as a source of mutual enrichment.
+
+**Do say:** Dialogue between cultures brings people closer.
+
+### Irrelevant Information
+
+Focus on what readers need to know now, not historical details.
+
+**Don't say:** When the "European Economic Area Treaty" (EEA Treaty) came into force on 1st January 1994, and Austria joined the European Union (EU) on 1st January 1995, secondary EC law also took effect in the area of social security (included in this are, in particular, Regulations 1408/71 and 574/72 relative to social security provision for migrant workers).
+
+**Do say:** Social security in Austria is now also covered by EU law (in particular regulations 1408/71 and 574/72 on social security provision for migrant workers). "Now" is what interests readers - not intricate historical details.
+
+## Upper or Lower Case
+
+See upper or lower case guidelines.
+
+## Verbs, Not Nouns
+
+Many nouns ending in -ion are simply verbs in disguise. Ask yourself if there is a verb that could replace your noun phrase.
+
+**Instead of:** carry out an evaluation of, give consideration to, since the accession of Poland to the EU
+
+**Write:** evaluate, consider, since Poland joined the EU
+
+## Writing Good Titles
+
+### Guidelines
+
+It is important to keep the title tag under 60-65 characters. This recommendation is based on user experience and SEO.
+
+### Examples
+
+**Title:** EUROPEAN COMMISSION | POLICIES, INFORMATION AND SERVICES
+
+**Improvement:** POLICIES, INFORMATION AND SERVICES | EUROPEAN COMMISSION
+
+**Title:** ABOUT THE EUROPEAN UNION | EUROPEAN COMMISSION
+
+**Improvement:** Technically fine, but it fails to show that you are in the Information part of the website. Given that the context is clear, consider deleting the references to European: ABOUT THE UNION - INFORMATION SERVICES | EUROPEAN COMMISSION
+
+**Title:** STRATEGY | EUROPEAN COMMISSION
+
+**Improvement:** It is not clear from the title which strategy is being talked about. Better: STRATEGY AND ACTION PLAN OF THE EUROPEAN UNION | EUROPEAN COMMISSION
+
+**Title:** BETTER REGULATION: WHY AND HOW | EUROPEAN COMMISSION
+
+**Improvement:** "why", "and" and "how" are stopwords, their use should be avoided in titles. Better: BETTER REGULATION IN THE EUROPEAN UNION | EUROPEAN COMMISSION
+
+**Title:** FIND A PARTNER | EUROPEAN COMMISSION
+
+**Improvement:** Better: FIND A PROJECT OR FINANCIAL PARTNER | EUROPEAN COMMISSION
+
+**Title:** DIRECTORATE-GENERAL FOR AGRICULTURE AND RURAL DEVELOPMENT | EUROPEAN COMMISSION
+
+**Improvement:** With this as the h1 heading, the page should be a page about DG AGRI itself. It's not. It's a page of Planning and Management documents related to DG AGRI. Better titles would be:
+- Management Plans and Activity reports for DG AGRI
+- Management Plans and Activity reports for Directorate-General for Agriculture and Rural Development
+- DG AGRI Documents
+- Directorate-General for Agriculture and Rural Development Documents
+
+## Writing Good Meta Descriptions
+
+### Guidelines
+
+**Describe actions:** Identify the kind of actions that the visitor might want to achieve by visiting your page and find the closest verb that expresses that action (e.g. "learn", "consult", "discover")
+
+**Provide a solution or benefit that the page offers:** Tell the searchers what they can expect by visiting the page. Make it clear that there is a real benefit to clicking through and reading your page and that they will be served with clear, informative and valuable content.
+
+**Keep the description under 155 characters:** Search engines don't usually trim by characters but by pixel length. This means that a description made of iiiii will be allowed more characters than one made of ooooo.
+
+**Don't deceive searchers:** If your meta description deceives the reader with content not relevant to what they expect, they will hit the back button as soon as they reach the page. This will increase the bounce rate and give Google a signal that your page is not relevant for the search terms.
+
+**Make it specific and relevant:** Humans are good at recognising a predictable, generic meta description when they see it in the SERPs. That's why it is important to connect with your target audience and let them know they'll find specific information they couldn't get anywhere else.
