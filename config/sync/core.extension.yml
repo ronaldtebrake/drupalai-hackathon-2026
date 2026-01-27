@@ -3,6 +3,7 @@ _core:
 module:
   ai: 0
   ai_agents: 0
+  ai_agents_explorer: 0
   ai_context: 0
   ai_provider_amazeeio: 0
   ai_search: 0
