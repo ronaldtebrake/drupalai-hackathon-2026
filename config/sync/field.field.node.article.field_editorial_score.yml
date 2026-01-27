@@ -1,0 +1,19 @@
+uuid: 634dad2e-765c-48a8-b05f-dc70250549ba
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_editorial_score
+    - node.type.article
+id: node.article.field_editorial_score
+field_name: field_editorial_score
+entity_type: node
+bundle: article
+label: editorial_score
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

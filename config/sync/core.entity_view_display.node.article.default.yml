@@ -6,6 +6,10 @@ dependencies:
     - field.field.node.article.field_ai_reasoning
     - field.field.node.article.field_ai_score
     - field.field.node.article.field_description
+    - field.field.node.article.field_editorial_description
+    - field.field.node.article.field_editorial_score
+    - field.field.node.article.field_editorial_source
+    - field.field.node.article.field_editorial_subject
     - node.type.article
   module:
     - text
@@ -31,6 +35,36 @@ content:
     third_party_settings: {  }
     weight: 102
     region: content
+  field_editorial_description:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 106
+    region: content
+  field_editorial_score:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_editorial_source:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  field_editorial_subject:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 105
+    region: content
   links:
     settings: {  }
     third_party_settings: {  }
@@ -38,3 +72,4 @@ content:
     region: content
 hidden:
   field_description: true
+  search_api_excerpt: true

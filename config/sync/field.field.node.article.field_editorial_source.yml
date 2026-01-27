@@ -1,0 +1,19 @@
+uuid: 8b370e2d-f25d-4939-938b-bae0fb6653aa
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_editorial_source
+    - node.type.article
+id: node.article.field_editorial_source
+field_name: field_editorial_source
+entity_type: node
+bundle: article
+label: editorial_source
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
