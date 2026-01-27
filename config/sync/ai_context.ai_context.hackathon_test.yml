@@ -1,0 +1,10 @@
+uuid: d54af0d0-7806-4738-9daf-143cea0af812
+langcode: en
+status: true
+dependencies: {  }
+id: hackathon_test
+label: 'Hackathon Test'
+description: 'This is a test AI context'
+content: 'This is the content'
+tags:
+  - '1'
