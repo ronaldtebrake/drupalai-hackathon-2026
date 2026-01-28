@@ -594,8 +594,344 @@ nodes:
     measured:
       width: 288
       height: 815
+    selected: true
+    dragging: false
+  -
+    id: entity_save.1
+    type: universalNode
+    position:
+      x: 1860
+      'y': 390
+    data:
+      label: 'Entity Save'
+      config:
+        entity_type: node
+        bundle: ''
+        values: {  }
+        allowed_fields: {  }
+      metadata:
+        id: entity_save
+        name: 'Entity Save'
+        type: default
+        supportedTypes:
+          - default
+        description: 'Create or update Drupal entities'
+        category: data
+        icon: 'mdi:content-save'
+        color: '#f97316'
+        plugin_version: 1.0.0
+        enabled: true
+        tags: {  }
+        executor_plugin: 'flowdrop_node_processor:entity_save'
+        inputs:
+          -
+            id: entity_type
+            name: 'Entity Type'
+            type: input
+            dataType: string
+            required: false
+            description: 'The entity type to create/update (e.g., node, user, taxonomy_term)'
+            defaultValue: node
+          -
+            id: bundle
+            name: Bundle
+            type: input
+            dataType: string
+            required: false
+            description: 'The bundle/content type for the entity (required for new entities with bundles)'
+            defaultValue: ''
+          -
+            id: entity_id
+            name: 'Entity ID'
+            type: input
+            dataType: string
+            required: false
+            description: 'The ID of an existing entity to update (leave empty to create new)'
+            defaultValue: ''
+          -
+            id: values
+            name: 'Field Values'
+            type: input
+            dataType: json
+            required: false
+            description: 'The field values to set on the entity as key-value pairs'
+            defaultValue: {  }
+          -
+            id: trigger
+            name: Trigger
+            type: input
+            dataType: trigger
+            required: false
+            description: ''
+        outputs:
+          -
+            id: entity_id
+            name: entity_id
+            type: output
+            dataType: string
+            required: false
+            description: 'The ID of the saved entity'
+          -
+            id: entity_type
+            name: entity_type
+            type: output
+            dataType: string
+            required: false
+            description: 'The entity type'
+          -
+            id: bundle
+            name: bundle
+            type: output
+            dataType: string
+            required: false
+            description: 'The entity bundle (if applicable)'
+          -
+            id: is_new
+            name: is_new
+            type: output
+            dataType: boolean
+            required: false
+            description: 'Whether a new entity was created (true) or existing was updated (false)'
+          -
+            id: label
+            name: label
+            type: output
+            dataType: string
+            required: false
+            description: 'The label/title of the entity'
+          -
+            id: uuid
+            name: uuid
+            type: output
+            dataType: string
+            required: false
+            description: 'The UUID of the entity'
+          -
+            id: created
+            name: created
+            type: output
+            dataType: number
+            required: false
+            description: 'The creation timestamp (if available)'
+          -
+            id: changed
+            name: changed
+            type: output
+            dataType: number
+            required: false
+            description: 'The last changed timestamp (if available)'
+          -
+            id: skipped_fields
+            name: skipped_fields
+            type: output
+            dataType: array
+            required: false
+            description: 'List of field names that were skipped due to allowed_fields restriction'
+          -
+            id: entity
+            name: entity
+            type: output
+            dataType: json
+            required: false
+            description: 'Full serialized entity data in the same format as Entity Trigger output'
+          -
+            id: trigger
+            name: Trigger
+            type: output
+            dataType: trigger
+            required: false
+            description: 'Emitted when this node completes execution'
+        config:
+          entity_type: node
+          bundle: ''
+          values: {  }
+          allowed_fields: {  }
+        configSchema:
+          type: object
+          properties:
+            entity_type:
+              type: string
+              title: 'Entity Type'
+              description: 'The entity type to create/update (e.g., node, user, taxonomy_term)'
+              default: node
+            bundle:
+              type: string
+              title: Bundle
+              description: 'The bundle/content type for the entity (required for new entities with bundles)'
+              default: ''
+            values:
+              type: object
+              format: json
+              title: 'Field Values'
+              description: 'The field values to set on the entity as key-value pairs'
+              default: {  }
+            allowed_fields:
+              type: array
+              title: 'Allowed Fields'
+              description: 'List of field names that are allowed to be updated. Leave empty to allow all fields.'
+              default: {  }
+              items:
+                type: string
+            instanceTitle:
+              type: string
+              title: Title
+              description: 'Override the default node title for this instance.'
+              x-display-order: -2
+            instanceDescription:
+              type: string
+              title: Description
+              description: 'Override the default description for this instance.'
+              format: multiline
+              x-display-order: -1
+          required: {  }
+      nodeId: entity_save.1
+    deletable: true
+    measured:
+      width: 288
+      height: 1340
     selected: false
     dragging: false
+  -
+    id: misstraal_ai_contexts_guideline_score_parser.2
+    type: universalNode
+    position:
+      x: 1140
+      'y': 940
+    data:
+      label: 'Guideline Score Parser'
+      config: {  }
+      metadata:
+        id: misstraal_ai_contexts_guideline_score_parser
+        name: 'Guideline Score Parser'
+        type: default
+        supportedTypes:
+          - default
+        description: 'Parses JSON response from guideline scoring and extracts scores and reasoning'
+        category: processing
+        icon: 'mdi:cog'
+        color: '#14b8a6'
+        plugin_version: 1.0.0
+        enabled: true
+        tags: {  }
+        executor_plugin: 'misstraal_ai_contexts:guideline_score_parser'
+        inputs:
+          -
+            id: response
+            name: Response
+            type: input
+            dataType: string
+            required: false
+            description: 'Response from ChatModelNode'
+          -
+            id: input
+            name: Input
+            type: input
+            dataType: mixed
+            required: false
+            description: 'Input from any previous node (unified input port)'
+          -
+            id: trigger
+            name: Trigger
+            type: input
+            dataType: trigger
+            required: false
+            description: ''
+        outputs:
+          -
+            id: ai_score
+            name: 'AI Score'
+            type: output
+            dataType: number
+            required: false
+            description: 'Score for AI/LLM optimization category (0-100)'
+          -
+            id: ai_reasoning
+            name: 'AI Reasoning'
+            type: output
+            dataType: string
+            required: false
+            description: 'Reasoning for the AI score'
+          -
+            id: editorial_score
+            name: 'Editorial Score'
+            type: output
+            dataType: string
+            required: false
+            description: 'Score for editorial/style category (0-100)'
+          -
+            id: editorial_reasoning
+            name: 'Editorial Reasoning'
+            type: output
+            dataType: string
+            required: false
+            description: 'Reasoning for the editorial score'
+          -
+            id: entity_id
+            name: 'Entity ID'
+            type: output
+            dataType: string
+            required: false
+            description: 'The entity ID (passed through from trigger)'
+          -
+            id: entity_type
+            name: 'Entity Type'
+            type: output
+            dataType: string
+            required: false
+            description: 'The entity type (passed through from trigger)'
+          -
+            id: bundle
+            name: Bundle
+            type: output
+            dataType: string
+            required: false
+            description: 'The entity bundle (passed through from trigger)'
+          -
+            id: raw_response
+            name: 'Raw Response'
+            type: output
+            dataType: string
+            required: false
+            description: 'The cleaned JSON response'
+          -
+            id: trigger
+            name: Trigger
+            type: output
+            dataType: trigger
+            required: false
+            description: 'Emitted when this node completes execution'
+        config: {  }
+        configSchema:
+          type: object
+          properties:
+            response:
+              type: string
+              title: Response
+              description: 'Response from ChatModelNode'
+              required: false
+            input:
+              type: mixed
+              title: Input
+              description: 'Input from any previous node (unified input port)'
+              required: false
+            instanceTitle:
+              type: string
+              title: Title
+              description: 'Override the default node title for this instance.'
+              x-display-order: -2
+            instanceDescription:
+              type: string
+              title: Description
+              description: 'Override the default description for this instance.'
+              format: multiline
+              x-display-order: -1
+          required: {  }
+      nodeId: misstraal_ai_contexts_guideline_score_parser.2
+    deletable: true
+    measured:
+      width: 288
+      height: 1040
+    selected: false
 edges:
   -
     id: xy-edge__trigger.1trigger.1-output-data-misstraal_ai_contexts_guideline_scoring.3misstraal_ai_contexts_guideline_scoring.3-input-data
@@ -616,6 +952,7 @@ edges:
       height: 16
       color: '#9ca3af'
     class: flowdrop--edge--data
+    selected: false
   -
     id: xy-edge__misstraal_ai_contexts_guideline_scoring.3misstraal_ai_contexts_guideline_scoring.3-output-prompt-misstraal_ai_contexts_chat_model.1misstraal_ai_contexts_chat_model.1-input-prompt
     source: misstraal_ai_contexts_guideline_scoring.3
@@ -635,6 +972,7 @@ edges:
       height: 16
       color: '#9ca3af'
     class: flowdrop--edge--data
+    selected: false
   -
     id: xy-edge__misstraal_ai_contexts_chat_model.1misstraal_ai_contexts_chat_model.1-output-response-misstraal_ai_contexts_guideline_score_parser.1misstraal_ai_contexts_guideline_score_parser.1-input-response
     source: misstraal_ai_contexts_chat_model.1
@@ -654,10 +992,129 @@ edges:
       height: 16
       color: '#9ca3af'
     class: flowdrop--edge--data
+    selected: false
+  -
+    id: xy-edge__misstraal_ai_contexts_guideline_score_parser.1misstraal_ai_contexts_guideline_score_parser.1-output-ai_reasoning-entity_save.1entity_save.1-input-values
+    source: misstraal_ai_contexts_guideline_score_parser.1
+    target: entity_save.1
+    data:
+      targetNodeType: universalNode
+      targetCategory: data
+      metadata:
+        edgeType: data
+        sourcePortDataType: string
+    sourceHandle: misstraal_ai_contexts_guideline_score_parser.1-output-ai_reasoning
+    targetHandle: entity_save.1-input-values
+    style: 'stroke: var(--flowdrop-edge-data-color);'
+    markerEnd:
+      type: arrowclosed
+      width: 16
+      height: 16
+      color: '#9ca3af'
+    class: flowdrop--edge--data
+    selected: false
+  -
+    id: xy-edge__misstraal_ai_contexts_guideline_score_parser.1misstraal_ai_contexts_guideline_score_parser.1-output-editorial_score-entity_save.1entity_save.1-input-values
+    source: misstraal_ai_contexts_guideline_score_parser.1
+    target: entity_save.1
+    data:
+      targetNodeType: universalNode
+      targetCategory: data
+      metadata:
+        edgeType: data
+        sourcePortDataType: string
+    sourceHandle: misstraal_ai_contexts_guideline_score_parser.1-output-editorial_score
+    targetHandle: entity_save.1-input-values
+    style: 'stroke: var(--flowdrop-edge-data-color);'
+    markerEnd:
+      type: arrowclosed
+      width: 16
+      height: 16
+      color: '#9ca3af'
+    class: flowdrop--edge--data
+    selected: false
+  -
+    id: xy-edge__misstraal_ai_contexts_guideline_score_parser.1misstraal_ai_contexts_guideline_score_parser.1-output-editorial_reasoning-entity_save.1entity_save.1-input-values
+    source: misstraal_ai_contexts_guideline_score_parser.1
+    target: entity_save.1
+    data:
+      targetNodeType: universalNode
+      targetCategory: data
+      metadata:
+        edgeType: data
+        sourcePortDataType: string
+    sourceHandle: misstraal_ai_contexts_guideline_score_parser.1-output-editorial_reasoning
+    targetHandle: entity_save.1-input-values
+    style: 'stroke: var(--flowdrop-edge-data-color);'
+    markerEnd:
+      type: arrowclosed
+      width: 16
+      height: 16
+      color: '#9ca3af'
+    class: flowdrop--edge--data
+    selected: false
+  -
+    id: xy-edge__misstraal_ai_contexts_guideline_score_parser.1misstraal_ai_contexts_guideline_score_parser.1-output-raw_response-entity_save.1entity_save.1-input-values
+    source: misstraal_ai_contexts_guideline_score_parser.1
+    target: entity_save.1
+    data:
+      targetNodeType: universalNode
+      targetCategory: data
+      metadata:
+        edgeType: data
+        sourcePortDataType: string
+    sourceHandle: misstraal_ai_contexts_guideline_score_parser.1-output-raw_response
+    targetHandle: entity_save.1-input-values
+    style: 'stroke: var(--flowdrop-edge-data-color);'
+    markerEnd:
+      type: arrowclosed
+      width: 16
+      height: 16
+      color: '#9ca3af'
+    class: flowdrop--edge--data
+    selected: false
+  -
+    id: xy-edge__misstraal_ai_contexts_chat_model.1misstraal_ai_contexts_chat_model.1-output-response-misstraal_ai_contexts_guideline_score_parser.2misstraal_ai_contexts_guideline_score_parser.2-input-response
+    source: misstraal_ai_contexts_chat_model.1
+    target: misstraal_ai_contexts_guideline_score_parser.2
+    data:
+      targetNodeType: universalNode
+      targetCategory: processing
+      metadata:
+        edgeType: data
+        sourcePortDataType: string
+    sourceHandle: misstraal_ai_contexts_chat_model.1-output-response
+    targetHandle: misstraal_ai_contexts_guideline_score_parser.2-input-response
+    style: 'stroke: var(--flowdrop-edge-data-color);'
+    markerEnd:
+      type: arrowclosed
+      width: 16
+      height: 16
+      color: '#9ca3af'
+    class: flowdrop--edge--data
+  -
+    id: xy-edge__trigger.1trigger.1-output-trigger-misstraal_ai_contexts_guideline_score_parser.2misstraal_ai_contexts_guideline_score_parser.2-input-trigger
+    source: trigger.1
+    target: misstraal_ai_contexts_guideline_score_parser.2
+    data:
+      targetNodeType: universalNode
+      targetCategory: processing
+      metadata:
+        edgeType: trigger
+        sourcePortDataType: trigger
+    sourceHandle: trigger.1-output-trigger
+    targetHandle: misstraal_ai_contexts_guideline_score_parser.2-input-trigger
+    style: 'stroke: var(--flowdrop-edge-trigger-color); stroke-width: var(--flowdrop-edge-trigger-width);'
+    markerEnd:
+      type: arrowclosed
+      width: 16
+      height: 16
+      color: '#111827'
+    class: flowdrop--edge--trigger
 metadata:
   version: 1.0.0
   createdAt: '2026-01-27T15:34:49.378Z'
-  updatedAt: '2026-01-28T07:00:50.499Z'
+  updatedAt: '2026-01-28T08:39:14.074Z'
 created: 1769528027
-changed: 1769583650
+changed: 1769589554
 uid: 0

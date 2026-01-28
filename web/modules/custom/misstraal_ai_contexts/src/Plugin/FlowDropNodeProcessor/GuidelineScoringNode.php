@@ -307,6 +307,52 @@ PROMPT;
   }
 
   /**
+   * Extracts entity context from trigger data.
+   *
+   * @param mixed $data
+   *   The trigger data.
+   *
+   * @return array
+   *   Array with entity_id, entity_type, and bundle.
+   */
+  protected function extractEntityContext($data): array {
+    $context = [
+      'entity_id' => '',
+      'entity_type' => '',
+      'bundle' => '',
+    ];
+
+    if (is_array($data)) {
+      // Check for direct entity context fields.
+      if (isset($data['entity_id'])) {
+        $context['entity_id'] = (string) $data['entity_id'];
+      }
+      if (isset($data['entity_type'])) {
+        $context['entity_type'] = (string) $data['entity_type'];
+      }
+      if (isset($data['bundle'])) {
+        $context['bundle'] = (string) $data['bundle'];
+      }
+
+      // Check nested entity structure (from trigger).
+      if (isset($data['entity']) && is_array($data['entity'])) {
+        $entity = $data['entity'];
+        if (empty($context['entity_id']) && isset($entity['id'])) {
+          $context['entity_id'] = (string) $entity['id'];
+        }
+        if (empty($context['entity_type']) && isset($entity['entity_type'])) {
+          $context['entity_type'] = (string) $entity['entity_type'];
+        }
+        if (empty($context['bundle']) && isset($entity['bundle'])) {
+          $context['bundle'] = (string) $entity['bundle'];
+        }
+      }
+    }
+
+    return $context;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function process(ParameterBagInterface $params): array {
@@ -350,6 +396,38 @@ PROMPT;
       }
     }
 
+    // Extract entity context from various sources to pass through.
+    $entityContext = [
+      'entity_id' => '',
+      'entity_type' => '',
+      'bundle' => '',
+    ];
+
+    // Try 'data' parameter (from trigger output).
+    if ($dataParam !== NULL) {
+      $entityContext = $this->extractEntityContext($dataParam);
+    }
+
+    // Try direct entity context parameters (passed through from previous nodes).
+    if (empty($entityContext['entity_id'])) {
+      $entityId = $params->get('entity_id', NULL);
+      if ($entityId !== NULL) {
+        $entityContext['entity_id'] = (string) $entityId;
+      }
+    }
+    if (empty($entityContext['entity_type'])) {
+      $entityType = $params->get('entity_type', NULL);
+      if ($entityType !== NULL) {
+        $entityContext['entity_type'] = (string) $entityType;
+      }
+    }
+    if (empty($entityContext['bundle'])) {
+      $bundle = $params->get('bundle', NULL);
+      if ($bundle !== NULL) {
+        $entityContext['bundle'] = (string) $bundle;
+      }
+    }
+
     $agentPoolId = $params->getString('agent_pool_id', 'europa_web_guide_expert');
 
     try {
@@ -381,9 +459,22 @@ PROMPT;
       // Build prompt.
       $prompt = $this->buildPrompt($content, $guidelines);
 
-      return [
+      $output = [
         'prompt' => $prompt,
       ];
+
+      // Pass through entity context if available.
+      if (!empty($entityContext['entity_id'])) {
+        $output['entity_id'] = $entityContext['entity_id'];
+      }
+      if (!empty($entityContext['entity_type'])) {
+        $output['entity_type'] = $entityContext['entity_type'];
+      }
+      if (!empty($entityContext['bundle'])) {
+        $output['bundle'] = $entityContext['bundle'];
+      }
+
+      return $output;
     }
     catch (\Exception $e) {
       \Drupal::logger('misstraal_ai_contexts')->error('Guideline prompt builder error: @error', [
@@ -410,6 +501,24 @@ PROMPT;
           'type' => 'mixed',
           'title' => 'Data',
           'description' => 'Data from trigger or other nodes',
+          'required' => FALSE,
+        ],
+        'entity_id' => [
+          'type' => 'string',
+          'title' => 'Entity ID',
+          'description' => 'The entity ID (passed through from trigger)',
+          'required' => FALSE,
+        ],
+        'entity_type' => [
+          'type' => 'string',
+          'title' => 'Entity Type',
+          'description' => 'The entity type (passed through from trigger)',
+          'required' => FALSE,
+        ],
+        'bundle' => [
+          'type' => 'string',
+          'title' => 'Bundle',
+          'description' => 'The entity bundle (passed through from trigger)',
           'required' => FALSE,
         ],
         'input' => [
@@ -452,6 +561,21 @@ PROMPT;
           'type' => 'string',
           'title' => 'Prompt',
           'description' => 'The built prompt with guidelines and content for scoring evaluation',
+        ],
+        'entity_id' => [
+          'type' => 'string',
+          'title' => 'Entity ID',
+          'description' => 'The entity ID (passed through from trigger)',
+        ],
+        'entity_type' => [
+          'type' => 'string',
+          'title' => 'Entity Type',
+          'description' => 'The entity type (passed through from trigger)',
+        ],
+        'bundle' => [
+          'type' => 'string',
+          'title' => 'Bundle',
+          'description' => 'The entity bundle (passed through from trigger)',
         ],
       ],
     ];

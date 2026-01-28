@@ -101,6 +101,52 @@ class GuidelineScoreParserNode extends AbstractFlowDropNodeProcessor {
   }
 
   /**
+   * Extracts entity context from trigger data.
+   *
+   * @param mixed $data
+   *   The trigger data.
+   *
+   * @return array
+   *   Array with entity_id, entity_type, and bundle.
+   */
+  protected function extractEntityContext($data): array {
+    $context = [
+      'entity_id' => '',
+      'entity_type' => '',
+      'bundle' => '',
+    ];
+
+    if (is_array($data)) {
+      // Check for direct entity context fields.
+      if (isset($data['entity_id'])) {
+        $context['entity_id'] = (string) $data['entity_id'];
+      }
+      if (isset($data['entity_type'])) {
+        $context['entity_type'] = (string) $data['entity_type'];
+      }
+      if (isset($data['bundle'])) {
+        $context['bundle'] = (string) $data['bundle'];
+      }
+
+      // Check nested entity structure (from trigger).
+      if (isset($data['entity']) && is_array($data['entity'])) {
+        $entity = $data['entity'];
+        if (empty($context['entity_id']) && isset($entity['id'])) {
+          $context['entity_id'] = (string) $entity['id'];
+        }
+        if (empty($context['entity_type']) && isset($entity['entity_type'])) {
+          $context['entity_type'] = (string) $entity['entity_type'];
+        }
+        if (empty($context['bundle']) && isset($entity['bundle'])) {
+          $context['bundle'] = (string) $entity['bundle'];
+        }
+      }
+    }
+
+    return $context;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function process(ParameterBagInterface $params): array {
@@ -125,6 +171,38 @@ class GuidelineScoreParserNode extends AbstractFlowDropNodeProcessor {
       $unifiedInput = $params->get('input', NULL);
       if ($unifiedInput !== NULL) {
         $responseText = $this->extractResponseText($unifiedInput);
+      }
+    }
+
+    // Extract entity context from various sources (passed through from trigger).
+    $entityContext = [
+      'entity_id' => '',
+      'entity_type' => '',
+      'bundle' => '',
+    ];
+
+    // Priority 1: Try direct entity context parameters (from ChatModelNode outputs).
+    $entityId = $params->get('entity_id', NULL);
+    if ($entityId !== NULL) {
+      $entityContext['entity_id'] = (string) $entityId;
+    }
+    $entityType = $params->get('entity_type', NULL);
+    if ($entityType !== NULL) {
+      $entityContext['entity_type'] = (string) $entityType;
+    }
+    $bundle = $params->get('bundle', NULL);
+    if ($bundle !== NULL) {
+      $entityContext['bundle'] = (string) $bundle;
+    }
+
+    // Priority 2: Try 'data' parameter (from trigger output) if entity context not found.
+    if (empty($entityContext['entity_id'])) {
+      $dataParam = $params->get('data', NULL);
+      if ($dataParam !== NULL) {
+        $extractedContext = $this->extractEntityContext($dataParam);
+        if (!empty($extractedContext['entity_id'])) {
+          $entityContext = $extractedContext;
+        }
       }
     }
 
@@ -175,13 +253,26 @@ class GuidelineScoreParserNode extends AbstractFlowDropNodeProcessor {
       $editorial_score_int = max(0, min(100, $editorial_score_int));
       $editorial_score = (string) $editorial_score_int;
 
-      return [
+      $output = [
         'ai_score' => $ai_score,
         'ai_reasoning' => $ai_reasoning,
         'editorial_score' => $editorial_score,
         'editorial_reasoning' => $editorial_reasoning,
         'raw_response' => $responseText,
       ];
+
+      // Add entity context if available (for Entity Save node).
+      if (!empty($entityContext['entity_id'])) {
+        $output['entity_id'] = $entityContext['entity_id'];
+      }
+      if (!empty($entityContext['entity_type'])) {
+        $output['entity_type'] = $entityContext['entity_type'];
+      }
+      if (!empty($entityContext['bundle'])) {
+        $output['bundle'] = $entityContext['bundle'];
+      }
+
+      return $output;
     }
     catch (\Exception $e) {
       \Drupal::logger('misstraal_ai_contexts')->error('Guideline score parser error: @error', [
@@ -208,6 +299,30 @@ class GuidelineScoreParserNode extends AbstractFlowDropNodeProcessor {
           'type' => 'string',
           'title' => 'Raw Response',
           'description' => 'Raw response from ChatModelNode',
+          'required' => FALSE,
+        ],
+        'data' => [
+          'type' => 'mixed',
+          'title' => 'Data',
+          'description' => 'Trigger data containing entity context (entity_id, entity_type, bundle)',
+          'required' => FALSE,
+        ],
+        'entity_id' => [
+          'type' => 'string',
+          'title' => 'Entity ID',
+          'description' => 'The entity ID to update',
+          'required' => FALSE,
+        ],
+        'entity_type' => [
+          'type' => 'string',
+          'title' => 'Entity Type',
+          'description' => 'The entity type (e.g., node)',
+          'required' => FALSE,
+        ],
+        'bundle' => [
+          'type' => 'string',
+          'title' => 'Bundle',
+          'description' => 'The entity bundle (e.g., article)',
           'required' => FALSE,
         ],
         'input' => [
@@ -247,6 +362,21 @@ class GuidelineScoreParserNode extends AbstractFlowDropNodeProcessor {
           'type' => 'string',
           'title' => 'Editorial Reasoning',
           'description' => 'Reasoning for the editorial score',
+        ],
+        'entity_id' => [
+          'type' => 'string',
+          'title' => 'Entity ID',
+          'description' => 'The entity ID (passed through from trigger)',
+        ],
+        'entity_type' => [
+          'type' => 'string',
+          'title' => 'Entity Type',
+          'description' => 'The entity type (passed through from trigger)',
+        ],
+        'bundle' => [
+          'type' => 'string',
+          'title' => 'Bundle',
+          'description' => 'The entity bundle (passed through from trigger)',
         ],
         'raw_response' => [
           'type' => 'string',
