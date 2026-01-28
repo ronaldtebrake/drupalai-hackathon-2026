@@ -118,7 +118,8 @@ class DemoController extends ControllerBase {
         'values' => $cfg['data']['values'],
         'options' => [
           'responsive' => TRUE,
-          'maintainAspectRatio' => FALSE,
+          // Use TRUE to avoid infinite resize loops when CSS provides height.
+          'maintainAspectRatio' => TRUE,
         ],
       ];
     }
