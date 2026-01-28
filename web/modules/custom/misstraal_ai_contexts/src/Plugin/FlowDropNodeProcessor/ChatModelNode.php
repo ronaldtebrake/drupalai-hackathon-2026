@@ -157,11 +157,27 @@ class ChatModelNode extends AbstractFlowDropNodeProcessor {
       $normalized = $response->getNormalized();
       $text = $normalized->getText();
 
-      return [
+      $output = [
         'response' => $text,
         'raw_response' => $text,
         'model' => $modelId,
       ];
+
+      // Pass through entity context if available (from previous nodes).
+      $entityId = $params->get('entity_id', NULL);
+      if ($entityId !== NULL) {
+        $output['entity_id'] = (string) $entityId;
+      }
+      $entityType = $params->get('entity_type', NULL);
+      if ($entityType !== NULL) {
+        $output['entity_type'] = (string) $entityType;
+      }
+      $bundle = $params->get('bundle', NULL);
+      if ($bundle !== NULL) {
+        $output['bundle'] = (string) $bundle;
+      }
+
+      return $output;
     }
     catch (\Exception $e) {
       \Drupal::logger('misstraal_ai_contexts')->error('AI chat model error: @error', [
@@ -183,6 +199,24 @@ class ChatModelNode extends AbstractFlowDropNodeProcessor {
           'title' => 'Prompt',
           'description' => 'The input prompt to send to the AI model',
           'required' => TRUE,
+        ],
+        'entity_id' => [
+          'type' => 'string',
+          'title' => 'Entity ID',
+          'description' => 'The entity ID (passed through from trigger)',
+          'required' => FALSE,
+        ],
+        'entity_type' => [
+          'type' => 'string',
+          'title' => 'Entity Type',
+          'description' => 'The entity type (passed through from trigger)',
+          'required' => FALSE,
+        ],
+        'bundle' => [
+          'type' => 'string',
+          'title' => 'Bundle',
+          'description' => 'The entity bundle (passed through from trigger)',
+          'required' => FALSE,
         ],
         'system_message' => [
           'type' => 'string',
@@ -237,6 +271,21 @@ class ChatModelNode extends AbstractFlowDropNodeProcessor {
           'type' => 'string',
           'title' => 'Model',
           'description' => 'The model identifier that was used',
+        ],
+        'entity_id' => [
+          'type' => 'string',
+          'title' => 'Entity ID',
+          'description' => 'The entity ID (passed through from trigger)',
+        ],
+        'entity_type' => [
+          'type' => 'string',
+          'title' => 'Entity Type',
+          'description' => 'The entity type (passed through from trigger)',
+        ],
+        'bundle' => [
+          'type' => 'string',
+          'title' => 'Bundle',
+          'description' => 'The entity bundle (passed through from trigger)',
         ],
       ],
     ];
