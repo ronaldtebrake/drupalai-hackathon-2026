@@ -1,0 +1,5 @@
+charts_dashboard.add_dashboard:
+  title: 'Add dashboard'
+  route_name: charts_dashboard.dashboard_add
+  appears_on:
+    - charts_dashboard.dashboard_collection

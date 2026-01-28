@@ -1,0 +1,11 @@
+dashboard:
+  version: 1.0
+  css:
+    theme:
+      css/dashboard.css: {}
+  js:
+    https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js: { type: external }
+    js/dashboard.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings

@@ -1,0 +1,7 @@
+label: 'Sample Sales Dashboard'
+description: 'A sample dashboard with inline data to demonstrate the block.'
+chart_type: 'bar'
+source_type: 'inline'
+data:
+  labels: ['Q1', 'Q2', 'Q3', 'Q4']
+  values: [120, 200, 150, 80]

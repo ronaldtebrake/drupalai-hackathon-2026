@@ -1,0 +1,8 @@
+administer charts dashboards:
+  title: 'Administer Charts dashboards'
+  description: 'Create, edit and delete dashboard configuration.'
+  restrict: true
+view charts dashboards:
+  title: 'View Charts dashboards'
+  description: 'View dashboards and chart data.'
+  restrict: true

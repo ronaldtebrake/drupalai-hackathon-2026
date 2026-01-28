@@ -1,0 +1,20 @@
+charts_dashboard.manage:
+  title: 'Charts Dashboards'
+  description: 'Manage configured dashboards.'
+  route_name: charts_dashboard.dashboard_collection
+  parent: system.admin_config_system
+  weight: 100
+
+charts_dashboard.settings:
+  title: 'Charts Dashboard settings'
+  description: 'Configure Charts dashboards.'
+  route_name: charts_dashboard.settings
+  parent: system.admin_config_system
+  weight: 0
+
+charts_dashboard.demo:
+  title: 'Charts Dashboard demo'
+  description: 'Demo page for Charts Dashboard.'
+  route_name: charts_dashboard.demo
+  parent: system.admin_config_system
+  weight: 2

@@ -1,0 +1,29 @@
+charts_dashboard.dashboard_collection:
+  path: '/admin/config/system/charts-dashboard/manage'
+  defaults:
+    _controller: 'Drupal\\charts_dashboard\\Controller\\DashboardController::collection'
+    _title: 'Manage Charts dashboards'
+  requirements:
+    _permission: 'administer charts dashboards'
+
+charts_dashboard.dashboard_add:
+  path: '/admin/config/system/charts-dashboard/manage/add'
+  defaults:
+    _entity_form: 'charts_dashboard_dashboard.add'
+    _title: 'Add Charts dashboard'
+  requirements:
+    _permission: 'administer charts dashboards'
+
+charts_dashboard.dashboard_edit:
+  path: '/admin/config/system/charts-dashboard/manage/{charts_dashboard_dashboard}/edit'
+  defaults:
+    _entity_form: 'charts_dashboard_dashboard.edit'
+  requirements:
+    _permission: 'administer charts dashboards'
+
+charts_dashboard.dashboard_delete:
+  path: '/admin/config/system/charts-dashboard/manage/{charts_dashboard_dashboard}/delete'
+  defaults:
+    _entity_form: 'charts_dashboard_dashboard.delete'
+  requirements:
+    _permission: 'administer charts dashboards'

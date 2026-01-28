@@ -1,0 +1,24 @@
+charts_dashboard.settings:
+  path: '/admin/config/system/charts-dashboard'
+  defaults:
+    _form: '\Drupal\charts_dashboard\Form\SettingsForm'
+    _title: 'Charts Dashboard settings'
+  requirements:
+    _permission: 'administer charts dashboards'
+
+charts_dashboard.demo:
+  path: '/charts-dashboard/demo'
+  defaults:
+    _controller: '\Drupal\charts_dashboard\Controller\DemoController::demo'
+    _title: 'Charts Dashboard demo'
+  requirements:
+    _permission: 'view charts dashboards'
+
+charts_dashboard.data:
+  path: '/charts-dashboard/data/{dashboard}'
+  defaults:
+    _controller: '\Drupal\charts_dashboard\Controller\DataController::data'
+  requirements:
+    _permission: 'view charts dashboards'
+  options:
+    no_cache: true
