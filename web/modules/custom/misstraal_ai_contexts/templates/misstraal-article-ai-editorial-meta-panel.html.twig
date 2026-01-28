@@ -1,0 +1,40 @@
+{#
+/**
+ * @file
+ * Theme implementation for the Article AI/Editorial panel.
+ *
+ * Variables:
+ * - title: Panel title.
+ * - items: Array of items with keys:
+ *   - label: string
+ *   - value: string|null (may contain HTML when coming from processed text)
+ */
+#}
+
+<section class="misstraal-ai-panel">
+  <header class="misstraal-ai-panel__header">
+    <h2 class="misstraal-ai-panel__title">{{ title }}</h2>
+  </header>
+
+  {% if items is empty %}
+    <div class="misstraal-ai-panel__empty">
+      {{ 'No AI/editorial metadata is available yet.'|t }}
+    </div>
+  {% else %}
+    <dl class="misstraal-ai-panel__list">
+      {% for item in items %}
+        <div class="misstraal-ai-panel__row">
+          <dt class="misstraal-ai-panel__label">{{ item.label }}</dt>
+          <dd class="misstraal-ai-panel__value">
+            {% if item.value is empty %}
+              <span class="misstraal-ai-panel__placeholder">{{ '—'|t }}</span>
+            {% else %}
+              {{ item.value|raw }}
+            {% endif %}
+          </dd>
+        </div>
+      {% endfor %}
+    </dl>
+  {% endif %}
+</section>
+

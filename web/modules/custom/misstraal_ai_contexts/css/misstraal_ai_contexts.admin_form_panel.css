@@ -1,0 +1,57 @@
+.misstraal-ai-panel {
+  border: 1px solid var(--gin-border-color, #dcdcdc);
+  border-radius: 8px;
+  background: var(--gin-bg-layer, #fff);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.misstraal-ai-panel__header {
+  margin-bottom: 12px;
+}
+
+.misstraal-ai-panel__title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.misstraal-ai-panel__empty {
+  color: var(--gin-color-text, #333);
+  opacity: 0.7;
+  font-size: 13px;
+}
+
+.misstraal-ai-panel__list {
+  margin: 0;
+}
+
+.misstraal-ai-panel__row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 12px;
+  padding: 10px 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.misstraal-ai-panel__row:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.misstraal-ai-panel__label {
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--gin-color-text, #333);
+  opacity: 0.85;
+}
+
+.misstraal-ai-panel__value {
+  margin: 0;
+  font-size: 13px;
+}
+
+.misstraal-ai-panel__placeholder {
+  opacity: 0.6;
+}
+
