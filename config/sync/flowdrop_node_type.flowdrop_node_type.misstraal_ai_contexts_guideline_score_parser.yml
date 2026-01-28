@@ -11,20 +11,20 @@ plugin_version: 1.0.0
 enabled: true
 parameters:
   bundle:
-    configurable: false
-    connectable: false
+    configurable: true
+    connectable: true
     required: false
   data:
     configurable: false
     connectable: false
     required: false
   entity_id:
-    configurable: false
-    connectable: false
+    configurable: true
+    connectable: true
     required: false
   entity_type:
-    configurable: false
-    connectable: false
+    configurable: true
+    connectable: true
     required: false
   input:
     configurable: true
@@ -61,4 +61,4 @@ visual_type: default
 supported_visual_types:
   - default
 unified_input_exposed: false
-unified_output_exposed: false
+unified_output_exposed: true

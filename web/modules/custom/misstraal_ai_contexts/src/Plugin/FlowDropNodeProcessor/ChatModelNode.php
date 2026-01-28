@@ -90,6 +90,8 @@ class ChatModelNode extends AbstractFlowDropNodeProcessor {
     }
 
     // Extract entity context from unified input port first (from GuidelineScoringNode output).
+    // This handles the case where the entire output object from GuidelineScoringNode
+    // is connected to the 'input' port, which includes prompt, entity_id, entity_type, and bundle.
     $entityId = NULL;
     $entityType = NULL;
     $bundle = NULL;
@@ -107,6 +109,8 @@ class ChatModelNode extends AbstractFlowDropNodeProcessor {
     }
     
     // Fallback to direct parameters if not found in unified input.
+    // This handles the case where individual output ports from GuidelineScoringNode
+    // are connected to individual input parameters.
     if (empty($entityId)) {
       $entityId = $params->get('entity_id', NULL);
     }
@@ -222,25 +226,31 @@ class ChatModelNode extends AbstractFlowDropNodeProcessor {
         'prompt' => [
           'type' => 'string',
           'title' => 'Prompt',
-          'description' => 'The input prompt to send to the AI model',
+          'description' => 'The input prompt to send to the AI model. Can also be provided via the "input" parameter when connecting the entire output object from GuidelineScoringNode.',
           'required' => TRUE,
+        ],
+        'input' => [
+          'type' => 'mixed',
+          'title' => 'Input',
+          'description' => 'Unified input port - can receive the entire output object from GuidelineScoringNode (including prompt, entity_id, entity_type, and bundle). If provided, the prompt and entity context will be extracted from this object.',
+          'required' => FALSE,
         ],
         'entity_id' => [
           'type' => 'string',
           'title' => 'Entity ID',
-          'description' => 'The entity ID (passed through from trigger)',
+          'description' => 'The entity ID (passed through from trigger or GuidelineScoringNode output)',
           'required' => FALSE,
         ],
         'entity_type' => [
           'type' => 'string',
           'title' => 'Entity Type',
-          'description' => 'The entity type (passed through from trigger)',
+          'description' => 'The entity type (passed through from trigger or GuidelineScoringNode output)',
           'required' => FALSE,
         ],
         'bundle' => [
           'type' => 'string',
           'title' => 'Bundle',
-          'description' => 'The entity bundle (passed through from trigger)',
+          'description' => 'The entity bundle (passed through from trigger or GuidelineScoringNode output)',
           'required' => FALSE,
         ],
         'system_message' => [

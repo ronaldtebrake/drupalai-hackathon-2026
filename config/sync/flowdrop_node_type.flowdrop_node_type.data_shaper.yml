@@ -45,5 +45,5 @@ executor_plugin: 'flowdrop_node_processor:data_shaper'
 visual_type: default
 supported_visual_types:
   - default
-unified_input_exposed: false
-unified_output_exposed: false
+unified_input_exposed: true
+unified_output_exposed: true

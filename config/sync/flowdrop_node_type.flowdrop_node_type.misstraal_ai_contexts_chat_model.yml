@@ -10,6 +10,22 @@ icon: 'mdi:cog'
 plugin_version: 1.0.0
 enabled: true
 parameters:
+  bundle:
+    configurable: true
+    connectable: true
+    required: false
+  entity_id:
+    configurable: true
+    connectable: true
+    required: false
+  entity_type:
+    configurable: true
+    connectable: true
+    required: false
+  input:
+    configurable: true
+    connectable: true
+    required: false
   model:
     configurable: true
     connectable: true
@@ -33,6 +49,12 @@ parameters:
     required: false
     default: 0.7
 outputs:
+  bundle:
+    exposed: true
+  entity_id:
+    exposed: true
+  entity_type:
+    exposed: true
   model:
     exposed: true
   raw_response:

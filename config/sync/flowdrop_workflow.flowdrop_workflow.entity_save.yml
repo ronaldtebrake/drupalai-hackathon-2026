@@ -164,11 +164,263 @@ nodes:
     selected: false
     dragging: false
   -
-    id: misstraal_ai_contexts_guideline_scoring.3
+    id: misstraal_ai_contexts_chat_model.2
     type: universalNode
     position:
-      x: 310
-      'y': 260
+      x: 760
+      'y': 100
+    data:
+      label: 'Chat Model'
+      config:
+        system_message: ''
+        model: ''
+        temperature: 0.7
+        response_format: ''
+        nodeType: default
+      metadata:
+        id: misstraal_ai_contexts_chat_model
+        name: 'Chat Model'
+        type: default
+        supportedTypes:
+          - default
+          - gateway
+          - note
+          - idea
+          - simple
+          - square
+          - tool
+          - terminal
+        description: 'Calls AI chat models using the Drupal AI module'
+        category: processing
+        icon: 'mdi:cog'
+        color: '#14b8a6'
+        plugin_version: 1.0.0
+        enabled: true
+        tags: {  }
+        executor_plugin: 'misstraal_ai_contexts:chat_model'
+        inputs:
+          -
+            id: prompt
+            name: Prompt
+            type: input
+            dataType: string
+            required: false
+            description: 'The input prompt to send to the AI model. Can also be provided via the "input" parameter when connecting the entire output object from GuidelineScoringNode.'
+          -
+            id: input
+            name: Input
+            type: input
+            dataType: mixed
+            required: false
+            description: 'Unified input port - can receive the entire output object from GuidelineScoringNode (including prompt, entity_id, entity_type, and bundle). If provided, the prompt and entity context will be extracted from this object.'
+          -
+            id: entity_id
+            name: 'Entity ID'
+            type: input
+            dataType: string
+            required: false
+            description: 'The entity ID (passed through from trigger or GuidelineScoringNode output)'
+          -
+            id: entity_type
+            name: 'Entity Type'
+            type: input
+            dataType: string
+            required: false
+            description: 'The entity type (passed through from trigger or GuidelineScoringNode output)'
+          -
+            id: bundle
+            name: Bundle
+            type: input
+            dataType: string
+            required: false
+            description: 'The entity bundle (passed through from trigger or GuidelineScoringNode output)'
+          -
+            id: system_message
+            name: 'System Message'
+            type: input
+            dataType: string
+            required: false
+            description: 'Optional system message to set context for the AI'
+            defaultValue: ''
+          -
+            id: model
+            name: Model
+            type: input
+            dataType: string
+            required: false
+            description: 'Optional model identifier (uses default if not specified)'
+            defaultValue: ''
+          -
+            id: temperature
+            name: Temperature
+            type: input
+            dataType: number
+            required: false
+            description: 'Sampling temperature (0.0 to 2.0)'
+            defaultValue: '0.7'
+          -
+            id: response_format
+            name: 'Response Format'
+            type: input
+            dataType: string
+            required: false
+            description: 'Response format (e.g., "json_object" for structured JSON)'
+            defaultValue: ''
+          -
+            id: trigger
+            name: Trigger
+            type: input
+            dataType: trigger
+            required: false
+            description: ''
+        outputs:
+          -
+            id: response
+            name: Response
+            type: output
+            dataType: string
+            required: false
+            description: 'The AI model response text'
+          -
+            id: raw_response
+            name: 'Raw Response'
+            type: output
+            dataType: string
+            required: false
+            description: 'The raw response from the AI model'
+          -
+            id: model
+            name: Model
+            type: output
+            dataType: string
+            required: false
+            description: 'The model identifier that was used'
+          -
+            id: entity_id
+            name: 'Entity ID'
+            type: output
+            dataType: string
+            required: false
+            description: 'The entity ID (passed through from trigger)'
+          -
+            id: entity_type
+            name: 'Entity Type'
+            type: output
+            dataType: string
+            required: false
+            description: 'The entity type (passed through from trigger)'
+          -
+            id: bundle
+            name: Bundle
+            type: output
+            dataType: string
+            required: false
+            description: 'The entity bundle (passed through from trigger)'
+          -
+            id: trigger
+            name: Trigger
+            type: output
+            dataType: trigger
+            required: false
+            description: 'Emitted when this node completes execution'
+        config:
+          system_message: ''
+          model: ''
+          temperature: 0.7
+          response_format: json_object
+          type: default
+        configSchema:
+          type: object
+          properties:
+            prompt:
+              type: string
+              title: Prompt
+              description: 'The input prompt to send to the AI model. Can also be provided via the "input" parameter when connecting the entire output object from GuidelineScoringNode.'
+              required: true
+            input:
+              type: mixed
+              title: Input
+              description: 'Unified input port - can receive the entire output object from GuidelineScoringNode (including prompt, entity_id, entity_type, and bundle). If provided, the prompt and entity context will be extracted from this object.'
+              required: false
+            entity_id:
+              type: string
+              title: 'Entity ID'
+              description: 'The entity ID (passed through from trigger or GuidelineScoringNode output)'
+              required: false
+            entity_type:
+              type: string
+              title: 'Entity Type'
+              description: 'The entity type (passed through from trigger or GuidelineScoringNode output)'
+              required: false
+            bundle:
+              type: string
+              title: Bundle
+              description: 'The entity bundle (passed through from trigger or GuidelineScoringNode output)'
+              required: false
+            system_message:
+              type: string
+              title: 'System Message'
+              description: 'Optional system message to set context for the AI'
+              default: ''
+            model:
+              type: string
+              title: Model
+              description: 'Optional model identifier (uses default if not specified)'
+              default: ''
+            temperature:
+              type: number
+              title: Temperature
+              description: 'Sampling temperature (0.0 to 2.0)'
+              default: 0.7
+              minimum: 0
+              maximum: 2
+            response_format:
+              type: string
+              title: 'Response Format'
+              description: 'Response format (e.g., "json_object" for structured JSON)'
+              default: ''
+              enum:
+                - ''
+                - json_object
+            nodeType:
+              type: string
+              title: 'Visual Type'
+              description: 'Select the visual appearance for this node instance.'
+              enum:
+                - default
+                - gateway
+                - note
+                - idea
+                - simple
+                - square
+                - tool
+                - terminal
+              default: default
+            instanceTitle:
+              type: string
+              title: Title
+              description: 'Override the default node title for this instance.'
+              x-display-order: -2
+            instanceDescription:
+              type: string
+              title: Description
+              description: 'Override the default description for this instance.'
+              format: multiline
+              x-display-order: -1
+          required: {  }
+      nodeId: misstraal_ai_contexts_chat_model.2
+    deletable: true
+    measured:
+      width: 288
+      height: 1415
+    selected: false
+    dragging: true
+  -
+    id: misstraal_ai_contexts_guideline_scoring.4
+    type: universalNode
+    position:
+      x: 240
+      'y': 110
     data:
       label: 'Guideline Scoring'
       config: {  }
@@ -238,6 +490,27 @@ nodes:
             required: false
             description: 'The built prompt with guidelines and content for scoring evaluation'
           -
+            id: entity_id
+            name: 'Entity ID'
+            type: output
+            dataType: string
+            required: false
+            description: 'The entity ID (passed through from trigger)'
+          -
+            id: entity_type
+            name: 'Entity Type'
+            type: output
+            dataType: string
+            required: false
+            description: 'The entity type (passed through from trigger)'
+          -
+            id: bundle
+            name: Bundle
+            type: output
+            dataType: string
+            required: false
+            description: 'The entity bundle (passed through from trigger)'
+          -
             id: trigger
             name: Trigger
             type: output
@@ -285,202 +558,19 @@ nodes:
               format: multiline
               x-display-order: -1
           required: {  }
-      nodeId: misstraal_ai_contexts_guideline_scoring.3
+      nodeId: misstraal_ai_contexts_guideline_scoring.4
     deletable: true
     measured:
       width: 288
-      height: 740
+      height: 965
     selected: false
     dragging: false
   -
-    id: misstraal_ai_contexts_chat_model.1
+    id: misstraal_ai_contexts_guideline_score_parser.3
     type: universalNode
     position:
-      x: 910
-      'y': 140
-    data:
-      label: 'Chat Model'
-      config:
-        system_message: ''
-        model: ''
-        temperature: 0.7
-        response_format: ''
-        nodeType: default
-      metadata:
-        id: misstraal_ai_contexts_chat_model
-        name: 'Chat Model'
-        type: default
-        supportedTypes:
-          - default
-          - gateway
-          - note
-          - idea
-          - simple
-          - square
-          - tool
-          - terminal
-        description: 'Calls AI chat models using the Drupal AI module'
-        category: processing
-        icon: 'mdi:cog'
-        color: '#14b8a6'
-        plugin_version: 1.0.0
-        enabled: true
-        tags: {  }
-        executor_plugin: 'misstraal_ai_contexts:chat_model'
-        inputs:
-          -
-            id: prompt
-            name: Prompt
-            type: input
-            dataType: string
-            required: false
-            description: 'The input prompt to send to the AI model'
-          -
-            id: system_message
-            name: 'System Message'
-            type: input
-            dataType: string
-            required: false
-            description: 'Optional system message to set context for the AI'
-            defaultValue: ''
-          -
-            id: model
-            name: Model
-            type: input
-            dataType: string
-            required: false
-            description: 'Optional model identifier (uses default if not specified)'
-            defaultValue: ''
-          -
-            id: temperature
-            name: Temperature
-            type: input
-            dataType: number
-            required: false
-            description: 'Sampling temperature (0.0 to 2.0)'
-            defaultValue: '0.7'
-          -
-            id: response_format
-            name: 'Response Format'
-            type: input
-            dataType: string
-            required: false
-            description: 'Response format (e.g., "json_object" for structured JSON)'
-            defaultValue: ''
-          -
-            id: trigger
-            name: Trigger
-            type: input
-            dataType: trigger
-            required: false
-            description: ''
-        outputs:
-          -
-            id: response
-            name: Response
-            type: output
-            dataType: string
-            required: false
-            description: 'The AI model response text'
-          -
-            id: raw_response
-            name: 'Raw Response'
-            type: output
-            dataType: string
-            required: false
-            description: 'The raw response from the AI model'
-          -
-            id: model
-            name: Model
-            type: output
-            dataType: string
-            required: false
-            description: 'The model identifier that was used'
-          -
-            id: trigger
-            name: Trigger
-            type: output
-            dataType: trigger
-            required: false
-            description: 'Emitted when this node completes execution'
-        config:
-          system_message: ''
-          model: ''
-          temperature: 0.7
-          response_format: json_object
-          type: default
-        configSchema:
-          type: object
-          properties:
-            prompt:
-              type: string
-              title: Prompt
-              description: 'The input prompt to send to the AI model'
-              required: true
-            system_message:
-              type: string
-              title: 'System Message'
-              description: 'Optional system message to set context for the AI'
-              default: ''
-            model:
-              type: string
-              title: Model
-              description: 'Optional model identifier (uses default if not specified)'
-              default: ''
-            temperature:
-              type: number
-              title: Temperature
-              description: 'Sampling temperature (0.0 to 2.0)'
-              default: 0.7
-              minimum: 0
-              maximum: 2
-            response_format:
-              type: string
-              title: 'Response Format'
-              description: 'Response format (e.g., "json_object" for structured JSON)'
-              default: ''
-              enum:
-                - ''
-                - json_object
-            nodeType:
-              type: string
-              title: 'Visual Type'
-              description: 'Select the visual appearance for this node instance.'
-              enum:
-                - default
-                - gateway
-                - note
-                - idea
-                - simple
-                - square
-                - tool
-                - terminal
-              default: default
-            instanceTitle:
-              type: string
-              title: Title
-              description: 'Override the default node title for this instance.'
-              x-display-order: -2
-            instanceDescription:
-              type: string
-              title: Description
-              description: 'Override the default description for this instance.'
-              format: multiline
-              x-display-order: -1
-          required: {  }
-      nodeId: misstraal_ai_contexts_chat_model.1
-    deletable: true
-    measured:
-      width: 288
-      height: 890
-    selected: false
-    dragging: false
-  -
-    id: misstraal_ai_contexts_guideline_score_parser.1
-    type: universalNode
-    position:
-      x: 1410
-      'y': 250
+      x: 1200
+      'y': 360
     data:
       label: 'Guideline Score Parser'
       config: {  }
@@ -506,322 +596,27 @@ nodes:
             dataType: string
             required: false
             description: 'Response from ChatModelNode'
-          -
-            id: input
-            name: Input
-            type: input
-            dataType: mixed
-            required: false
-            description: 'Input from any previous node (unified input port)'
-          -
-            id: trigger
-            name: Trigger
-            type: input
-            dataType: trigger
-            required: false
-            description: ''
-        outputs:
-          -
-            id: ai_score
-            name: 'AI Score'
-            type: output
-            dataType: number
-            required: false
-            description: 'Score for AI/LLM optimization category (0-100)'
-          -
-            id: ai_reasoning
-            name: 'AI Reasoning'
-            type: output
-            dataType: string
-            required: false
-            description: 'Reasoning for the AI score'
-          -
-            id: editorial_score
-            name: 'Editorial Score'
-            type: output
-            dataType: string
-            required: false
-            description: 'Score for editorial/style category (0-100)'
-          -
-            id: editorial_reasoning
-            name: 'Editorial Reasoning'
-            type: output
-            dataType: string
-            required: false
-            description: 'Reasoning for the editorial score'
-          -
-            id: raw_response
-            name: 'Raw Response'
-            type: output
-            dataType: string
-            required: false
-            description: 'The cleaned JSON response'
-          -
-            id: trigger
-            name: Trigger
-            type: output
-            dataType: trigger
-            required: false
-            description: 'Emitted when this node completes execution'
-        config: {  }
-        configSchema:
-          type: object
-          properties:
-            response:
-              type: string
-              title: Response
-              description: 'Response from ChatModelNode'
-              required: false
-            input:
-              type: mixed
-              title: Input
-              description: 'Input from any previous node (unified input port)'
-              required: false
-            instanceTitle:
-              type: string
-              title: Title
-              description: 'Override the default node title for this instance.'
-              x-display-order: -2
-            instanceDescription:
-              type: string
-              title: Description
-              description: 'Override the default description for this instance.'
-              format: multiline
-              x-display-order: -1
-          required: {  }
-      nodeId: misstraal_ai_contexts_guideline_score_parser.1
-    deletable: true
-    measured:
-      width: 288
-      height: 815
-    selected: true
-    dragging: false
-  -
-    id: entity_save.1
-    type: universalNode
-    position:
-      x: 1860
-      'y': 390
-    data:
-      label: 'Entity Save'
-      config:
-        entity_type: node
-        bundle: ''
-        values: {  }
-        allowed_fields: {  }
-      metadata:
-        id: entity_save
-        name: 'Entity Save'
-        type: default
-        supportedTypes:
-          - default
-        description: 'Create or update Drupal entities'
-        category: data
-        icon: 'mdi:content-save'
-        color: '#f97316'
-        plugin_version: 1.0.0
-        enabled: true
-        tags: {  }
-        executor_plugin: 'flowdrop_node_processor:entity_save'
-        inputs:
-          -
-            id: entity_type
-            name: 'Entity Type'
-            type: input
-            dataType: string
-            required: false
-            description: 'The entity type to create/update (e.g., node, user, taxonomy_term)'
-            defaultValue: node
-          -
-            id: bundle
-            name: Bundle
-            type: input
-            dataType: string
-            required: false
-            description: 'The bundle/content type for the entity (required for new entities with bundles)'
-            defaultValue: ''
           -
             id: entity_id
             name: 'Entity ID'
             type: input
             dataType: string
             required: false
-            description: 'The ID of an existing entity to update (leave empty to create new)'
-            defaultValue: ''
-          -
-            id: values
-            name: 'Field Values'
-            type: input
-            dataType: json
-            required: false
-            description: 'The field values to set on the entity as key-value pairs'
-            defaultValue: {  }
-          -
-            id: trigger
-            name: Trigger
-            type: input
-            dataType: trigger
-            required: false
-            description: ''
-        outputs:
-          -
-            id: entity_id
-            name: entity_id
-            type: output
-            dataType: string
-            required: false
-            description: 'The ID of the saved entity'
+            description: 'The entity ID to update'
           -
             id: entity_type
-            name: entity_type
-            type: output
-            dataType: string
-            required: false
-            description: 'The entity type'
-          -
-            id: bundle
-            name: bundle
-            type: output
-            dataType: string
-            required: false
-            description: 'The entity bundle (if applicable)'
-          -
-            id: is_new
-            name: is_new
-            type: output
-            dataType: boolean
-            required: false
-            description: 'Whether a new entity was created (true) or existing was updated (false)'
-          -
-            id: label
-            name: label
-            type: output
-            dataType: string
-            required: false
-            description: 'The label/title of the entity'
-          -
-            id: uuid
-            name: uuid
-            type: output
-            dataType: string
-            required: false
-            description: 'The UUID of the entity'
-          -
-            id: created
-            name: created
-            type: output
-            dataType: number
-            required: false
-            description: 'The creation timestamp (if available)'
-          -
-            id: changed
-            name: changed
-            type: output
-            dataType: number
-            required: false
-            description: 'The last changed timestamp (if available)'
-          -
-            id: skipped_fields
-            name: skipped_fields
-            type: output
-            dataType: array
-            required: false
-            description: 'List of field names that were skipped due to allowed_fields restriction'
-          -
-            id: entity
-            name: entity
-            type: output
-            dataType: json
-            required: false
-            description: 'Full serialized entity data in the same format as Entity Trigger output'
-          -
-            id: trigger
-            name: Trigger
-            type: output
-            dataType: trigger
-            required: false
-            description: 'Emitted when this node completes execution'
-        config:
-          entity_type: node
-          bundle: ''
-          values: {  }
-          allowed_fields: {  }
-        configSchema:
-          type: object
-          properties:
-            entity_type:
-              type: string
-              title: 'Entity Type'
-              description: 'The entity type to create/update (e.g., node, user, taxonomy_term)'
-              default: node
-            bundle:
-              type: string
-              title: Bundle
-              description: 'The bundle/content type for the entity (required for new entities with bundles)'
-              default: ''
-            values:
-              type: object
-              format: json
-              title: 'Field Values'
-              description: 'The field values to set on the entity as key-value pairs'
-              default: {  }
-            allowed_fields:
-              type: array
-              title: 'Allowed Fields'
-              description: 'List of field names that are allowed to be updated. Leave empty to allow all fields.'
-              default: {  }
-              items:
-                type: string
-            instanceTitle:
-              type: string
-              title: Title
-              description: 'Override the default node title for this instance.'
-              x-display-order: -2
-            instanceDescription:
-              type: string
-              title: Description
-              description: 'Override the default description for this instance.'
-              format: multiline
-              x-display-order: -1
-          required: {  }
-      nodeId: entity_save.1
-    deletable: true
-    measured:
-      width: 288
-      height: 1340
-    selected: false
-    dragging: false
-  -
-    id: misstraal_ai_contexts_guideline_score_parser.2
-    type: universalNode
-    position:
-      x: 1140
-      'y': 940
-    data:
-      label: 'Guideline Score Parser'
-      config: {  }
-      metadata:
-        id: misstraal_ai_contexts_guideline_score_parser
-        name: 'Guideline Score Parser'
-        type: default
-        supportedTypes:
-          - default
-        description: 'Parses JSON response from guideline scoring and extracts scores and reasoning'
-        category: processing
-        icon: 'mdi:cog'
-        color: '#14b8a6'
-        plugin_version: 1.0.0
-        enabled: true
-        tags: {  }
-        executor_plugin: 'misstraal_ai_contexts:guideline_score_parser'
-        inputs:
-          -
-            id: response
-            name: Response
+            name: 'Entity Type'
             type: input
             dataType: string
             required: false
-            description: 'Response from ChatModelNode'
+            description: 'The entity type (e.g., node)'
+          -
+            id: bundle
+            name: Bundle
+            type: input
+            dataType: string
+            required: false
+            description: 'The entity bundle (e.g., article)'
           -
             id: input
             name: Input
@@ -837,6 +632,13 @@ nodes:
             required: false
             description: ''
         outputs:
+          -
+            id: output
+            name: Output
+            type: output
+            dataType: json
+            required: false
+            description: 'All outputs as JSON object. Available keys: ai_score, ai_reasoning, editorial_score, editorial_reasoning, entity_id, entity_type, bundle, raw_response'
           -
             id: ai_score
             name: 'AI Score'
@@ -909,6 +711,21 @@ nodes:
               title: Response
               description: 'Response from ChatModelNode'
               required: false
+            entity_id:
+              type: string
+              title: 'Entity ID'
+              description: 'The entity ID to update'
+              required: false
+            entity_type:
+              type: string
+              title: 'Entity Type'
+              description: 'The entity type (e.g., node)'
+              required: false
+            bundle:
+              type: string
+              title: Bundle
+              description: 'The entity bundle (e.g., article)'
+              required: false
             input:
               type: mixed
               title: Input
@@ -926,17 +743,18 @@ nodes:
               format: multiline
               x-display-order: -1
           required: {  }
-      nodeId: misstraal_ai_contexts_guideline_score_parser.2
+      nodeId: misstraal_ai_contexts_guideline_score_parser.3
     deletable: true
     measured:
       width: 288
-      height: 1040
+      height: 1340
     selected: false
+    dragging: false
 edges:
   -
-    id: xy-edge__trigger.1trigger.1-output-data-misstraal_ai_contexts_guideline_scoring.3misstraal_ai_contexts_guideline_scoring.3-input-data
+    id: xy-edge__trigger.1trigger.1-output-data-misstraal_ai_contexts_guideline_scoring.4misstraal_ai_contexts_guideline_scoring.4-input-data
     source: trigger.1
-    target: misstraal_ai_contexts_guideline_scoring.3
+    target: misstraal_ai_contexts_guideline_scoring.4
     data:
       targetNodeType: universalNode
       targetCategory: processing
@@ -944,7 +762,7 @@ edges:
         edgeType: data
         sourcePortDataType: json
     sourceHandle: trigger.1-output-data
-    targetHandle: misstraal_ai_contexts_guideline_scoring.3-input-data
+    targetHandle: misstraal_ai_contexts_guideline_scoring.4-input-data
     style: 'stroke: var(--flowdrop-edge-data-color);'
     markerEnd:
       type: arrowclosed
@@ -954,17 +772,17 @@ edges:
     class: flowdrop--edge--data
     selected: false
   -
-    id: xy-edge__misstraal_ai_contexts_guideline_scoring.3misstraal_ai_contexts_guideline_scoring.3-output-prompt-misstraal_ai_contexts_chat_model.1misstraal_ai_contexts_chat_model.1-input-prompt
-    source: misstraal_ai_contexts_guideline_scoring.3
-    target: misstraal_ai_contexts_chat_model.1
+    id: xy-edge__misstraal_ai_contexts_guideline_scoring.4misstraal_ai_contexts_guideline_scoring.4-output-entity_id-misstraal_ai_contexts_chat_model.2misstraal_ai_contexts_chat_model.2-input-entity_id
+    source: misstraal_ai_contexts_guideline_scoring.4
+    target: misstraal_ai_contexts_chat_model.2
     data:
       targetNodeType: universalNode
       targetCategory: processing
       metadata:
         edgeType: data
         sourcePortDataType: string
-    sourceHandle: misstraal_ai_contexts_guideline_scoring.3-output-prompt
-    targetHandle: misstraal_ai_contexts_chat_model.1-input-prompt
+    sourceHandle: misstraal_ai_contexts_guideline_scoring.4-output-entity_id
+    targetHandle: misstraal_ai_contexts_chat_model.2-input-entity_id
     style: 'stroke: var(--flowdrop-edge-data-color);'
     markerEnd:
       type: arrowclosed
@@ -974,17 +792,17 @@ edges:
     class: flowdrop--edge--data
     selected: false
   -
-    id: xy-edge__misstraal_ai_contexts_chat_model.1misstraal_ai_contexts_chat_model.1-output-response-misstraal_ai_contexts_guideline_score_parser.1misstraal_ai_contexts_guideline_score_parser.1-input-response
-    source: misstraal_ai_contexts_chat_model.1
-    target: misstraal_ai_contexts_guideline_score_parser.1
+    id: xy-edge__misstraal_ai_contexts_guideline_scoring.4misstraal_ai_contexts_guideline_scoring.4-output-prompt-misstraal_ai_contexts_chat_model.2misstraal_ai_contexts_chat_model.2-input-input
+    source: misstraal_ai_contexts_guideline_scoring.4
+    target: misstraal_ai_contexts_chat_model.2
     data:
       targetNodeType: universalNode
       targetCategory: processing
       metadata:
         edgeType: data
         sourcePortDataType: string
-    sourceHandle: misstraal_ai_contexts_chat_model.1-output-response
-    targetHandle: misstraal_ai_contexts_guideline_score_parser.1-input-response
+    sourceHandle: misstraal_ai_contexts_guideline_scoring.4-output-prompt
+    targetHandle: misstraal_ai_contexts_chat_model.2-input-input
     style: 'stroke: var(--flowdrop-edge-data-color);'
     markerEnd:
       type: arrowclosed
@@ -994,97 +812,17 @@ edges:
     class: flowdrop--edge--data
     selected: false
   -
-    id: xy-edge__misstraal_ai_contexts_guideline_score_parser.1misstraal_ai_contexts_guideline_score_parser.1-output-ai_reasoning-entity_save.1entity_save.1-input-values
-    source: misstraal_ai_contexts_guideline_score_parser.1
-    target: entity_save.1
-    data:
-      targetNodeType: universalNode
-      targetCategory: data
-      metadata:
-        edgeType: data
-        sourcePortDataType: string
-    sourceHandle: misstraal_ai_contexts_guideline_score_parser.1-output-ai_reasoning
-    targetHandle: entity_save.1-input-values
-    style: 'stroke: var(--flowdrop-edge-data-color);'
-    markerEnd:
-      type: arrowclosed
-      width: 16
-      height: 16
-      color: '#9ca3af'
-    class: flowdrop--edge--data
-    selected: false
-  -
-    id: xy-edge__misstraal_ai_contexts_guideline_score_parser.1misstraal_ai_contexts_guideline_score_parser.1-output-editorial_score-entity_save.1entity_save.1-input-values
-    source: misstraal_ai_contexts_guideline_score_parser.1
-    target: entity_save.1
-    data:
-      targetNodeType: universalNode
-      targetCategory: data
-      metadata:
-        edgeType: data
-        sourcePortDataType: string
-    sourceHandle: misstraal_ai_contexts_guideline_score_parser.1-output-editorial_score
-    targetHandle: entity_save.1-input-values
-    style: 'stroke: var(--flowdrop-edge-data-color);'
-    markerEnd:
-      type: arrowclosed
-      width: 16
-      height: 16
-      color: '#9ca3af'
-    class: flowdrop--edge--data
-    selected: false
-  -
-    id: xy-edge__misstraal_ai_contexts_guideline_score_parser.1misstraal_ai_contexts_guideline_score_parser.1-output-editorial_reasoning-entity_save.1entity_save.1-input-values
-    source: misstraal_ai_contexts_guideline_score_parser.1
-    target: entity_save.1
-    data:
-      targetNodeType: universalNode
-      targetCategory: data
-      metadata:
-        edgeType: data
-        sourcePortDataType: string
-    sourceHandle: misstraal_ai_contexts_guideline_score_parser.1-output-editorial_reasoning
-    targetHandle: entity_save.1-input-values
-    style: 'stroke: var(--flowdrop-edge-data-color);'
-    markerEnd:
-      type: arrowclosed
-      width: 16
-      height: 16
-      color: '#9ca3af'
-    class: flowdrop--edge--data
-    selected: false
-  -
-    id: xy-edge__misstraal_ai_contexts_guideline_score_parser.1misstraal_ai_contexts_guideline_score_parser.1-output-raw_response-entity_save.1entity_save.1-input-values
-    source: misstraal_ai_contexts_guideline_score_parser.1
-    target: entity_save.1
-    data:
-      targetNodeType: universalNode
-      targetCategory: data
-      metadata:
-        edgeType: data
-        sourcePortDataType: string
-    sourceHandle: misstraal_ai_contexts_guideline_score_parser.1-output-raw_response
-    targetHandle: entity_save.1-input-values
-    style: 'stroke: var(--flowdrop-edge-data-color);'
-    markerEnd:
-      type: arrowclosed
-      width: 16
-      height: 16
-      color: '#9ca3af'
-    class: flowdrop--edge--data
-    selected: false
-  -
-    id: xy-edge__misstraal_ai_contexts_chat_model.1misstraal_ai_contexts_chat_model.1-output-response-misstraal_ai_contexts_guideline_score_parser.2misstraal_ai_contexts_guideline_score_parser.2-input-response
-    source: misstraal_ai_contexts_chat_model.1
-    target: misstraal_ai_contexts_guideline_score_parser.2
+    id: xy-edge__misstraal_ai_contexts_guideline_scoring.4misstraal_ai_contexts_guideline_scoring.4-output-prompt-misstraal_ai_contexts_chat_model.2misstraal_ai_contexts_chat_model.2-input-prompt
+    source: misstraal_ai_contexts_guideline_scoring.4
+    target: misstraal_ai_contexts_chat_model.2
     data:
       targetNodeType: universalNode
       targetCategory: processing
       metadata:
         edgeType: data
         sourcePortDataType: string
-    sourceHandle: misstraal_ai_contexts_chat_model.1-output-response
-    targetHandle: misstraal_ai_contexts_guideline_score_parser.2-input-response
+    sourceHandle: misstraal_ai_contexts_guideline_scoring.4-output-prompt
+    targetHandle: misstraal_ai_contexts_chat_model.2-input-prompt
     style: 'stroke: var(--flowdrop-edge-data-color);'
     markerEnd:
       type: arrowclosed
@@ -1092,29 +830,191 @@ edges:
       height: 16
       color: '#9ca3af'
     class: flowdrop--edge--data
+    selected: false
   -
-    id: xy-edge__trigger.1trigger.1-output-trigger-misstraal_ai_contexts_guideline_score_parser.2misstraal_ai_contexts_guideline_score_parser.2-input-trigger
-    source: trigger.1
-    target: misstraal_ai_contexts_guideline_score_parser.2
+    id: xy-edge__misstraal_ai_contexts_guideline_scoring.4misstraal_ai_contexts_guideline_scoring.4-output-entity_type-misstraal_ai_contexts_chat_model.2misstraal_ai_contexts_chat_model.2-input-entity_type
+    source: misstraal_ai_contexts_guideline_scoring.4
+    target: misstraal_ai_contexts_chat_model.2
     data:
       targetNodeType: universalNode
       targetCategory: processing
       metadata:
-        edgeType: trigger
-        sourcePortDataType: trigger
-    sourceHandle: trigger.1-output-trigger
-    targetHandle: misstraal_ai_contexts_guideline_score_parser.2-input-trigger
-    style: 'stroke: var(--flowdrop-edge-trigger-color); stroke-width: var(--flowdrop-edge-trigger-width);'
+        edgeType: data
+        sourcePortDataType: string
+    sourceHandle: misstraal_ai_contexts_guideline_scoring.4-output-entity_type
+    targetHandle: misstraal_ai_contexts_chat_model.2-input-entity_type
+    style: 'stroke: var(--flowdrop-edge-data-color);'
     markerEnd:
       type: arrowclosed
       width: 16
       height: 16
-      color: '#111827'
-    class: flowdrop--edge--trigger
+      color: '#9ca3af'
+    class: flowdrop--edge--data
+    selected: false
+  -
+    id: xy-edge__misstraal_ai_contexts_guideline_scoring.4misstraal_ai_contexts_guideline_scoring.4-output-bundle-misstraal_ai_contexts_chat_model.2misstraal_ai_contexts_chat_model.2-input-bundle
+    source: misstraal_ai_contexts_guideline_scoring.4
+    target: misstraal_ai_contexts_chat_model.2
+    data:
+      targetNodeType: universalNode
+      targetCategory: processing
+      metadata:
+        edgeType: data
+        sourcePortDataType: string
+    sourceHandle: misstraal_ai_contexts_guideline_scoring.4-output-bundle
+    targetHandle: misstraal_ai_contexts_chat_model.2-input-bundle
+    style: 'stroke: var(--flowdrop-edge-data-color);'
+    markerEnd:
+      type: arrowclosed
+      width: 16
+      height: 16
+      color: '#9ca3af'
+    class: flowdrop--edge--data
+    selected: false
+  -
+    id: xy-edge__misstraal_ai_contexts_guideline_scoring.4misstraal_ai_contexts_guideline_scoring.4-output-bundle-misstraal_ai_contexts_chat_model.2misstraal_ai_contexts_chat_model.2-input-input
+    source: misstraal_ai_contexts_guideline_scoring.4
+    target: misstraal_ai_contexts_chat_model.2
+    data:
+      targetNodeType: universalNode
+      targetCategory: processing
+      metadata:
+        edgeType: data
+        sourcePortDataType: string
+    sourceHandle: misstraal_ai_contexts_guideline_scoring.4-output-bundle
+    targetHandle: misstraal_ai_contexts_chat_model.2-input-input
+    style: 'stroke: var(--flowdrop-edge-data-color);'
+    markerEnd:
+      type: arrowclosed
+      width: 16
+      height: 16
+      color: '#9ca3af'
+    class: flowdrop--edge--data
+    selected: false
+  -
+    id: xy-edge__misstraal_ai_contexts_guideline_scoring.4misstraal_ai_contexts_guideline_scoring.4-output-entity_type-misstraal_ai_contexts_chat_model.2misstraal_ai_contexts_chat_model.2-input-input
+    source: misstraal_ai_contexts_guideline_scoring.4
+    target: misstraal_ai_contexts_chat_model.2
+    data:
+      targetNodeType: universalNode
+      targetCategory: processing
+      metadata:
+        edgeType: data
+        sourcePortDataType: string
+    sourceHandle: misstraal_ai_contexts_guideline_scoring.4-output-entity_type
+    targetHandle: misstraal_ai_contexts_chat_model.2-input-input
+    style: 'stroke: var(--flowdrop-edge-data-color);'
+    markerEnd:
+      type: arrowclosed
+      width: 16
+      height: 16
+      color: '#9ca3af'
+    class: flowdrop--edge--data
+    selected: false
+  -
+    id: xy-edge__misstraal_ai_contexts_guideline_scoring.4misstraal_ai_contexts_guideline_scoring.4-output-entity_id-misstraal_ai_contexts_chat_model.2misstraal_ai_contexts_chat_model.2-input-input
+    source: misstraal_ai_contexts_guideline_scoring.4
+    target: misstraal_ai_contexts_chat_model.2
+    data:
+      targetNodeType: universalNode
+      targetCategory: processing
+      metadata:
+        edgeType: data
+        sourcePortDataType: string
+    sourceHandle: misstraal_ai_contexts_guideline_scoring.4-output-entity_id
+    targetHandle: misstraal_ai_contexts_chat_model.2-input-input
+    style: 'stroke: var(--flowdrop-edge-data-color);'
+    markerEnd:
+      type: arrowclosed
+      width: 16
+      height: 16
+      color: '#9ca3af'
+    class: flowdrop--edge--data
+    selected: false
+  -
+    id: xy-edge__misstraal_ai_contexts_chat_model.2misstraal_ai_contexts_chat_model.2-output-response-misstraal_ai_contexts_guideline_score_parser.3misstraal_ai_contexts_guideline_score_parser.3-input-response
+    source: misstraal_ai_contexts_chat_model.2
+    target: misstraal_ai_contexts_guideline_score_parser.3
+    data:
+      targetNodeType: universalNode
+      targetCategory: processing
+      metadata:
+        edgeType: data
+        sourcePortDataType: string
+    sourceHandle: misstraal_ai_contexts_chat_model.2-output-response
+    targetHandle: misstraal_ai_contexts_guideline_score_parser.3-input-response
+    style: 'stroke: var(--flowdrop-edge-data-color);'
+    markerEnd:
+      type: arrowclosed
+      width: 16
+      height: 16
+      color: '#9ca3af'
+    class: flowdrop--edge--data
+    selected: false
+  -
+    id: xy-edge__misstraal_ai_contexts_chat_model.2misstraal_ai_contexts_chat_model.2-output-entity_id-misstraal_ai_contexts_guideline_score_parser.3misstraal_ai_contexts_guideline_score_parser.3-input-entity_id
+    source: misstraal_ai_contexts_chat_model.2
+    target: misstraal_ai_contexts_guideline_score_parser.3
+    data:
+      targetNodeType: universalNode
+      targetCategory: processing
+      metadata:
+        edgeType: data
+        sourcePortDataType: string
+    sourceHandle: misstraal_ai_contexts_chat_model.2-output-entity_id
+    targetHandle: misstraal_ai_contexts_guideline_score_parser.3-input-entity_id
+    style: 'stroke: var(--flowdrop-edge-data-color);'
+    markerEnd:
+      type: arrowclosed
+      width: 16
+      height: 16
+      color: '#9ca3af'
+    class: flowdrop--edge--data
+    selected: false
+  -
+    id: xy-edge__misstraal_ai_contexts_chat_model.2misstraal_ai_contexts_chat_model.2-output-entity_type-misstraal_ai_contexts_guideline_score_parser.3misstraal_ai_contexts_guideline_score_parser.3-input-entity_type
+    source: misstraal_ai_contexts_chat_model.2
+    target: misstraal_ai_contexts_guideline_score_parser.3
+    data:
+      targetNodeType: universalNode
+      targetCategory: processing
+      metadata:
+        edgeType: data
+        sourcePortDataType: string
+    sourceHandle: misstraal_ai_contexts_chat_model.2-output-entity_type
+    targetHandle: misstraal_ai_contexts_guideline_score_parser.3-input-entity_type
+    style: 'stroke: var(--flowdrop-edge-data-color);'
+    markerEnd:
+      type: arrowclosed
+      width: 16
+      height: 16
+      color: '#9ca3af'
+    class: flowdrop--edge--data
+    selected: false
+  -
+    id: xy-edge__misstraal_ai_contexts_chat_model.2misstraal_ai_contexts_chat_model.2-output-bundle-misstraal_ai_contexts_guideline_score_parser.3misstraal_ai_contexts_guideline_score_parser.3-input-bundle
+    source: misstraal_ai_contexts_chat_model.2
+    target: misstraal_ai_contexts_guideline_score_parser.3
+    data:
+      targetNodeType: universalNode
+      targetCategory: processing
+      metadata:
+        edgeType: data
+        sourcePortDataType: string
+    sourceHandle: misstraal_ai_contexts_chat_model.2-output-bundle
+    targetHandle: misstraal_ai_contexts_guideline_score_parser.3-input-bundle
+    style: 'stroke: var(--flowdrop-edge-data-color);'
+    markerEnd:
+      type: arrowclosed
+      width: 16
+      height: 16
+      color: '#9ca3af'
+    class: flowdrop--edge--data
+    selected: false
 metadata:
   version: 1.0.0
   createdAt: '2026-01-27T15:34:49.378Z'
-  updatedAt: '2026-01-28T08:39:14.074Z'
+  updatedAt: '2026-01-28T10:40:11.643Z'
 created: 1769528027
-changed: 1769589554
+changed: 1769596811
 uid: 0

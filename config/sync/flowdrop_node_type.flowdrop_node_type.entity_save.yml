@@ -21,12 +21,10 @@ parameters:
     configurable: true
     connectable: true
     required: false
-    default: ''
   entity_id:
     configurable: false
     connectable: true
     required: false
-    default: ''
   entity_type:
     configurable: true
     connectable: true
@@ -43,6 +41,8 @@ outputs:
   changed:
     exposed: true
   created:
+    exposed: true
+  entity:
     exposed: true
   entity_id:
     exposed: true
@@ -61,5 +61,5 @@ executor_plugin: 'flowdrop_node_processor:entity_save'
 visual_type: default
 supported_visual_types:
   - default
-unified_input_exposed: false
+unified_input_exposed: true
 unified_output_exposed: false

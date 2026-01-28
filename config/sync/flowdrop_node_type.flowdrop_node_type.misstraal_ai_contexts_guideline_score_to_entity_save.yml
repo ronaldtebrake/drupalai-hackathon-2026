@@ -1,0 +1,56 @@
+uuid: 99f704c9-4a8e-4b30-9702-41bebf54b53e
+langcode: en
+status: true
+dependencies: {  }
+id: misstraal_ai_contexts_guideline_score_to_entity_save
+label: 'Guideline Score to Entity Save'
+description: 'Transforms guideline score parser output into EntitySave format'
+category: processing
+icon: 'mdi:cog'
+plugin_version: 1.0.0
+enabled: true
+parameters:
+  ai_score:
+    configurable: false
+    connectable: false
+    required: false
+  bundle:
+    configurable: false
+    connectable: false
+    required: false
+  editorial_reasoning:
+    configurable: false
+    connectable: false
+    required: false
+  editorial_score:
+    configurable: false
+    connectable: false
+    required: false
+  entity_id:
+    configurable: false
+    connectable: false
+    required: false
+  entity_type:
+    configurable: false
+    connectable: false
+    required: false
+  input:
+    configurable: false
+    connectable: false
+    required: false
+outputs:
+  bundle:
+    exposed: true
+  entity_id:
+    exposed: true
+  entity_type:
+    exposed: true
+  values:
+    exposed: true
+tags: {  }
+executor_plugin: 'misstraal_ai_contexts:guideline_score_to_entity_save'
+visual_type: default
+supported_visual_types:
+  - default
+unified_input_exposed: true
+unified_output_exposed: true
