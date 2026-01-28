@@ -49,7 +49,7 @@ final class NodeTitleRevisionLogBlock extends BlockBase {
 
     return [
       '#theme' => 'misstraal_article_ai_editorial_meta_panel',
-      '#title' => $this->t('Node information'),
+      '#title' => $this->t('Editorial feedback'),
       '#items' => $items,
       '#cache' => [
         'contexts' => ['route'],
