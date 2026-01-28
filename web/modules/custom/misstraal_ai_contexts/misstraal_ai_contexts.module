@@ -10,6 +10,7 @@ declare(strict_types=1);
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\Form\NodeForm;
 use Drupal\node\NodeInterface;
+use Drupal\Core\Entity\ContentEntityStorageInterface;
 
 
 /**
@@ -70,7 +71,7 @@ function misstraal_ai_contexts_form_alter(array &$form, FormStateInterface $form
       ],
       'panel' => [
         '#theme' => 'misstraal_article_ai_editorial_meta_panel',
-        '#title' => t('Node information'),
+        '#title' => t('Editorial feedback'),
         '#items' => $title_revision_items,
       ],
     ];
@@ -148,22 +149,93 @@ function misstraal_ai_contexts_build_article_meta_items(NodeInterface $node): ar
 function misstraal_ai_contexts_build_node_title_revision_items(NodeInterface $node): array {
   $items = [];
 
-  // Add node title
-  $title = $node->getTitle();
-  if (!empty($title)) {
-    $items[] = [
-      'label' => (string) t('Title'),
-      'value' => $title,
-    ];
-  }
+//   // Add node title
+//   $title = $node->getTitle();
+//   if (!empty($title)) {
+//     $items[] = [
+//       'label' => (string) t('Title'),
+//       'value' => $title,
+//     ];
+//   }
 
-  // Add revision log message
-  $revision_log = $node->getRevisionLogMessage();
-  if (!empty($revision_log)) {
-    $items[] = [
-      'label' => (string) t('Revision log message'),
-      'value' => $revision_log,
-    ];
+  // Load all article nodes and collect their revision log messages
+  $storage = \Drupal::entityTypeManager()->getStorage('node');
+  if ($storage instanceof ContentEntityStorageInterface) {
+    // Query all article nodes
+    $article_ids = $storage->getQuery()
+      ->accessCheck(FALSE)
+      ->condition('type', 'article')
+      ->sort('changed', 'DESC')
+      ->execute();
+
+    $all_feedback = [];
+
+    foreach ($article_ids as $article_id) {
+      $article = $storage->load($article_id);
+      if (!($article instanceof NodeInterface)) {
+        continue;
+      }
+
+      // Get all revisions for this article
+      $revision_ids = $storage->getQuery()
+        ->accessCheck(FALSE)
+        ->condition('nid', $article_id)
+        ->allRevisions()
+        ->sort('vid', 'DESC')
+        ->execute();
+
+      $article_logs = [];
+      foreach ($revision_ids as $revision_id => $entity_id) {
+        $revision = $storage->loadRevision($revision_id);
+        if ($revision instanceof NodeInterface) {
+          $revision_log = $revision->getRevisionLogMessage();
+          if (!empty($revision_log)) {
+            $revision_created = $revision->getRevisionCreationTime();
+            $revision_user = $revision->getRevisionUser();
+            $username = $revision_user ? $revision_user->getAccountName() : (string) t('Anonymous');
+            $date = \Drupal::service('date.formatter')->format($revision_created, 'short');
+            $article_logs[] = [
+              'date' => $date,
+              'user' => $username,
+              'message' => $revision_log,
+            ];
+          }
+        }
+      }
+
+      if (!empty($article_logs)) {
+        $all_feedback[] = [
+          'title' => $article->getTitle(),
+          'nid' => $article_id,
+          'logs' => $article_logs,
+        ];
+      }
+    }
+
+    // Format all feedback by article - create separate item for each article
+    if (!empty($all_feedback)) {
+      foreach ($all_feedback as $article_feedback) {
+        $formatted_logs = [];
+        foreach ($article_feedback['logs'] as $log) {
+          $formatted_logs[] = t('@date by @user: @message', [
+            '@date' => $log['date'],
+            '@user' => $log['user'],
+            '@message' => $log['message'],
+          ]);
+        }
+
+        $items[] = [
+          'label' => htmlspecialchars($article_feedback['title']),
+          'value' => implode('<br><br>', $formatted_logs),
+        ];
+      }
+    }
+    else {
+      $items[] = [
+        'label' => (string) t('Editor feedback'),
+        'value' => 'Log messages not found',
+      ];
+    }
   }
 
   return $items;
