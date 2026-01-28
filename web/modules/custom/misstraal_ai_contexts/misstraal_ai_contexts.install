@@ -1,8 +1,5 @@
 <?php
 
-use Drupal\Core\Entity\EntityTypeInterface;
-use Drupal\Core\Extension\ModuleHandlerInterface;
-
 /**
  * Implements hook_install().
  */
@@ -15,112 +12,49 @@ function misstraal_ai_contexts_install(): void {
 
   $module_handler = \Drupal::service('extension.list.module');
   $module_path = $module_handler->getPath('misstraal_ai_contexts');
-  $contexts_path = $module_path . '/contexts';
+  $content_file = $module_path . '/contexts/editorial.md';
 
-  if (!is_dir($contexts_path)) {
-    // Nothing to import.
-    \Drupal::logger('misstraal_ai_contexts')->notice('No contexts directory found at @path; no AI Contexts created.', [
-      '@path' => $contexts_path,
+  if (!is_readable($content_file)) {
+    \Drupal::logger('misstraal_ai_contexts')->notice('editorial.md file not found at @path; no AI Context created.', [
+      '@path' => $content_file,
     ]);
+    return;
+  }
+
+  $contents = file_get_contents($content_file);
+  if ($contents === FALSE || $contents === '') {
+    \Drupal::logger('misstraal_ai_contexts')->warning('editorial.md is empty or could not be read.');
     return;
   }
 
   $entity_type_manager = \Drupal::entityTypeManager();
-  // The entity type ID for AI Context entities is "ai_context".
-  $context_entity_type_id = 'ai_context';
+  $storage = $entity_type_manager->getStorage('ai_context');
 
-  $storage = $entity_type_manager->getStorage($context_entity_type_id);
-
-  // New structure:
-  //   contexts/
-  //     MyContextOne/
-  //       content.md
-  //     Another_Context/
-  //       content.md
-  //
-  // The AI Context label will be based on the folder name, and the content
-  // will come from the content.md file inside each folder.
-  $entries = scandir($contexts_path);
-  if ($entries === FALSE) {
-    \Drupal::logger('misstraal_ai_contexts')->warning('Unable to read contexts directory @path.', [
-      '@path' => $contexts_path,
+  // Check if the context already exists.
+  $id = 'editorial';
+  if ($storage->load($id)) {
+    \Drupal::logger('misstraal_ai_contexts')->notice('AI Context with ID @id already exists; skipping.', [
+      '@id' => $id,
     ]);
     return;
   }
 
-  $found_any = FALSE;
+  $values = [
+    'id' => $id,
+    'label' => 'Editorial',
+    // The ai_context module stores the actual text in a "content" field
+    // according to its default global context config.
+    'content' => $contents,
+  ];
 
-  foreach ($entries as $entry) {
-    if ($entry === '.' || $entry === '..') {
-      continue;
-    }
-
-    $context_dir = $contexts_path . '/' . $entry;
-    if (!is_dir($context_dir)) {
-      continue;
-    }
-
-    $content_file = $context_dir . '/content.md';
-    if (!is_readable($content_file)) {
-      \Drupal::logger('misstraal_ai_contexts')->warning('No readable content.md found for context folder @folder.', [
-        '@folder' => $context_dir,
-      ]);
-      continue;
-    }
-
-    $contents = file_get_contents($content_file);
-    if ($contents === FALSE || $contents === '') {
-      \Drupal::logger('misstraal_ai_contexts')->warning('content.md in @folder is empty or could not be read.', [
-        '@folder' => $context_dir,
-      ]);
-      continue;
-    }
-
-    // Label from the folder name: replace separators with spaces and ucfirst.
-    $label = ucwords(str_replace(['_', '-'], ' ', $entry));
-
-    // Machine-safe ID from the folder name.
-    $id = strtolower(preg_replace('/[^a-z0-9_]+/', '_', $entry));
-    $id = trim($id, '_');
-
-    // Avoid duplicates if the context already exists.
-    if ($storage->load($id)) {
-      \Drupal::logger('misstraal_ai_contexts')->notice('AI Context with ID @id already exists; skipping folder @folder.', [
-        '@id' => $id,
-        '@folder' => $context_dir,
-      ]);
-      continue;
-    }
-
-    $values = [
-      'id' => $id,
-      'label' => $label,
-      // The ai_context module stores the actual text in a "content" field
-      // according to its default global context config.
-      'content' => $contents,
-    ];
-
-    try {
-      $entity = $storage->create($values);
-      $entity->save();
-      $found_any = TRUE;
-      \Drupal::logger('misstraal_ai_contexts')->notice('Created AI Context "@label" from folder @folder.', [
-        '@label' => $label,
-        '@folder' => $context_dir,
-      ]);
-    }
-    catch (\Throwable $e) {
-      \Drupal::logger('misstraal_ai_contexts')->error('Failed to create AI Context from folder @folder: @message', [
-        '@folder' => $context_dir,
-        '@message' => $e->getMessage(),
-      ]);
-    }
+  try {
+    $entity = $storage->create($values);
+    $entity->save();
+    \Drupal::logger('misstraal_ai_contexts')->notice('Created AI Context "Editorial" from editorial.md.');
   }
-
-  if (!$found_any) {
-    \Drupal::logger('misstraal_ai_contexts')->notice('No valid context folders with content.md were found in @path; no AI Contexts created.', [
-      '@path' => $contexts_path,
+  catch (\Throwable $e) {
+    \Drupal::logger('misstraal_ai_contexts')->error('Failed to create AI Context from editorial.md: @message', [
+      '@message' => $e->getMessage(),
     ]);
   }
 }
-
