@@ -1,0 +1,7 @@
+name: Charts Dashboard
+version: 1.0.0
+configure: charts_dashboard.settings
+core_version_requirement: ^11
+package: Custom
+description: 'Provides a single-chart dashboard block powered by Chart.js with Views/REST data sources.'
+type: module

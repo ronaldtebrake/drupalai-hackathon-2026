@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Hooks for charts_dashboard.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function charts_dashboard_theme($existing, $type, $theme, $path) {
+  // Use the extension list service to compute the module path instead of
+  // the procedural drupal_get_path() function which may not be available in
+  // some bootstrap contexts.
+  $module_path = \Drupal::service('extension.list.module')->getPath('charts_dashboard');
+
+  return [
+    'charts_dashboard_block' => [
+      'variables' => ['dashboard_id' => NULL],
+      'template' => 'chart-dashboard',
+      'path' => $module_path . '/templates',
+    ],
+  ];
+}

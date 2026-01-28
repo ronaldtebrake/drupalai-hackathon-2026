@@ -1,0 +1,52 @@
+charts_dashboard.dashboard:
+  type: config_object
+  label: 'Charts Dashboard configuration'
+  mapping:
+    label:
+      type: string
+      label: 'Human readable label for the dashboard'
+    description:
+      type: string
+      label: 'Description'
+    chart_type:
+      type: string
+      label: 'Chart.js chart type (bar, line, pie, etc)'
+    source_type:
+      type: string
+      label: 'Data source type (inline, views, rest)'
+    views_settings:
+      type: mapping
+      label: 'Views settings'
+      mapping:
+        view_name:
+          type: string
+        display_id:
+          type: string
+        label_field:
+          type: string
+        value_field:
+          type: string
+    rest_settings:
+      type: mapping
+      label: 'REST endpoint settings'
+      mapping:
+        url:
+          type: string
+        headers:
+          type: sequence
+          sequence:
+            - type: string
+        ttl:
+          type: integer
+    data:
+      type: mapping
+      label: 'Inline chart data'
+      mapping:
+        labels:
+          type: sequence
+          sequence:
+            - type: string
+        values:
+          type: sequence
+          sequence:
+            - type: integer
