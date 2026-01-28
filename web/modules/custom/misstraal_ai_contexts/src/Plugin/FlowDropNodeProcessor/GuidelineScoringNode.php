@@ -75,7 +75,7 @@ class GuidelineScoringNode extends AbstractFlowDropNodeProcessor {
       if (!$context) {
         continue;
       }
-      
+
       // ai_context entities extend ConfigEntityBase and use get() to access properties.
       // See: web/modules/contrib/ai_context/src/Entity/AiContext.php
       // The module's services use: $entity->get('content')
@@ -84,7 +84,7 @@ class GuidelineScoringNode extends AbstractFlowDropNodeProcessor {
       $context_data = $context->toArray();
       $content = trim((string) ($context_data['content'] ?? ''));
       $label = $context->label();
-      
+
       if (!empty($content)) {
         $content_parts[] = "## {$label}\n\n{$content}";
       }
@@ -119,7 +119,7 @@ class GuidelineScoringNode extends AbstractFlowDropNodeProcessor {
     You will receive two inputs, wrapped exactly as follows:
     ----------
     RULES_AND_GUIDELINES:
-    
+
 {guidelines}
 <<<
 
@@ -222,13 +222,13 @@ PROMPT;
         'body',
         'field_content',
         'field_body',
-        'field_description',
+        'field_formatted_description',
       ];
 
       // Check if data contains an entity with fields structure (FlowDrop trigger format).
       if (isset($input['entity']) && is_array($input['entity'])) {
         $entity = $input['entity'];
-        
+
         // First, check entity.fields structure (FlowDrop trigger format: entity.fields.field_name[0].value)
         if (isset($entity['fields']) && is_array($entity['fields'])) {
           foreach ($content_fields as $field) {
@@ -242,7 +242,7 @@ PROMPT;
               }
             }
           }
-          
+
           // Also check title field
           if (isset($entity['fields']['title'][0]['value'])) {
             $title = trim((string) $entity['fields']['title'][0]['value']);
@@ -251,7 +251,7 @@ PROMPT;
             }
           }
         }
-        
+
         // Fallback: check entity directly (for other formats)
         foreach ($content_fields as $field) {
           if (isset($entity[$field])) {
@@ -274,7 +274,7 @@ PROMPT;
             }
           }
         }
-        
+
         // Also check title directly on entity
         if (isset($entity['title']) && is_string($entity['title'])) {
           return trim($entity['title']);

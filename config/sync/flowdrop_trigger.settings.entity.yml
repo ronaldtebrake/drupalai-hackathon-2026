@@ -3,7 +3,9 @@ _core:
 enabled: true
 allowed_event_types:
   - entity.insert
+  - entity.delete
   - entity.update
+  - entity.presave
 allowed_entity_types:
   - node
 allowed_bundles:

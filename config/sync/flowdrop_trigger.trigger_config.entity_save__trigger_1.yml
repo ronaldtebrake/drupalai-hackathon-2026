@@ -7,7 +7,7 @@ label: 'entity save (trigger.1)'
 description: ''
 workflow_id: entity_save
 node_id: trigger.1
-event_type: entity.update
+event_type: entity.insert
 conditions:
   entity_types:
     - node
