@@ -9,72 +9,25 @@ use Drupal\flowdrop\DTO\ParameterBagInterface;
 use Drupal\flowdrop\DTO\ValidationResult;
 use Drupal\flowdrop\Plugin\FlowDropNodeProcessor\AbstractFlowDropNodeProcessor;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
-use Drupal\ai\AiProviderPluginManager;
-use Drupal\ai\OperationType\Chat\ChatInput;
-use Drupal\ai\OperationType\Chat\ChatMessage;
-use Drupal\Core\Entity\ContentEntityInterface;
-use Drupal\Core\Config\Entity\ConfigEntityInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Guideline Scoring node processor for FlowDrop workflows.
+ * Guideline Prompt Builder node processor for FlowDrop workflows.
  *
- * Builds prompts from ai_context pools and scores content in two categories.
+ * Builds prompts from ai_context pools for content scoring evaluation.
  */
 #[FlowDropNodeProcessor(
   id: "guideline_scoring",
-  label: new TranslatableMarkup("Guideline Scoring"),
-  description: "Builds prompts from ai_context pools and scores content in two categories (AI and Editorial)",
+  label: new TranslatableMarkup("Guideline Prompt Builder"),
+  description: "Builds prompts from ai_context pools for content scoring evaluation",
   version: "1.0.0"
 )]
 class GuidelineScoringNode extends AbstractFlowDropNodeProcessor {
 
   /**
-   * Constructs a GuidelineScoringNode object.
-   *
-   * @param array $configuration
-   *   Plugin configuration.
-   * @param string $plugin_id
-   *   Plugin ID.
-   * @param mixed $plugin_definition
-   *   Plugin definition.
-   * @param \Drupal\ai\AiProviderPluginManager $aiProviderPluginManager
-   *   AI provider plugin manager.
-   */
-  public function __construct(
-    array $configuration,
-    $plugin_id,
-    $plugin_definition,
-    protected readonly AiProviderPluginManager $aiProviderPluginManager,
-  ) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition);
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(
-    ContainerInterface $container,
-    array $configuration,
-    $plugin_id,
-    $plugin_definition,
-  ): static {
-    return new static(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-      $container->get('ai.provider'),
-    );
-  }
-
-  /**
    * {@inheritdoc}
    */
   public function validateParams(array $params): ValidationResult {
-    $content = $params['content'] ?? NULL;
-    if (empty($content)) {
-      return ValidationResult::error('content', 'Content is required');
-    }
+    // Content can come from various sources, so we don't validate here.
     return ValidationResult::success();
   }
 
@@ -127,7 +80,9 @@ class GuidelineScoringNode extends AbstractFlowDropNodeProcessor {
       // See: web/modules/contrib/ai_context/src/Entity/AiContext.php
       // The module's services use: $entity->get('content')
       // See: web/modules/contrib/ai_context/src/Service/AiContextRenderer.php:70
-      $content = trim((string) ($context->get('content') ?? ''));
+      // Use toArray() to access properties safely.
+      $context_data = $context->toArray();
+      $content = trim((string) ($context_data['content'] ?? ''));
       $label = $context->label();
       
       if (!empty($content)) {
@@ -156,10 +111,15 @@ class GuidelineScoringNode extends AbstractFlowDropNodeProcessor {
    */
   protected function buildPrompt(string $content, string $guidelines): string {
     $prompt = <<<'PROMPT'
-You are a web content quality assessor evaluating content against style guidelines.
 
-STYLE_GUIDE:
-<<<
+    You are an automated content compliance and UX quality assessor for the European Commission’s online presence within the .europa.eu domain.
+    *YOUR TASK*
+    Assess CONTENT against RULES_AND_GUIDELINES and return one single JSON object suitable for automated ingestion.
+     *INPUTS YOU WILL RECEIVE*
+    You will receive two inputs, wrapped exactly as follows:
+    ----------
+    RULES_AND_GUIDELINES:
+    
 {guidelines}
 <<<
 
@@ -168,36 +128,52 @@ CONTENT:
 {content}
 <<<
 
-YOUR TASK
-Evaluate the CONTENT against the STYLE_GUIDE and provide scores in two categories:
 
-1. **AI Score** (0-100): Overall compliance with AI/LLM optimization guidelines, including:
-   - Clarity and machine-readability
-   - Structured information
-   - SEO-for-LLMs best practices
-   - Discoverability and accessibility for AI systems
+Your assessment must follow these constraints:
 
-2. **Editorial Score** (0-100): Compliance with editorial and style guidelines, including:
-   - Writing style and tone
-   - Grammar and punctuation
-   - Formatting and structure
-   - Consistency with style guide rules
+Sentence-triggered issuesIdentify issues only where a specific sentence or consecutive sentences trigger non-compliance.
+Each issue must map directly to the sentence(s) that caused it.
+Chronological orderingIssues must appear in the same order as the triggering sentences occur in CONTENT, from beginning to end.
+Root-cause groupingIf multiple adjacent sentences reflect the same underlying issue, group them into one issue.
+Title-driven classificationDo not output categories or subcategories.
+Each issue must instead have a short, neutral, descriptive title that clearly signals the nature of the problem (e.g. “Promotional tone”, “Missing accessibility reference”, “Unclear call to action”).
 
-For each category, provide:
-- A numeric score from 0-100 (where 0 = non-compliant/severe failure, 50 = partially compliant, 100 = fully compliant)
-- A concise reasoning explaining the score, referencing specific guidelines and content elements
+*SCORING MODEL (MANDATORY)*
+For each identified issue, assign:
+
+score: integer from 0–1000 = non-compliant / severe failure
+50 = partially compliant / material improvement needed
+100 = fully compliant (do not create an issue for “no issue”)
+*ISSUE IDENTIFICATION RULES*
+
+Identify only real issues evidenced in CONTENT relative to STYLE_GUIDE.
+Do not invent missing information unless explicitly required for this page type.
+
+*OUTPUT REQUIREMENTS (STRICT)*
+You MUST always output a valid JSON object. It can be an empty object if you find no issues.
+For each individual issue you output in the following structure:
 
 OUTPUT REQUIREMENTS
 You MUST output a valid JSON object with the following structure:
 {
   "ai_score": 85,
+  "subject": "Low readability score",
   "ai_reasoning": "Content follows most AI optimization guidelines. The structure is clear and machine-readable, with descriptive headings. However, some key terms lack explicit definitions that would help LLM understanding.",
   "editorial_score": 90,
   "editorial_reasoning": "Editorial style is consistent and follows the style guide. Grammar and punctuation are correct. The content uses active voice appropriately. Minor improvement: some acronyms could be expanded on first use."
 }
 
-The scores must be integers between 0 and 100.
-The reasoning should be concise but specific, referencing the guidelines and pointing to specific content elements where applicable.
+
+The score is a range from 0-100. 0 means low severity, 100 is critical severity.
+*Important*: The description of the issue should be CONCISE, and REFERENCE to or QUOTE the element or text with the issue.
+The categories you can classify as are:
+- accessibility
+- editorial
+- discoverability
+- information_structure
+- accuracy
+- process
+
 PROMPT;
 
     return str_replace(
@@ -249,9 +225,34 @@ PROMPT;
         'field_description',
       ];
 
-      // Check if data contains an entity.
+      // Check if data contains an entity with fields structure (FlowDrop trigger format).
       if (isset($input['entity']) && is_array($input['entity'])) {
         $entity = $input['entity'];
+        
+        // First, check entity.fields structure (FlowDrop trigger format: entity.fields.field_name[0].value)
+        if (isset($entity['fields']) && is_array($entity['fields'])) {
+          foreach ($content_fields as $field) {
+            if (isset($entity['fields'][$field]) && is_array($entity['fields'][$field])) {
+              $field_value = $entity['fields'][$field];
+              if (isset($field_value[0]['value'])) {
+                return trim((string) $field_value[0]['value']);
+              }
+              elseif (isset($field_value['value'])) {
+                return trim((string) $field_value['value']);
+              }
+            }
+          }
+          
+          // Also check title field
+          if (isset($entity['fields']['title'][0]['value'])) {
+            $title = trim((string) $entity['fields']['title'][0]['value']);
+            if (!empty($title)) {
+              return $title;
+            }
+          }
+        }
+        
+        // Fallback: check entity directly (for other formats)
         foreach ($content_fields as $field) {
           if (isset($entity[$field])) {
             $field_value = $entity[$field];
@@ -272,6 +273,11 @@ PROMPT;
               return trim($field_value);
             }
           }
+        }
+        
+        // Also check title directly on entity
+        if (isset($entity['title']) && is_string($entity['title'])) {
+          return trim($entity['title']);
         }
       }
 
@@ -301,66 +307,18 @@ PROMPT;
   }
 
   /**
-   * Strips markdown code blocks from JSON response.
-   *
-   * @param string $text
-   *   The response text that may contain markdown code blocks.
-   *
-   * @return string
-   *   Cleaned JSON string.
-   */
-  protected function stripMarkdownCodeBlocks(string $text): string {
-    // Remove markdown code blocks (```json ... ``` or ``` ... ```)
-    // Handle both literal newlines and escaped \n sequences
-    $text = trim($text);
-    
-    // Remove opening code block markers (```json or ```) at start
-    // Handle both actual newlines and escaped \n
-    $text = preg_replace('/^```(?:json)?\s*(?:\\n|\n)?/i', '', $text);
-    
-    // Remove closing code block markers (```) at end
-    $text = preg_replace('/(?:\\n|\n)?```\s*$/i', '', $text);
-    
-    // Also remove any remaining code block markers anywhere in the string
-    $text = preg_replace('/```(?:json)?\s*/i', '', $text);
-    $text = preg_replace('/\s*```/i', '', $text);
-    
-    // If the string still contains escaped newlines, convert them to actual newlines
-    // This handles cases where the response has literal \n characters
-    $text = str_replace('\\n', "\n", $text);
-    
-    return trim($text);
-  }
-
-  /**
    * {@inheritdoc}
    */
   public function process(ParameterBagInterface $params): array {
     $content = '';
 
-    // Try unified input port first (most common for connected nodes).
-    $unifiedInput = $params->get('input', NULL);
-    if ($unifiedInput !== NULL) {
-      $content = $this->extractContentFromInput($unifiedInput);
+    // Priority 1: Try 'data' parameter (from trigger output) - primary use case.
+    $dataParam = $params->get('data', NULL);
+    if ($dataParam !== NULL) {
+      $content = $this->extractContentFromInput($dataParam);
     }
 
-    // Try 'response' parameter (from ChatModelNode output) - check this early.
-    if (empty($content)) {
-      $responseParam = $params->get('response', NULL);
-      if ($responseParam !== NULL) {
-        $content = $this->extractContentFromInput($responseParam);
-      }
-    }
-
-    // Try 'raw_response' parameter (from ChatModelNode output).
-    if (empty($content)) {
-      $rawResponseParam = $params->get('raw_response', NULL);
-      if ($rawResponseParam !== NULL) {
-        $content = $this->extractContentFromInput($rawResponseParam);
-      }
-    }
-
-    // Try direct 'content' parameter.
+    // Priority 2: Try direct 'content' parameter.
     if (empty($content)) {
       $contentParam = $params->get('content', NULL);
       if ($contentParam !== NULL) {
@@ -368,17 +326,31 @@ PROMPT;
       }
     }
 
-    // Try 'data' parameter (from trigger output).
+    // Priority 3: Try unified input port (for connected nodes).
     if (empty($content)) {
-      $dataParam = $params->get('data', NULL);
-      if ($dataParam !== NULL) {
-        $content = $this->extractContentFromInput($dataParam);
+      $unifiedInput = $params->get('input', NULL);
+      if ($unifiedInput !== NULL) {
+        $content = $this->extractContentFromInput($unifiedInput);
+      }
+    }
+
+    // Priority 4: Try 'response' parameter (from ChatModelNode output) - fallback only.
+    if (empty($content)) {
+      $responseParam = $params->get('response', NULL);
+      if ($responseParam !== NULL) {
+        $content = $this->extractContentFromInput($responseParam);
+      }
+    }
+
+    // Priority 5: Try 'raw_response' parameter (from ChatModelNode output) - fallback only.
+    if (empty($content)) {
+      $rawResponseParam = $params->get('raw_response', NULL);
+      if ($rawResponseParam !== NULL) {
+        $content = $this->extractContentFromInput($rawResponseParam);
       }
     }
 
     $agentPoolId = $params->getString('agent_pool_id', 'europa_web_guide_expert');
-    $model = $params->getString('model', '');
-    $temperature = $params->getFloat('temperature', 0.7);
 
     try {
       // Validate content is not empty.
@@ -388,7 +360,7 @@ PROMPT;
         \Drupal::logger('misstraal_ai_contexts')->error('Empty content received. Available params: @params', [
           '@params' => json_encode(array_keys($allParams)),
         ]);
-        throw new \RuntimeException('Content cannot be empty. Please connect the output from a previous node (e.g., ChatModel response) or provide content via the "content" parameter.');
+        throw new \RuntimeException('Content cannot be empty. Please connect the trigger\'s "data" output to this node\'s "data" input, or provide content via the "content" parameter.');
       }
 
       // Load agent pool contexts.
@@ -409,136 +381,15 @@ PROMPT;
       // Build prompt.
       $prompt = $this->buildPrompt($content, $guidelines);
 
-      // Get default provider for chat operations.
-      $defaults = $this->aiProviderPluginManager->getDefaultProviderForOperationType('chat');
-
-      if (empty($defaults['provider_id']) || empty($defaults['model_id'])) {
-        throw new \RuntimeException('No AI provider configured for chat operations');
-      }
-
-      // Use provided model or default.
-      $modelId = !empty($model) ? $model : $defaults['model_id'];
-      $providerId = $defaults['provider_id'];
-
-      // Create provider instance.
-      $provider = $this->aiProviderPluginManager->createInstance($providerId);
-
-      // Prepare chat messages.
-      $userMessage = new ChatMessage('user', $prompt);
-      $messages = new ChatInput([$userMessage]);
-
-      // Configure model settings with JSON response format.
-      $modelConfig = [
-        'response_format' => ['type' => 'json_object'],
-      ];
-      if ($temperature !== 0.7) {
-        $modelConfig['temperature'] = $temperature;
-      }
-
-      $provider->setConfiguration($modelConfig);
-
-      // Call the AI provider.
-      $response = $provider->chat($messages, $modelId);
-
-      // Get the normalized response.
-      $normalized = $response->getNormalized();
-      $text = $normalized->getText();
-
-      // Strip markdown code blocks if present.
-      $original_text = $text;
-      $text = $this->stripMarkdownCodeBlocks($text);
-
-      // Parse JSON response.
-      $parsed = json_decode($text, TRUE);
-      if (json_last_error() !== JSON_ERROR_NONE) {
-        // Log the original response before stripping for debugging
-        \Drupal::logger('misstraal_ai_contexts')->error('Failed to parse JSON response: @error. Original (first 1000 chars): @original. Cleaned (first 1000 chars): @cleaned', [
-          '@error' => json_last_error_msg(),
-          '@original' => substr($original_text, 0, 1000),
-          '@cleaned' => substr($text, 0, 1000),
-        ]);
-        throw new \RuntimeException('Failed to parse JSON response from AI model: ' . json_last_error_msg());
-      }
-
-      // Handle different response formats.
-      // The AI might return an "issues" array format instead of direct scores.
-      // If so, we need to calculate scores from the issues.
-      if (isset($parsed['issues']) && is_array($parsed['issues'])) {
-        // Calculate scores from issues array.
-        $ai_issues = [];
-        $editorial_issues = [];
-        
-        foreach ($parsed['issues'] as $issue) {
-          $categorization = $issue['categorization'] ?? '';
-          $score = isset($issue['score']) ? (int) $issue['score'] : 0;
-          $description = $issue['description'] ?? '';
-          
-          // Categorize issues into AI vs Editorial based on categorization field
-          if (in_array($categorization, ['information_structure', 'discoverability', 'accessibility'])) {
-            $ai_issues[] = $issue;
-          }
-          else {
-            $editorial_issues[] = $issue;
-          }
-        }
-        
-        // Calculate average scores (invert: lower issue scores = better content)
-        // Issue scores are severity (0-100), so we invert: 100 - average
-        $ai_avg = !empty($ai_issues) 
-          ? (int) (100 - array_sum(array_column($ai_issues, 'score')) / count($ai_issues))
-          : 100;
-        $editorial_avg = !empty($editorial_issues)
-          ? (int) (100 - array_sum(array_column($editorial_issues, 'score')) / count($editorial_issues))
-          : 100;
-        
-        // Build reasoning from issues
-        $ai_reasoning_parts = [];
-        foreach ($ai_issues as $issue) {
-          $ai_reasoning_parts[] = ($issue['subject'] ?? 'Issue') . ': ' . ($issue['description'] ?? '');
-        }
-        $ai_reasoning = !empty($ai_reasoning_parts) 
-          ? implode(' ', $ai_reasoning_parts)
-          : 'No AI-related issues found.';
-        
-        $editorial_reasoning_parts = [];
-        foreach ($editorial_issues as $issue) {
-          $editorial_reasoning_parts[] = ($issue['subject'] ?? 'Issue') . ': ' . ($issue['description'] ?? '');
-        }
-        $editorial_reasoning = !empty($editorial_reasoning_parts)
-          ? implode(' ', $editorial_reasoning_parts)
-          : 'No editorial issues found.';
-        
-        $ai_score = max(0, min(100, $ai_avg));
-        $editorial_score = (string) max(0, min(100, $editorial_avg));
-      }
-      else {
-        // Standard format with direct scores.
-        $ai_score = isset($parsed['ai_score']) ? (int) $parsed['ai_score'] : 0;
-        $ai_reasoning = isset($parsed['ai_reasoning']) ? (string) $parsed['ai_reasoning'] : '';
-        $editorial_score = isset($parsed['editorial_score']) ? (string) $parsed['editorial_score'] : '0';
-        $editorial_reasoning = isset($parsed['editorial_reasoning']) ? (string) $parsed['editorial_reasoning'] : '';
-      }
-
-      // Validate score ranges.
-      $ai_score = max(0, min(100, $ai_score));
-      $editorial_score_int = (int) $editorial_score;
-      $editorial_score_int = max(0, min(100, $editorial_score_int));
-      $editorial_score = (string) $editorial_score_int;
-
       return [
-        'ai_score' => $ai_score,
-        'ai_reasoning' => $ai_reasoning,
-        'editorial_score' => $editorial_score,
-        'editorial_reasoning' => $editorial_reasoning,
-        'raw_response' => $text,
-        'model' => $modelId,
+        'prompt' => $prompt,
       ];
     }
     catch (\Exception $e) {
-      \Drupal::logger('misstraal_ai_contexts')->error('Guideline scoring error: @error', [
+      \Drupal::logger('misstraal_ai_contexts')->error('Guideline prompt builder error: @error', [
         '@error' => $e->getMessage(),
       ]);
-      throw new \RuntimeException('Failed to score content: ' . $e->getMessage(), 0, $e);
+      throw new \RuntimeException('Failed to build prompt: ' . $e->getMessage(), 0, $e);
     }
   }
 
@@ -550,9 +401,15 @@ PROMPT;
       'type' => 'object',
       'properties' => [
         'content' => [
-          'type' => 'string',
+          'type' => 'mixed',
           'title' => 'Content',
-          'description' => 'The content to be scored against guidelines',
+          'description' => 'The content to be scored (can be string or entity data array)',
+          'required' => FALSE,
+        ],
+        'data' => [
+          'type' => 'mixed',
+          'title' => 'Data',
+          'description' => 'Data from trigger or other nodes',
           'required' => FALSE,
         ],
         'input' => [
@@ -573,31 +430,11 @@ PROMPT;
           'description' => 'Raw response from a previous node (e.g., ChatModel raw_response output)',
           'required' => FALSE,
         ],
-        'data' => [
-          'type' => 'mixed',
-          'title' => 'Data',
-          'description' => 'Data from trigger or other nodes',
-          'required' => FALSE,
-        ],
         'agent_pool_id' => [
           'type' => 'string',
           'title' => 'Agent Pool ID',
           'description' => 'The agent pool ID to use for loading contexts (defaults to europa_web_guide_expert)',
           'default' => 'europa_web_guide_expert',
-        ],
-        'model' => [
-          'type' => 'string',
-          'title' => 'Model',
-          'description' => 'Optional model identifier (uses default if not specified)',
-          'default' => '',
-        ],
-        'temperature' => [
-          'type' => 'number',
-          'title' => 'Temperature',
-          'description' => 'Sampling temperature (0.0 to 2.0)',
-          'default' => 0.7,
-          'minimum' => 0,
-          'maximum' => 2,
         ],
       ],
       'required' => [],
@@ -611,35 +448,10 @@ PROMPT;
     return [
       'type' => 'object',
       'properties' => [
-        'ai_score' => [
-          'type' => 'integer',
-          'title' => 'AI Score',
-          'description' => 'Score for AI/LLM optimization category (0-100)',
-        ],
-        'ai_reasoning' => [
+        'prompt' => [
           'type' => 'string',
-          'title' => 'AI Reasoning',
-          'description' => 'Reasoning for the AI score',
-        ],
-        'editorial_score' => [
-          'type' => 'string',
-          'title' => 'Editorial Score',
-          'description' => 'Score for editorial/style category (0-100)',
-        ],
-        'editorial_reasoning' => [
-          'type' => 'string',
-          'title' => 'Editorial Reasoning',
-          'description' => 'Reasoning for the editorial score',
-        ],
-        'raw_response' => [
-          'type' => 'string',
-          'title' => 'Raw Response',
-          'description' => 'The raw JSON response from the AI model',
-        ],
-        'model' => [
-          'type' => 'string',
-          'title' => 'Model',
-          'description' => 'The model identifier that was used',
+          'title' => 'Prompt',
+          'description' => 'The built prompt with guidelines and content for scoring evaluation',
         ],
       ],
     ];
