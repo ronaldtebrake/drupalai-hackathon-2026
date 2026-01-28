@@ -47,14 +47,14 @@ class GuidelineScoreParserNode extends AbstractFlowDropNodeProcessor {
     if (!mb_check_encoding($text, 'UTF-8')) {
       $text = mb_convert_encoding($text, 'UTF-8', 'UTF-8');
     }
-    
+
     // Remove null bytes and other problematic control characters
     // But preserve valid JSON escaped sequences like \n, \t, \r
     // Note: We're being conservative here - only removing truly problematic chars
     // Actual newlines/tabs in JSON strings should be escaped, but we'll let
     // json_decode with JSON_INVALID_UTF8 flags handle encoding issues
     $text = preg_replace('/[\x00]/', '', $text); // Remove null bytes
-    
+
     return $text;
   }
 
@@ -70,7 +70,7 @@ class GuidelineScoreParserNode extends AbstractFlowDropNodeProcessor {
   protected function stripMarkdownCodeBlocks(string $text): string {
     // Remove markdown code blocks (```json ... ``` or ``` ... ```)
     $text = trim($text);
-    
+
     // Strategy 1: Extract content between code block markers using greedy match
     // The 's' flag makes . match newlines, and we use greedy .* to capture everything
     // until the last closing marker
@@ -91,7 +91,7 @@ class GuidelineScoreParserNode extends AbstractFlowDropNodeProcessor {
       }
       $text = trim($text);
     }
-    
+
     // Strategy 4: More aggressive removal if markers still present
     if (strpos($text, '```') !== FALSE) {
       // Remove all code block markers
@@ -99,14 +99,14 @@ class GuidelineScoreParserNode extends AbstractFlowDropNodeProcessor {
       $text = preg_replace('/\s*```/i', '', $text);
       $text = trim($text);
     }
-    
+
     // IMPORTANT: Do NOT convert \n to actual newlines here!
     // Escaped newlines (\n) inside JSON strings are VALID and must be preserved.
     // Only convert them if they're outside of JSON string context (which is complex).
-    
+
     // Normalize control characters but preserve valid JSON escaped sequences
     $text = $this->normalizeJsonString($text);
-    
+
     return trim($text);
   }
 
@@ -126,24 +126,24 @@ class GuidelineScoreParserNode extends AbstractFlowDropNodeProcessor {
     $text = preg_replace('/"editorial_score"\s*:\s*,/', '"editorial_score": 0', $text);
     $text = preg_replace('/"ai_score"\s*:\s*,/', '"ai_score": 0', $text);
     $text = preg_replace('/"score"\s*:\s*,/', '"score": 0', $text);
-    
+
     // Fix: "key": ,} or "key": ,] (missing value before closing)
     $text = preg_replace('/"editorial_score"\s*:\s*,(\s*[}\]])/', '"editorial_score": 0$1', $text);
     $text = preg_replace('/"ai_score"\s*:\s*,(\s*[}\]])/', '"ai_score": 0$1', $text);
     $text = preg_replace('/"score"\s*:\s*,(\s*[}\]])/', '"score": 0$1', $text);
-    
+
     // Generic fix for any key with missing value (use empty string as fallback)
     // But avoid replacing keys that already have values
     $text = preg_replace('/"([^"]+)"\s*:\s*,(\s*[}\]])/', '"$1": ""$2', $text);
     $text = preg_replace('/"([^"]+)"\s*:\s*,(\s*,)/', '"$1": ""$2', $text);
-    
+
     // Fix: trailing commas before closing braces/brackets
     $text = preg_replace('/,\s*}/', '}', $text);
     $text = preg_replace('/,\s*]/', ']', $text);
-    
+
     // Fix: multiple commas
     $text = preg_replace('/,\s*,/', ',', $text);
-    
+
     return $text;
   }
 
@@ -158,7 +158,7 @@ class GuidelineScoreParserNode extends AbstractFlowDropNodeProcessor {
    */
   protected function extractJsonFromText(string $text): ?string {
     $text = trim($text);
-    
+
     // Strategy 1: Try to find JSON object boundaries
     // Look for { ... } pattern
     if (preg_match('/\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}/s', $text, $matches)) {
@@ -170,7 +170,7 @@ class GuidelineScoreParserNode extends AbstractFlowDropNodeProcessor {
         return $candidate;
       }
     }
-    
+
     // Strategy 2: Try to find JSON starting from first {
     $firstBrace = strpos($text, '{');
     if ($firstBrace !== FALSE) {
@@ -188,7 +188,7 @@ class GuidelineScoreParserNode extends AbstractFlowDropNodeProcessor {
           }
         }
       }
-      
+
       if ($braceCount === 0) {
         $candidate = substr($text, $firstBrace, $endPos - $firstBrace + 1);
         $candidate = $this->normalizeJsonString($candidate);
@@ -198,14 +198,14 @@ class GuidelineScoreParserNode extends AbstractFlowDropNodeProcessor {
         }
       }
     }
-    
+
     // Strategy 3: Try the whole text after cleaning and normalizing
     $normalized = $this->normalizeJsonString($text);
     json_decode($normalized, TRUE, 512, JSON_INVALID_UTF8_IGNORE | JSON_INVALID_UTF8_SUBSTITUTE);
     if (json_last_error() === JSON_ERROR_NONE) {
       return $normalized;
     }
-    
+
     return NULL;
   }
 
@@ -373,10 +373,10 @@ class GuidelineScoreParserNode extends AbstractFlowDropNodeProcessor {
       if (json_last_error() !== JSON_ERROR_NONE) {
         // Try one more time with more aggressive cleaning using the improved method
         $responseText = $this->stripMarkdownCodeBlocks($original_text);
-        
+
         // Try parsing again with error handling flags
         $parsed = json_decode($responseText, TRUE, 512, JSON_INVALID_UTF8_IGNORE | JSON_INVALID_UTF8_SUBSTITUTE);
-        
+
         if (json_last_error() !== JSON_ERROR_NONE) {
           // Try to extract JSON from the text
           $extractedJson = $this->extractJsonFromText($responseText);
@@ -395,7 +395,7 @@ class GuidelineScoreParserNode extends AbstractFlowDropNodeProcessor {
             }
           }
         }
-        
+
         // If still failing, try to repair common JSON syntax errors on the full text
         if (json_last_error() !== JSON_ERROR_NONE) {
           $repairedJson = $this->attemptJsonRepair($responseText);
@@ -405,7 +405,7 @@ class GuidelineScoreParserNode extends AbstractFlowDropNodeProcessor {
             \Drupal::logger('misstraal_ai_contexts')->warning('Successfully repaired JSON syntax errors in response');
           }
         }
-        
+
         // If still failing, log detailed error and throw exception
         if (json_last_error() !== JSON_ERROR_NONE) {
           $errorDetails = [
@@ -415,23 +415,64 @@ class GuidelineScoreParserNode extends AbstractFlowDropNodeProcessor {
             '@cleaned_length' => strlen($responseText),
             '@cleaned_preview' => substr($responseText, 0, 500),
           ];
-          
+
           // Log full response if it's not too long
           if (strlen($original_text) < 5000) {
             $errorDetails['@full_response'] = $original_text;
           }
-          
+
           \Drupal::logger('misstraal_ai_contexts')->error('Failed to parse JSON response: @error. Original preview: @original_preview. Cleaned preview: @cleaned_preview', $errorDetails);
-          
+
           throw new \RuntimeException('Failed to parse JSON response: ' . json_last_error_msg() . '. Response preview: ' . substr($responseText, 0, 200));
         }
       }
 
       // Extract scores and reasoning.
-      $ai_score = isset($parsed['ai_score']) ? (int) $parsed['ai_score'] : 0;
-      $ai_reasoning = isset($parsed['ai_reasoning']) ? (string) $parsed['ai_reasoning'] : '';
-      $editorial_score = isset($parsed['editorial_score']) ? (string) $parsed['editorial_score'] : '0';
-      $editorial_reasoning = isset($parsed['editorial_reasoning']) ? (string) $parsed['editorial_reasoning'] : '';
+      // Handle both flat structure and issues array structure.
+      if (isset($parsed['issues']) && is_array($parsed['issues']) && !empty($parsed['issues'])) {
+        // Calculate average scores from issues array.
+        $ai_scores = [];
+        $editorial_scores = [];
+        $ai_reasonings = [];
+        $editorial_reasonings = [];
+
+        foreach ($parsed['issues'] as $issue) {
+          // AI score can be in 'score' or 'ai_score'.
+          if (isset($issue['score'])) {
+            $ai_scores[] = (int) $issue['score'];
+          }
+          elseif (isset($issue['ai_score'])) {
+            $ai_scores[] = (int) $issue['ai_score'];
+          }
+          if (isset($issue['editorial_score'])) {
+            $editorial_scores[] = (int) $issue['editorial_score'];
+          }
+          if (isset($issue['ai_reasoning']) && isset($issue['subject'])) {
+            $ai_reasonings[] = $issue['subject'] . ': ' . $issue['ai_reasoning'];
+          }
+          elseif (isset($issue['ai_reasoning'])) {
+            $ai_reasonings[] = $issue['ai_reasoning'];
+          }
+          if (isset($issue['editorial_reasoning']) && isset($issue['subject'])) {
+            $editorial_reasonings[] = $issue['subject'] . ': ' . $issue['editorial_reasoning'];
+          }
+          elseif (isset($issue['editorial_reasoning'])) {
+            $editorial_reasonings[] = $issue['editorial_reasoning'];
+          }
+        }
+
+        $ai_score = !empty($ai_scores) ? (int) round(array_sum($ai_scores) / count($ai_scores)) : 0;
+        $editorial_score = !empty($editorial_scores) ? (string) round(array_sum($editorial_scores) / count($editorial_scores)) : '0';
+        $ai_reasoning = implode("\n\n", $ai_reasonings);
+        $editorial_reasoning = implode("\n\n", $editorial_reasonings);
+      }
+      else {
+        // Flat structure (original behavior).
+        $ai_score = isset($parsed['ai_score']) ? (int) $parsed['ai_score'] : 0;
+        $ai_reasoning = isset($parsed['ai_reasoning']) ? (string) $parsed['ai_reasoning'] : '';
+        $editorial_score = isset($parsed['editorial_score']) ? (string) $parsed['editorial_score'] : '0';
+        $editorial_reasoning = isset($parsed['editorial_reasoning']) ? (string) $parsed['editorial_reasoning'] : '';
+      }
 
       // Validate score ranges.
       $ai_score = max(0, min(100, $ai_score));
@@ -450,7 +491,7 @@ class GuidelineScoreParserNode extends AbstractFlowDropNodeProcessor {
           try {
             $entityTypeManager = \Drupal::entityTypeManager();
             $storage = $entityTypeManager->getStorage($entityContext['entity_type']);
-            
+
             // Add small random delay (jitter) on first attempt to spread out
             // concurrent operations and reduce lock contention when multiple processes
             // try to save the same entity simultaneously.
@@ -459,7 +500,7 @@ class GuidelineScoreParserNode extends AbstractFlowDropNodeProcessor {
               $jitter = mt_rand(0, 50000);
               usleep($jitter);
             }
-            
+
             // On retry, clear cache and add delay to allow locks to clear.
             if ($attempt > 1) {
               $storage->resetCache([$entityContext['entity_id']]);
