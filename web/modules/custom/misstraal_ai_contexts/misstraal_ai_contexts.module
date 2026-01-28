@@ -1,0 +1,132 @@
+<?php
+
+/**
+ * @file
+ * Module hooks for misstraal_ai_contexts.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\Form\NodeForm;
+use Drupal\node\NodeInterface;
+
+
+/**
+ * Implements hook_form_alter().
+ */
+function misstraal_ai_contexts_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  $form_object = $form_state->getFormObject();
+  if (!($form_object instanceof NodeForm)) {
+    return;
+  }
+
+  $node = $form_object->getEntity();
+  if (!($node instanceof NodeInterface) || $node->bundle() !== 'article') {
+    return;
+  }
+
+  // Hide fields from the form UI.
+  $fields_to_hide = [
+    'field_ai_reasoning',
+    'field_ai_score',
+    'field_editorial_source',
+    'field_editorial_score',
+    'field_editorial_subject',
+    'field_editorial_description',
+  ];
+
+  foreach ($fields_to_hide as $field_name) {
+    if (isset($form[$field_name])) {
+      $form[$field_name]['#access'] = FALSE;
+    }
+  }
+
+  // Inject a stylable panel onto the form so editors can still
+  // see the values without editing the raw fields.
+  try {
+    $form['#attached']['library'][] = 'misstraal_ai_contexts/admin_form_panel';
+
+    $items = misstraal_ai_contexts_build_article_meta_items($node);
+
+    $form['misstraal_ai_meta_panel'] = [
+      '#type' => 'container',
+      '#weight' => -50,
+      '#attributes' => [
+        'class' => ['misstraal-ai-contexts-form-panel'],
+      ],
+      'panel' => [
+        '#theme' => 'misstraal_article_ai_editorial_meta_panel',
+        '#title' => t('AI & editorial metadata'),
+        '#items' => $items,
+      ],
+    ];
+  }
+  catch (\Throwable $e) {
+    // Never block content editing because a helper panel failed.
+    \Drupal::logger('misstraal_ai_contexts')->warning('Failed to add the Article AI/Editorial panel to the form: @message', [
+      '@message' => $e->getMessage(),
+    ]);
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function misstraal_ai_contexts_theme($existing, $type, $theme, $path): array {
+  return [
+    'misstraal_article_ai_editorial_meta_panel' => [
+      'variables' => [
+        'title' => NULL,
+        'items' => [],
+      ],
+      'template' => 'misstraal-article-ai-editorial-meta-panel',
+    ],
+  ];
+}
+
+/**
+ * Build items for the Article AI/editorial meta panel.
+ */
+function misstraal_ai_contexts_build_article_meta_items(NodeInterface $node): array {
+  $items = [];
+
+  $map = [
+    'field_ai_score' => t('AI score'),
+    'field_ai_reasoning' => t('AI reasoning'),
+    'field_editorial_score' => t('Editorial score'),
+    'field_editorial_source' => t('Editorial source'),
+    'field_editorial_subject' => t('Editorial subject'),
+    'field_editorial_description' => t('Editorial description'),
+  ];
+
+  foreach ($map as $field_name => $label) {
+    if (!$node->hasField($field_name) || $node->get($field_name)->isEmpty()) {
+      continue;
+    }
+
+    $field = $node->get($field_name);
+    $first = $field->first();
+    $value = NULL;
+
+    if (isset($first->processed)) {
+      $value = $first->processed;
+    }
+    elseif (isset($first->value)) {
+      $value = $first->value;
+    }
+
+    if (is_array($value)) {
+      $value = implode("\n", $value);
+    }
+
+    $items[] = [
+      'label' => (string) $label,
+      'value' => $value,
+    ];
+  }
+
+  return $items;
+}
+
+

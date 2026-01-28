@@ -1,0 +1,5 @@
+admin_form_panel:
+  css:
+    theme:
+      css/misstraal_ai_contexts.admin_form_panel.css: {}
+
