@@ -25,6 +25,7 @@
         "drupal/ai_vdb_provider_pinecone": "^1.1@beta",
         "drupal/byte": "^1@beta",
         "drupal/byte_theme": "@beta",
+        "drupal/charts": "^5.1",
         "drupal/charts_chartjs": "^5.1",
         "drupal/config_ignore": "^3.3",
         "drupal/core": "^11.3",
