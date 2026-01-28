@@ -164,43 +164,52 @@ You MUST output a valid JSON object with the following structure:
 }
 
 *REASONING FORMAT REQUIREMENTS (MANDATORY)*
-The "ai_reasoning" and "editorial_reasoning" fields MUST use Markdown formatting to provide clear visual indicators:
+The "ai_reasoning" and "editorial_reasoning" fields MUST use Markdown formatting with HTML color indicators to provide clear visual cues:
 
 1. **Use bold text** (`**text**`) to highlight:
    - Key issues or problems identified
    - Specific violations of guidelines
    - Critical areas needing attention
 
-2. **Use bullet points** (`-` or `*`) when listing:
+2. **Use HTML spans with color classes or inline styles** for visual emphasis (HTML is allowed in markdown):
+   - **Preferred:** Use `<span class="ai-reasoning-critical">text</span>` for **critical issues** (red)
+   - **Alternative:** Use `<span style="color: #d32f2f;">text</span>` if classes don't work
+   - Use `<span class="ai-reasoning-warning">text</span>` or `<span style="color: #f57c00;">text</span>` for **warnings** (orange)
+   - Use `<span class="ai-reasoning-recommendation">text</span>` or `<span style="color: #1976d2;">text</span>` for **recommendations** (blue)
+   - Use `<span class="ai-reasoning-positive">text</span>` or `<span style="color: #388e3c;">text</span>` for **positive observations** (green)
+   - Use `<span class="ai-reasoning-note">text</span>` or `<span style="color: #7b1fa2;">text</span>` for **important notes** (purple)
+
+3. **Use bullet points** (`-` or `*`) when listing:
    - Multiple issues or observations
    - Specific examples or instances
    - Recommended improvements
 
-3. **Use italics** (`*text*`) for:
+4. **Use italics** (`*text*`) for:
    - Emphasis on important points
    - References to specific guidelines or rules
 
-4. **Use inline code** (`` `text` ``) for:
+5. **Use inline code** (`` `text` ``) for:
    - Quoted text from the content being assessed
    - Specific terms, phrases, or technical elements
    - References to specific sections or elements
 
-5. **Structure your reasoning** with clear sections when multiple points are made:
-   - Use `**Issue:**` or `**Problem:**` to introduce main issues
-   - Use `**Recommendation:**` or `**Suggestion:**` for improvement suggestions
-   - Use `**Example:**` when providing specific examples
+6. **Structure your reasoning** with clear sections when multiple points are made:
+   - Use `<span class="ai-reasoning-critical">**Issue:**</span>` or `<span class="ai-reasoning-critical">**Problem:**</span>` to introduce critical issues (red)
+   - Use `<span class="ai-reasoning-recommendation">**Recommendation:**</span>` or `<span class="ai-reasoning-recommendation">**Suggestion:**</span>` for improvement suggestions (blue)
+   - Use `<span class="ai-reasoning-positive">**Example:**</span>` when providing positive examples (green)
+   - Use `<span class="ai-reasoning-warning">**Warning:**</span>` for warnings (orange)
 
-Example of well-formatted reasoning:
+Example of well-formatted reasoning with color indicators:
 ```
-**Issue:** Missing accessibility reference in the introduction paragraph.
+<span class="ai-reasoning-critical">**Issue:**</span> Missing accessibility reference in the introduction paragraph.
 
 The opening sentence states: `"This new policy will benefit everyone"` but fails to mention accessibility considerations. 
 
-**Recommendation:** Add explicit reference to accessibility, such as: `"This new policy will benefit everyone, including users with disabilities, by ensuring accessible digital services."`
+<span class="ai-reasoning-recommendation">**Recommendation:**</span> Add explicit reference to accessibility, such as: `"This new policy will benefit everyone, including users with disabilities, by ensuring accessible digital services."`
 
-**Specific violations:**
-- Missing accessibility mention in key messaging
-- No reference to WCAG compliance
+<span class="ai-reasoning-critical">**Specific violations:**</span>
+- <span class="ai-reasoning-critical">Missing accessibility mention</span> in key messaging
+- <span class="ai-reasoning-critical">No reference to WCAG compliance</span>
 ```
 
 The score is a range from 0-100. 0 means low severity, 100 is critical severity.

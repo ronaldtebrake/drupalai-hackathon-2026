@@ -173,8 +173,9 @@ function misstraal_ai_contexts_build_article_meta_items(NodeInterface $node): ar
  */
 function misstraal_ai_contexts_convert_markdown_to_html(string $markdown): string {
   try {
+    // Allow HTML for color spans and other formatting, but escape unsafe HTML.
     $converter = new CommonMarkConverter([
-      'html_input' => 'strip',
+      'html_input' => 'allow', // Allow HTML tags like <span> for color indicators
       'allow_unsafe_links' => FALSE,
     ]);
     return $converter->convert($markdown)->getContent();

@@ -49,6 +49,98 @@
 .misstraal-ai-panel__value {
   margin: 0;
   font-size: 13px;
+  line-height: 1.6;
+}
+
+.misstraal-ai-panel__value p {
+  margin: 0.5em 0;
+}
+
+.misstraal-ai-panel__value p:first-child {
+  margin-top: 0;
+}
+
+.misstraal-ai-panel__value p:last-child {
+  margin-bottom: 0;
+}
+
+.misstraal-ai-panel__value ul,
+.misstraal-ai-panel__value ol {
+  margin: 0.5em 0;
+  padding-left: 1.5em;
+}
+
+.misstraal-ai-panel__value li {
+  margin: 0.25em 0;
+}
+
+.misstraal-ai-panel__value code {
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+.misstraal-ai-panel__value strong {
+  font-weight: 600;
+}
+
+/* Color indicators for reasoning fields - CSS classes (preferred) */
+.misstraal-ai-panel__value .ai-reasoning-critical {
+  color: #d32f2f;
+  font-weight: 600;
+}
+
+.misstraal-ai-panel__value .ai-reasoning-warning {
+  color: #f57c00;
+  font-weight: 600;
+}
+
+.misstraal-ai-panel__value .ai-reasoning-recommendation {
+  color: #1976d2;
+  font-weight: 600;
+}
+
+.misstraal-ai-panel__value .ai-reasoning-positive {
+  color: #388e3c;
+  font-weight: 600;
+}
+
+.misstraal-ai-panel__value .ai-reasoning-note {
+  color: #7b1fa2;
+  font-weight: 600;
+}
+
+/* Fallback support for inline styles (if AI uses them) */
+.misstraal-ai-panel__value span[style*="color: #d32f2f"],
+.misstraal-ai-panel__value span[style*="color:#d32f2f"] {
+  color: #d32f2f !important;
+  font-weight: 600;
+}
+
+.misstraal-ai-panel__value span[style*="color: #f57c00"],
+.misstraal-ai-panel__value span[style*="color:#f57c00"] {
+  color: #f57c00 !important;
+  font-weight: 600;
+}
+
+.misstraal-ai-panel__value span[style*="color: #1976d2"],
+.misstraal-ai-panel__value span[style*="color:#1976d2"] {
+  color: #1976d2 !important;
+  font-weight: 600;
+}
+
+.misstraal-ai-panel__value span[style*="color: #388e3c"],
+.misstraal-ai-panel__value span[style*="color:#388e3c"] {
+  color: #388e3c !important;
+  font-weight: 600;
+}
+
+.misstraal-ai-panel__value span[style*="color: #7b1fa2"],
+.misstraal-ai-panel__value span[style*="color:#7b1fa2"] {
+  color: #7b1fa2 !important;
+  font-weight: 600;
 }
 
 .misstraal-ai-panel__placeholder {

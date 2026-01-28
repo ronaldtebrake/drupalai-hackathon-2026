@@ -34,7 +34,7 @@ class GuidelineScoreParserNode extends AbstractFlowDropNodeProcessor {
   }
 
   /**
-   * Normalizes JSON string by ensuring UTF-8 encoding and removing problematic characters.
+   * Normalizes JSON string by ensuring UTF-8 encoding and handling newlines.
    *
    * @param string $text
    *   The JSON text that may contain control characters or encoding issues.
@@ -50,12 +50,83 @@ class GuidelineScoreParserNode extends AbstractFlowDropNodeProcessor {
 
     // Remove null bytes and other problematic control characters
     // But preserve valid JSON escaped sequences like \n, \t, \r
-    // Note: We're being conservative here - only removing truly problematic chars
-    // Actual newlines/tabs in JSON strings should be escaped, but we'll let
-    // json_decode with JSON_INVALID_UTF8 flags handle encoding issues
     $text = preg_replace('/[\x00]/', '', $text); // Remove null bytes
 
     return $text;
+  }
+
+  /**
+   * Fixes unescaped newlines and control characters in JSON string values.
+   *
+   * @param string $text
+   *   The JSON text that may contain unescaped newlines in string values.
+   *
+   * @return string
+   *   JSON string with properly escaped newlines.
+   */
+  protected function fixJsonStringNewlines(string $text): string {
+    // This is a complex problem: we need to find string values and escape newlines
+    // but not break the JSON structure. We'll use a state machine approach.
+    $result = '';
+    $length = strlen($text);
+    $inString = FALSE;
+    $escapeNext = FALSE;
+    $stringStart = 0;
+
+    for ($i = 0; $i < $length; $i++) {
+      $char = $text[$i];
+      $prevChar = $i > 0 ? $text[$i - 1] : '';
+
+      if ($escapeNext) {
+        $result .= $char;
+        $escapeNext = FALSE;
+        continue;
+      }
+
+      if ($char === '\\') {
+        $result .= $char;
+        $escapeNext = TRUE;
+        continue;
+      }
+
+      if ($char === '"' && $prevChar !== '\\') {
+        $inString = !$inString;
+        $result .= $char;
+        continue;
+      }
+
+      if ($inString) {
+        // Inside a string value, escape control characters
+        if ($char === "\n") {
+          $result .= '\\n';
+        }
+        elseif ($char === "\r") {
+          // Check if next char is \n (CRLF)
+          if ($i + 1 < $length && $text[$i + 1] === "\n") {
+            $result .= '\\n';
+            $i++; // Skip the \n
+          }
+          else {
+            $result .= '\\r';
+          }
+        }
+        elseif ($char === "\t") {
+          $result .= '\\t';
+        }
+        elseif (ord($char) < 32 && $char !== "\n" && $char !== "\r" && $char !== "\t") {
+          // Other control characters - remove them
+          continue;
+        }
+        else {
+          $result .= $char;
+        }
+      }
+      else {
+        $result .= $char;
+      }
+    }
+
+    return $result;
   }
 
   /**
@@ -368,29 +439,43 @@ class GuidelineScoreParserNode extends AbstractFlowDropNodeProcessor {
       $original_text = $responseText;
       $responseText = $this->stripMarkdownCodeBlocks($responseText);
 
-      // Parse JSON response with flags to handle invalid UTF-8 and control characters.
+      // Fix unescaped newlines in JSON string values before parsing.
+      $responseText = $this->fixJsonStringNewlines($responseText);
+
+      // Try parsing JSON with flags to handle invalid UTF-8 and control characters.
       $parsed = json_decode($responseText, TRUE, 512, JSON_INVALID_UTF8_IGNORE | JSON_INVALID_UTF8_SUBSTITUTE);
       if (json_last_error() !== JSON_ERROR_NONE) {
-        // Try one more time with more aggressive cleaning using the improved method
-        $responseText = $this->stripMarkdownCodeBlocks($original_text);
-
-        // Try parsing again with error handling flags
+        // If parsing failed, try fixing double-escaped quotes and other issues
+        // Sometimes the AI returns JSON with double-escaped quotes (\\\" instead of \")
+        $responseText = preg_replace('/\\\\\\\"/', '\\"', $responseText);
+        $responseText = $this->fixJsonStringNewlines($responseText);
         $parsed = json_decode($responseText, TRUE, 512, JSON_INVALID_UTF8_IGNORE | JSON_INVALID_UTF8_SUBSTITUTE);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-          // Try to extract JSON from the text
-          $extractedJson = $this->extractJsonFromText($responseText);
-          if ($extractedJson !== NULL) {
-            $parsed = json_decode($extractedJson, TRUE, 512, JSON_INVALID_UTF8_IGNORE | JSON_INVALID_UTF8_SUBSTITUTE);
-            if (json_last_error() === JSON_ERROR_NONE) {
-              $responseText = $extractedJson;
-            } else {
-              // Try to repair the extracted JSON
-              $repairedJson = $this->attemptJsonRepair($extractedJson);
-              $parsed = json_decode($repairedJson, TRUE, 512, JSON_INVALID_UTF8_IGNORE | JSON_INVALID_UTF8_SUBSTITUTE);
+          // Try one more time with more aggressive cleaning using the improved method
+          $responseText = $this->stripMarkdownCodeBlocks($original_text);
+          $responseText = $this->fixJsonStringNewlines($responseText);
+
+          // Try parsing again with error handling flags
+          $parsed = json_decode($responseText, TRUE, 512, JSON_INVALID_UTF8_IGNORE | JSON_INVALID_UTF8_SUBSTITUTE);
+
+          if (json_last_error() !== JSON_ERROR_NONE) {
+            // Try to extract JSON from the text
+            $extractedJson = $this->extractJsonFromText($responseText);
+            if ($extractedJson !== NULL) {
+              $extractedJson = $this->fixJsonStringNewlines($extractedJson);
+              $parsed = json_decode($extractedJson, TRUE, 512, JSON_INVALID_UTF8_IGNORE | JSON_INVALID_UTF8_SUBSTITUTE);
               if (json_last_error() === JSON_ERROR_NONE) {
-                $responseText = $repairedJson;
-                \Drupal::logger('misstraal_ai_contexts')->warning('Successfully repaired JSON syntax errors in extracted JSON');
+                $responseText = $extractedJson;
+              } else {
+                // Try to repair the extracted JSON
+                $repairedJson = $this->attemptJsonRepair($extractedJson);
+                $repairedJson = $this->fixJsonStringNewlines($repairedJson);
+                $parsed = json_decode($repairedJson, TRUE, 512, JSON_INVALID_UTF8_IGNORE | JSON_INVALID_UTF8_SUBSTITUTE);
+                if (json_last_error() === JSON_ERROR_NONE) {
+                  $responseText = $repairedJson;
+                  \Drupal::logger('misstraal_ai_contexts')->warning('Successfully repaired JSON syntax errors in extracted JSON');
+                }
               }
             }
           }
@@ -399,6 +484,7 @@ class GuidelineScoreParserNode extends AbstractFlowDropNodeProcessor {
         // If still failing, try to repair common JSON syntax errors on the full text
         if (json_last_error() !== JSON_ERROR_NONE) {
           $repairedJson = $this->attemptJsonRepair($responseText);
+          $repairedJson = $this->fixJsonStringNewlines($repairedJson);
           $parsed = json_decode($repairedJson, TRUE, 512, JSON_INVALID_UTF8_IGNORE | JSON_INVALID_UTF8_SUBSTITUTE);
           if (json_last_error() === JSON_ERROR_NONE) {
             $responseText = $repairedJson;

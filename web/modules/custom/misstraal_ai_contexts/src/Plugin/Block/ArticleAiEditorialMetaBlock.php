@@ -114,8 +114,9 @@ final class ArticleAiEditorialMetaBlock extends BlockBase {
    */
   private function convertMarkdownToHtml(string $markdown): string {
     try {
+      // Allow HTML for color spans and other formatting, but escape unsafe HTML.
       $converter = new CommonMarkConverter([
-        'html_input' => 'strip',
+        'html_input' => 'allow', // Allow HTML tags like <span> for color indicators
         'allow_unsafe_links' => FALSE,
       ]);
       return $converter->convert($markdown)->getContent();
