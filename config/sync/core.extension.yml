@@ -20,6 +20,7 @@ module:
   captcha: 0
   charts: 0
   charts_chartjs: 0
+  charts_dashboard_demo: 0
   ckeditor5: 0
   coffee: 0
   config: 0
