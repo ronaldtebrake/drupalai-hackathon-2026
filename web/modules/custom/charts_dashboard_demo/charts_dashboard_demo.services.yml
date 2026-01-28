@@ -1,0 +1,7 @@
+services:
+  navigation.entity_route_helper:
+    class: Drupal\charts_dashboard_demo\EntityRouteHelper
+    arguments:
+      - '@current_route_match'
+      - '@entity_type.manager'
+      - '@cache.discovery'

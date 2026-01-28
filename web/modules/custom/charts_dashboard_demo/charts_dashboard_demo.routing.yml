@@ -1,0 +1,7 @@
+charts_dashboard_demo.demo:
+  path: '/charts-dashboard-demo'
+  defaults:
+    _controller: '\Drupal\charts_dashboard_demo\Controller\DemoController::demo'
+    _title: 'Charts Dashboard Demo (Public)'
+  requirements:
+    _access: 'TRUE'

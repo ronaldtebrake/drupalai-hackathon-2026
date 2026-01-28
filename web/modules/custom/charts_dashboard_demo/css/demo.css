@@ -1,0 +1,51 @@
+.charts-demo-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.charts-demo-header img {
+  max-width: 320px;
+  height: auto;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.charts-demo-page {
+  padding: 1.25rem;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+.charts-demo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.chart-card {
+  background: #fff;
+  border: 1px solid #e6e6e6;
+  padding: 0.75rem;
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  display: flex;
+  flex-direction: column;
+  min-height: 220px;
+}
+
+.chart-title {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.chart-desc {
+  color: #6b6b6b;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.charts-demo-chart {
+  flex: 1 1 auto;
+  width: 100%;
+  height: 180px;
+}

@@ -1,0 +1,13 @@
+charts_dashboard_demo.demo:
+  title: 'Charts Dashboard demo'
+  description: 'View the Charts Dashboard demo.'
+  route_name: charts_dashboard_demo.demo
+  parent: system.admin_config_system
+  weight: 0
+
+charts_dashboard_demo.demo_child:
+  title: 'Demo'
+  description: 'Open the Charts Dashboard demo.'
+  route_name: charts_dashboard_demo.demo
+  parent: charts_dashboard.manage
+  weight: 5

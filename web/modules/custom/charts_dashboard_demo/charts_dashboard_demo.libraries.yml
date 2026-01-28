@@ -1,0 +1,11 @@
+demo:
+  version: 1.0
+  css:
+    theme:
+      css/demo.css: {}
+  js:
+    https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js: { type: external }
+    js/demo.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
