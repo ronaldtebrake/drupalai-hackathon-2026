@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Drupal\misstraal_ai_contexts\Plugin\Block;
 
 use Drupal\Core\Block\Attribute\Block;
