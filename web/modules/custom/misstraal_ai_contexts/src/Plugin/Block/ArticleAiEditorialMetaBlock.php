@@ -7,6 +7,7 @@ use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\node\NodeInterface;
+use League\CommonMark\CommonMarkConverter;
 
 /**
  * Displays AI + editorial metadata for Article nodes.
@@ -63,16 +64,27 @@ final class ArticleAiEditorialMetaBlock extends BlockBase {
     }
 
     $field = $node->get($field_name);
-
-    // Prefer processed value for formatted text fields if available.
     $first = $field->first();
     $value = NULL;
 
-    if (isset($first->processed)) {
-      $value = $first->processed;
+    // For markdown fields, always use raw value so we can convert markdown ourselves.
+    $reasoning_fields = ['field_ai_reasoning', 'field_editorial_description'];
+    $is_markdown_field = in_array($field_name, $reasoning_fields, TRUE);
+
+    if ($is_markdown_field) {
+      // Always use raw value for markdown fields.
+      if (isset($first->value)) {
+        $value = $first->value;
+      }
     }
-    elseif (isset($first->value)) {
-      $value = $first->value;
+    else {
+      // For other fields, prefer processed value if available.
+      if (isset($first->processed)) {
+        $value = $first->processed;
+      }
+      elseif (isset($first->value)) {
+        $value = $first->value;
+      }
     }
 
     // Normalize to string.
@@ -80,10 +92,41 @@ final class ArticleAiEditorialMetaBlock extends BlockBase {
       $value = implode("\n", $value);
     }
 
+    // Convert markdown to HTML for reasoning fields.
+    if ($is_markdown_field && is_string($value) && !empty($value)) {
+      $value = $this->convertMarkdownToHtml($value);
+    }
+
     return [
       'label' => (string) $label,
       'value' => $value,
     ];
+  }
+
+  /**
+   * Converts Markdown to HTML using CommonMark.
+   *
+   * @param string $markdown
+   *   The markdown text to convert.
+   *
+   * @return string
+   *   The HTML output.
+   */
+  private function convertMarkdownToHtml(string $markdown): string {
+    try {
+      $converter = new CommonMarkConverter([
+        'html_input' => 'strip',
+        'allow_unsafe_links' => FALSE,
+      ]);
+      return $converter->convert($markdown)->getContent();
+    }
+    catch (\Exception $e) {
+      // If markdown conversion fails, return the original text.
+      \Drupal::logger('misstraal_ai_contexts')->warning('Failed to convert markdown to HTML: @error', [
+        '@error' => $e->getMessage(),
+      ]);
+      return $markdown;
+    }
   }
 
   /**

@@ -163,6 +163,45 @@ You MUST output a valid JSON object with the following structure:
   "editorial_reasoning": "Editorial style is consistent and follows the style guide. Grammar and punctuation are correct. The content uses active voice appropriately. Minor improvement: some acronyms could be expanded on first use."
 }
 
+*REASONING FORMAT REQUIREMENTS (MANDATORY)*
+The "ai_reasoning" and "editorial_reasoning" fields MUST use Markdown formatting to provide clear visual indicators:
+
+1. **Use bold text** (`**text**`) to highlight:
+   - Key issues or problems identified
+   - Specific violations of guidelines
+   - Critical areas needing attention
+
+2. **Use bullet points** (`-` or `*`) when listing:
+   - Multiple issues or observations
+   - Specific examples or instances
+   - Recommended improvements
+
+3. **Use italics** (`*text*`) for:
+   - Emphasis on important points
+   - References to specific guidelines or rules
+
+4. **Use inline code** (`` `text` ``) for:
+   - Quoted text from the content being assessed
+   - Specific terms, phrases, or technical elements
+   - References to specific sections or elements
+
+5. **Structure your reasoning** with clear sections when multiple points are made:
+   - Use `**Issue:**` or `**Problem:**` to introduce main issues
+   - Use `**Recommendation:**` or `**Suggestion:**` for improvement suggestions
+   - Use `**Example:**` when providing specific examples
+
+Example of well-formatted reasoning:
+```
+**Issue:** Missing accessibility reference in the introduction paragraph.
+
+The opening sentence states: `"This new policy will benefit everyone"` but fails to mention accessibility considerations. 
+
+**Recommendation:** Add explicit reference to accessibility, such as: `"This new policy will benefit everyone, including users with disabilities, by ensuring accessible digital services."`
+
+**Specific violations:**
+- Missing accessibility mention in key messaging
+- No reference to WCAG compliance
+```
 
 The score is a range from 0-100. 0 means low severity, 100 is critical severity.
 *Important*: The description of the issue should be CONCISE, and REFERENCE to or QUOTE the element or text with the issue.
