@@ -89,6 +89,34 @@ class ChatModelNode extends AbstractFlowDropNodeProcessor {
       $prompt = $params->getString('prompt', '');
     }
 
+    // Extract entity context from unified input port first (from GuidelineScoringNode output).
+    $entityId = NULL;
+    $entityType = NULL;
+    $bundle = NULL;
+    
+    if (is_array($unifiedInput)) {
+      if (isset($unifiedInput['entity_id'])) {
+        $entityId = (string) $unifiedInput['entity_id'];
+      }
+      if (isset($unifiedInput['entity_type'])) {
+        $entityType = (string) $unifiedInput['entity_type'];
+      }
+      if (isset($unifiedInput['bundle'])) {
+        $bundle = (string) $unifiedInput['bundle'];
+      }
+    }
+    
+    // Fallback to direct parameters if not found in unified input.
+    if (empty($entityId)) {
+      $entityId = $params->get('entity_id', NULL);
+    }
+    if (empty($entityType)) {
+      $entityType = $params->get('entity_type', NULL);
+    }
+    if (empty($bundle)) {
+      $bundle = $params->get('bundle', NULL);
+    }
+
     $systemMessage = $params->getString('system_message', '');
     $model = $params->getString('model', '');
     $temperature = $params->getFloat('temperature', 0.7);
@@ -163,16 +191,13 @@ class ChatModelNode extends AbstractFlowDropNodeProcessor {
         'model' => $modelId,
       ];
 
-      // Pass through entity context if available (from previous nodes).
-      $entityId = $params->get('entity_id', NULL);
+      // Pass through entity context if available.
       if ($entityId !== NULL) {
         $output['entity_id'] = (string) $entityId;
       }
-      $entityType = $params->get('entity_type', NULL);
       if ($entityType !== NULL) {
         $output['entity_type'] = (string) $entityType;
       }
-      $bundle = $params->get('bundle', NULL);
       if ($bundle !== NULL) {
         $output['bundle'] = (string) $bundle;
       }
