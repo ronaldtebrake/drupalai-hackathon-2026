@@ -32,35 +32,48 @@
           var ctx = canvas.getContext('2d');
           // Ensure canvas has an explicit pixel height to avoid ResizeObserver loops.
           if (!canvas.style.height) {
-            canvas.style.height = (payload.height || '180px');
+            // Previously 430px; reduce by 25px to 405px.
+            canvas.style.height = (payload.height || '405px');
           }
 
-          // Create and store the Chart instance directly to avoid redundant locals.
-          window.chartsDashboardDemoCharts[id] = new Chart(ctx, {
+          // Prepare datasets: prefer payload.datasets (multi-series) otherwise single dataset from payload.values.
+          var datasets = [];
+          if (payload.datasets && Array.isArray(payload.datasets)) {
+            datasets = payload.datasets.map(function (ds) {
+              // Ensure Chart.js expects 'data' property not 'values'. If caller used 'data' keep it.
+              var d = Object.assign({}, ds);
+              if (d.values && !d.data) {
+                d.data = d.values;
+                delete d.values;
+              }
+              return d;
+            });
+          }
+          else if (payload.values && Array.isArray(payload.values)) {
+            datasets = [{
+              label: payload.label || 'Dataset',
+              data: payload.values,
+              backgroundColor: payload.backgroundColor || 'rgba(54, 162, 235, 0.5)',
+              borderColor: payload.borderColor || 'rgba(54, 162, 235, 1)',
+              borderWidth: 1
+            }];
+          }
+
+          // Build Chart config
+          var chartConfig = {
             type: payload.chart_type || 'bar',
             data: {
               labels: payload.labels || [],
-              datasets: [{
-                label: payload.label || 'Dataset',
-                data: payload.values || [],
-                backgroundColor: payload.backgroundColor || [
-                  'rgba(54, 162, 235, 0.5)',
-                  'rgba(255, 99, 132, 0.5)',
-                  'rgba(255, 205, 86, 0.5)',
-                  'rgba(75, 192, 192, 0.5)'
-                ],
-                borderColor: payload.borderColor || 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-              }]
+              datasets: datasets
             },
             options: payload.options || {
               responsive: true,
-              // Maintain aspect ratio true is safer when we provide an explicit
-              // canvas height via CSS or style to avoid infinite resize loops.
               maintainAspectRatio: true,
-              plugins: { legend: { display: true } }
             }
-          });
+          };
+
+          // Create and store the Chart instance directly.
+          window.chartsDashboardDemoCharts[id] = new Chart(ctx, chartConfig);
         }
         catch (err) {
           console.error('Chart render error for', id, err);
