@@ -164,253 +164,64 @@ nodes:
     selected: false
     dragging: false
   -
-    id: prompt_template.1
+    id: misstraal_ai_contexts_guideline_scoring.3
     type: universalNode
     position:
-      x: 260
-      'y': 220
+      x: 310
+      'y': 260
     data:
-      label: 'Prompt Template'
-      config:
-        template: |-
-
-          You are an automated content compliance and UX quality assessor for the European Commission’s online presence within the .europa.eu domain.
-          *YOUR TASK*
-          Assess CONTENT against RULES_AND_GUIDELINES and return one single JSON object suitable for automated ingestion.
-           *INPUTS YOU WILL RECEIVE*
-          You will receive two inputs, wrapped exactly as follows:
-          ----------
-          RULES_AND_GUIDELINES:
-          <<<
-          …Europa Web Guide–aligned policy and style guide…
-          >>>
-          CONTENT:
-          <<<
-          …text to be assessed…
-          >>>
-          ----------
-
-          Your assessment must follow these constraints:
-
-          Sentence-triggered issuesIdentify issues only where a specific sentence or consecutive sentences trigger non-compliance.
-          Each issue must map directly to the sentence(s) that caused it.
-          Chronological orderingIssues must appear in the same order as the triggering sentences occur in CONTENT, from beginning to end.
-          Root-cause groupingIf multiple adjacent sentences reflect the same underlying issue, group them into one issue.
-          Title-driven classificationDo not output categories or subcategories.
-          Each issue must instead have a short, neutral, descriptive title that clearly signals the nature of the problem (e.g. “Promotional tone”, “Missing accessibility reference”, “Unclear call to action”).
-
-          *SCORING MODEL (MANDATORY)*
-          For each identified issue, assign:
-
-          score: integer from 0–1000 = non-compliant / severe failure
-          50 = partially compliant / material improvement needed
-          100 = fully compliant (do not create an issue for “no issue”)
-          *ISSUE IDENTIFICATION RULES*
-
-          Identify only real issues evidenced in CONTENT relative to STYLE_GUIDE.
-          Do not invent missing information unless explicitly required for this page type.
-
-          *OUTPUT REQUIREMENTS (STRICT)*
-          You MUST always output a valid JSON object. It can be an empty object if you find no issues.
-          For each individual issue you output in the following structure:
-          {
-            score: 57,
-            categorization: "information_structure",
-            source: "ai_agent_web_guidelines",
-            subject: "Low readability score",
-            description: "The opening paragraph is written with emoticons, which conflicts with the guideline xyz."
-          }
-          The score is a range from 0-100. 0 means low severity, 100 is critical severity.
-          *Important*: The description of the issue should be CONCISE, and REFERENCE to or QUOTE the element or text with the issue.
-          The categories you can classify as are:
-          - accessibility
-          - editorial
-          - discoverability
-          - information_structure
-          - accuracy
-          - process
-
-
-          --------------------END OF PROMPT-----------------------------
-
-
-          *System role*
-          You are a web content and UX assistant for the European Commission’s online presence within the .europa.eu domain. Your task is to help plan, write, structure, and review content so that it fully complies with the Europa Web Guide rules on governance, usability, accessibility, consistency, and legal/technical standards.
-
-          You detect issues in the content and classify them individually. Focus on actionable, and high severity issues. Assume you are working with a competent content editor, ignore nitpicks.
-
-
-
-          *OUTPUT*
-          You MUST always output JSON. Either an empty object if you find no issues. Or for each individual issue you output in a structured format, like:
-          {
-          score: 57,
-          categorization: "information_structure",
-          source: "ai_agent_web_guidelines",
-          description: "The opening paragraph is written with emoticons, which conflicts with the guideline xyz."
-          }
-
-          The score is a range from 0-100. 0 means low severity, 100 is critical severity.
-          The description of the issue should be CONCISE, and REFERENCE to the element or text with the issue.
-
-          The categories you can classify as are:
-          - accessibility
-          - editorial
-          - discoverability
-          - information_structure
-          - accuracy
-          - process
-
-          *Objectives*
-          Ensure all outputs are suitable for publication on an official European Commission website.
-          Prioritise clarity, accuracy, accessibility, and a consistent user experience across the Europa domain.
-          Align with EU web accessibility, data protection, and copyright rules as reflected in Commission web standards and the EU Web Accessibility Directive.
-
-          *Governance and scope*
-          Treat .europa.eu as an institutional, public-service domain:
-          Content must be factual, neutral, and non‑commercial.
-          Do not promote private brands, products, or services except where strictly necessary and neutral.
-          Respect the governance of the Europa domain:
-          Assume that information architecture, hosting, and core tools are centrally governed.
-          Propose solutions that work within shared corporate platforms (for example, Europa Web Publishing Platform, Europa Search, Europa Analytics, corporate components).
-          When suggesting new pages or sections, always:
-          Justify the user need and business need.
-          Avoid duplication of existing content within the wider Europa domain.
-          Fit proposals into an existing, logical site structure.
-
-          *Audience and communication style*
-          Write for a broad public audience, including non‑experts and people outside EU institutions.
-          Use clear, plain, and concise language.
-          Avoid jargon, acronyms, and internal EU terminology unless strictly necessary; when used, explain them briefly.
-          Be neutral, objective, and evidence‑based; avoid persuasive, promotional, or political language.
-          Consider multilingual publication:
-          Draft content so it is easy to translate, avoiding idioms and culturally specific references.
-          Keep sentences relatively short and structurally simple.
-
-          *UX, usability, and structure*
-          Aim for a consistent, intuitive user experience across pages.
-          Structure content so that users can quickly find key information:
-          Start with the most important information (“inverted pyramid”).
-          Use descriptive headings and subheadings.
-          Use short paragraphs and scannable lists where helpful.
-          Ensure navigation and labelling are predictable and consistent:
-          Use descriptive link text (no “click here”).
-          Reuse established terminology for menus, buttons, and reusable components.
-          Keep pages focused on a single main topic and avoid unnecessary complexity.
-          Provide clear calls to action that correspond to real tasks or services (apply, register, download, contact, etc.) and avoid vague instructions.
-
-          *Visual design and components (conceptual rules)*
-          You do not choose colours or fonts, but you must respect the logic of a unified visual identity and standard components.
-          Always assume:
-          Corporate templates and standardised layouts must be used; avoid suggesting custom layouts or third‑party widgets that diverge from official templates.
-          Content should fit into reusable, centrally maintained components (cards, accordions, tables, alerts, etc.), not bespoke one‑off designs.
-          When proposing layouts, describe them using standard web elements (headings, paragraphs, lists, tables, standard components) rather than custom code.
-          Do not propose visual elements that could conflict with accessibility (e.g. text embedded in images without alternative text, colour‑only distinctions).
-
-          *Accessibility and inclusiveness*
-          Treat accessibility as a core, non‑negotiable requirement, aligned with WCAG 2.1 level AA and the EU Web Accessibility Directive for public‑sector websites.
-          Ensure content is:
-          Perceivable: provide meaningful headings, text alternatives for non‑text content, and avoid conveying information using colour alone.
-          Operable: assume all interactions must be keyboard‑accessible and avoid suggesting content that relies on complex gestures or time‑limited actions.
-          Understandable: use clear language, logical structure, and consistent patterns for similar tasks.
-          Robust: avoid suggesting solutions that depend on outdated or proprietary plugins.
-          When describing media or interactive features, always:
-          Indicate the need for captions and/or transcripts for audio and video.
-          Provide text alternatives or summaries for charts, infographics, or complex images.
-          Avoid flashing or animated content that could cause discomfort or accessibility problems.
-
-          *Legal, data protection, and cookies*
-          Assume all content is subject to EU rules on data protection and privacy.
-          Do not request or encourage collection of unnecessary personal data.
-          For any suggestion involving user tracking, analytics, or cookies:
-          Use the official analytics tools (e.g. Europa Analytics) and cookie frameworks provided by the Commission.
-          Respect the need for clear cookie information and consent mechanisms.
-
-          *Technical and platform constraints*
-          When suggesting technical solutions, favour existing corporate tools and platforms mentioned in Europa Web standards (e.g. Europa Web Publishing Platform, Europa Search, Asset Manager, Europa Analytics, corporate video player, web streaming, EU Login).
-          Do not propose embedding unvetted third‑party scripts, trackers, or external services that may conflict with security, privacy, or accessibility requirements.
-          Assume responsive design and compatibility with a range of devices (desktop, tablet, mobile) as a baseline requirement.
-          When suggesting downloads or documents, promote accessible formats (properly structured PDFs, HTML versions) and avoid image‑only documents.
-
-          *Content lifecycle and quality*
-          Treat content as part of a managed lifecycle: planning, creation, review, publication, maintenance, and archiving.
-          For every piece of content, ensure:
-          Clear purpose and target audience.
-          Clear owner (DG/service) and review/update responsibility (implicitly referenced in governance rules).
-          Avoid redundancy with other institutional content.
-          Encourage periodic review of content for accuracy, relevance, and compliance with evolving standards.
-          When drafting or editing content, check:
-          Accuracy and internal consistency.
-          Up‑to‑date references (legislation, programmes, dates, contact details).
-          Consistency with other pages on the same site or in the same section.
-
-          *Writing rules and micro‑copy*
-          When generating or editing text:
-          Use neutral, informative titles and headings; avoid slogans or marketing language.
-          Start pages with a short, clear summary of what the page offers.
-          Use the active voice and direct language (for example, “You can apply online…” rather than indirect formulations).
-          Avoid exclamation marks and emotional language.
-          For buttons, labels, and error messages:
-          Be concise and action‑oriented (for example, “Submit application”, “Download report”).
-          Explain errors clearly and, where applicable, explain how to fix them in plain language.
-          For links, always make link text self‑describing (for example, “EU Web Accessibility Directive” instead of “Read more”).
-
-          *Interoperability with other EU sites*
-          Assume that users may move between different EU institutional sites (Commission, Parliament, Council, agencies) but should experience a coherent, recognisable EU web environment.
-          Avoid suggesting site structures or navigation patterns that would make an individual site feel disconnected from the wider Europa ecosystem.
-          Use naming and classification approaches that align with EU‑level information architecture when possible (policies, topics, countries, institutions, funding, etc.).
-
-          *Behaviour when uncertain*
-          If a user request conflicts with Europa Web Guide principles (e.g. requests promotional language, non‑accessible formats, or non‑compliant tracking), you must:
-          Refuse the non‑compliant part.
-          Propose an alternative that complies with the Europa Web Guide.
-          If the request lacks clarity, ask targeted clarification questions focused on:
-          Audience, purpose, language(s), and expected maintenance.
-          When trade‑offs are needed (e.g. between detail and simplicity), prioritise usability, accessibility, and clarity for the general public.
-
-          *Output format expectations*
-          Unless the user explicitly asks for another format:
-          Provide content in well‑structured sections with headings, short paragraphs, and lists.
-          Suggest meaningful headings that could directly become H1/H2/H3 titles.
-          When designing a new page, provide:
-          Page title, short summary, main sections, and key calls to action.
-          Any notes about accessibility or technical constraints relevant to implementation.
-          When reviewing an existing draft, provide:
-          A concise assessment of compliance with the above principles.
-          Concrete rewrites or examples that bring the content into line with these rules.
-
-          You must follow all instructions above whenever you generate, edit, or review content intended for publication on the Europa domain. 
-
-
-          title is this value {{ variables.entity.label }} {{ entity.label }}
-          text is this value {{ entity.field_description.value }} {{ entity.fields.field_description[0].value }}
-        nodeType: default
-        instanceTitle: ''
-        instanceDescription: ''
+      label: 'Guideline Scoring'
+      config: {  }
       metadata:
-        id: prompt_template
-        name: 'Prompt Template'
-        type: simple
+        id: misstraal_ai_contexts_guideline_scoring
+        name: 'Guideline Scoring'
+        type: default
         supportedTypes:
           - default
-          - simple
-        description: 'Create prompts using templates with variable substitution'
-        category: prompts
-        icon: 'mdi:code-block-braces'
-        color: '#f59e0b'
+        description: 'Builds prompts from ai_context pools and scores content in two categories (AI and Editorial)'
+        category: processing
+        icon: 'mdi:cog'
+        color: '#14b8a6'
         plugin_version: 1.0.0
         enabled: true
         tags: {  }
-        executor_plugin: 'flowdrop_node_processor:prompt_template'
+        executor_plugin: 'misstraal_ai_contexts:guideline_scoring'
         inputs:
           -
-            id: variables
-            name: Variables
+            id: content
+            name: Content
             type: input
-            dataType: json
+            dataType: mixed
             required: false
-            description: 'Default variables for the template'
-            defaultValue: {  }
+            description: 'The content to be scored (can be string or entity data array)'
+          -
+            id: data
+            name: Data
+            type: input
+            dataType: mixed
+            required: false
+            description: 'Data from trigger or other nodes'
+          -
+            id: input
+            name: Input
+            type: input
+            dataType: mixed
+            required: false
+            description: 'Input from any previous node (unified input port)'
+          -
+            id: response
+            name: Response
+            type: input
+            dataType: string
+            required: false
+            description: 'Response from a previous node (e.g., ChatModel response output)'
+          -
+            id: raw_response
+            name: 'Raw Response'
+            type: input
+            dataType: string
+            required: false
+            description: 'Raw response from a previous node (e.g., ChatModel raw_response output)'
           -
             id: trigger
             name: Trigger
@@ -421,25 +232,11 @@ nodes:
         outputs:
           -
             id: prompt
-            name: prompt
+            name: Prompt
             type: output
             dataType: string
             required: false
-            description: 'The generated prompt'
-          -
-            id: template
-            name: template
-            type: output
-            dataType: string
-            required: false
-            description: 'The original template'
-          -
-            id: variables
-            name: variables
-            type: output
-            dataType: json
-            required: false
-            description: 'The variables used'
+            description: 'The built prompt with guidelines and content for scoring evaluation'
           -
             id: trigger
             name: Trigger
@@ -447,26 +244,35 @@ nodes:
             dataType: trigger
             required: false
             description: 'Emitted when this node completes execution'
-        config:
-          template: ''
-          type: simple
+        config: {  }
         configSchema:
           type: object
           properties:
-            template:
+            content:
+              type: mixed
+              title: Content
+              description: 'The content to be scored (can be string or entity data array)'
+              required: false
+            data:
+              type: mixed
+              title: Data
+              description: 'Data from trigger or other nodes'
+              required: false
+            input:
+              type: mixed
+              title: Input
+              description: 'Input from any previous node (unified input port)'
+              required: false
+            response:
               type: string
-              title: Template
-              description: 'The prompt template with variables in {{variable}} format'
-              default: ''
-              format: template
-            nodeType:
+              title: Response
+              description: 'Response from a previous node (e.g., ChatModel response output)'
+              required: false
+            raw_response:
               type: string
-              title: 'Visual Type'
-              description: 'Select the visual appearance for this node instance.'
-              enum:
-                - default
-                - simple
-              default: simple
+              title: 'Raw Response'
+              description: 'Raw response from a previous node (e.g., ChatModel raw_response output)'
+              required: false
             instanceTitle:
               type: string
               title: Title
@@ -479,22 +285,19 @@ nodes:
               format: multiline
               x-display-order: -1
           required: {  }
-      nodeId: prompt_template.1
-      extensions:
-        ui:
-          hideUnconnectedHandles: false
+      nodeId: misstraal_ai_contexts_guideline_scoring.3
     deletable: true
     measured:
       width: 288
-      height: 590
+      height: 740
     selected: false
-    dragging: true
+    dragging: false
   -
     id: misstraal_ai_contexts_chat_model.1
     type: universalNode
     position:
-      x: 830
-      'y': 150
+      x: 910
+      'y': 140
     data:
       label: 'Chat Model'
       config:
@@ -673,36 +476,36 @@ nodes:
     selected: false
     dragging: false
   -
-    id: misstraal_ai_contexts_guideline_scoring.2
+    id: misstraal_ai_contexts_guideline_score_parser.1
     type: universalNode
     position:
-      x: 1230
-      'y': 230
+      x: 1410
+      'y': 250
     data:
-      label: 'Guideline Scoring'
+      label: 'Guideline Score Parser'
       config: {  }
       metadata:
-        id: misstraal_ai_contexts_guideline_scoring
-        name: 'Guideline Scoring'
+        id: misstraal_ai_contexts_guideline_score_parser
+        name: 'Guideline Score Parser'
         type: default
         supportedTypes:
           - default
-        description: 'Builds prompts from ai_context pools and scores content in two categories (AI and Editorial)'
+        description: 'Parses JSON response from guideline scoring and extracts scores and reasoning'
         category: processing
         icon: 'mdi:cog'
         color: '#14b8a6'
         plugin_version: 1.0.0
         enabled: true
         tags: {  }
-        executor_plugin: 'misstraal_ai_contexts:guideline_scoring'
+        executor_plugin: 'misstraal_ai_contexts:guideline_score_parser'
         inputs:
           -
-            id: content
-            name: Content
+            id: response
+            name: Response
             type: input
             dataType: string
             required: false
-            description: 'The content to be scored against guidelines'
+            description: 'Response from ChatModelNode'
           -
             id: input
             name: Input
@@ -710,27 +513,6 @@ nodes:
             dataType: mixed
             required: false
             description: 'Input from any previous node (unified input port)'
-          -
-            id: response
-            name: Response
-            type: input
-            dataType: string
-            required: false
-            description: 'Response from a previous node (e.g., ChatModel response output)'
-          -
-            id: raw_response
-            name: 'Raw Response'
-            type: input
-            dataType: string
-            required: false
-            description: 'Raw response from a previous node (e.g., ChatModel raw_response output)'
-          -
-            id: data
-            name: Data
-            type: input
-            dataType: mixed
-            required: false
-            description: 'Data from trigger or other nodes'
           -
             id: trigger
             name: Trigger
@@ -773,14 +555,7 @@ nodes:
             type: output
             dataType: string
             required: false
-            description: 'The raw JSON response from the AI model'
-          -
-            id: model
-            name: Model
-            type: output
-            dataType: string
-            required: false
-            description: 'The model identifier that was used'
+            description: 'The cleaned JSON response'
           -
             id: trigger
             name: Trigger
@@ -792,30 +567,15 @@ nodes:
         configSchema:
           type: object
           properties:
-            content:
+            response:
               type: string
-              title: Content
-              description: 'The content to be scored against guidelines'
+              title: Response
+              description: 'Response from ChatModelNode'
               required: false
             input:
               type: mixed
               title: Input
               description: 'Input from any previous node (unified input port)'
-              required: false
-            response:
-              type: string
-              title: Response
-              description: 'Response from a previous node (e.g., ChatModel response output)'
-              required: false
-            raw_response:
-              type: string
-              title: 'Raw Response'
-              description: 'Raw response from a previous node (e.g., ChatModel raw_response output)'
-              required: false
-            data:
-              type: mixed
-              title: Data
-              description: 'Data from trigger or other nodes'
               required: false
             instanceTitle:
               type: string
@@ -829,26 +589,26 @@ nodes:
               format: multiline
               x-display-order: -1
           required: {  }
-      nodeId: misstraal_ai_contexts_guideline_scoring.2
+      nodeId: misstraal_ai_contexts_guideline_score_parser.1
     deletable: true
     measured:
       width: 288
-      height: 1115
-    selected: true
+      height: 815
+    selected: false
     dragging: false
 edges:
   -
-    id: xy-edge__trigger.1trigger.1-output-data-prompt_template.1prompt_template.1-input-variables
+    id: xy-edge__trigger.1trigger.1-output-data-misstraal_ai_contexts_guideline_scoring.3misstraal_ai_contexts_guideline_scoring.3-input-data
     source: trigger.1
-    target: prompt_template.1
+    target: misstraal_ai_contexts_guideline_scoring.3
     data:
       targetNodeType: universalNode
-      targetCategory: prompts
+      targetCategory: processing
       metadata:
         edgeType: data
         sourcePortDataType: json
     sourceHandle: trigger.1-output-data
-    targetHandle: prompt_template.1-input-variables
+    targetHandle: misstraal_ai_contexts_guideline_scoring.3-input-data
     style: 'stroke: var(--flowdrop-edge-data-color);'
     markerEnd:
       type: arrowclosed
@@ -856,10 +616,9 @@ edges:
       height: 16
       color: '#9ca3af'
     class: flowdrop--edge--data
-    selected: false
   -
-    id: xy-edge__prompt_template.1prompt_template.1-output-prompt-misstraal_ai_contexts_chat_model.1misstraal_ai_contexts_chat_model.1-input-prompt
-    source: prompt_template.1
+    id: xy-edge__misstraal_ai_contexts_guideline_scoring.3misstraal_ai_contexts_guideline_scoring.3-output-prompt-misstraal_ai_contexts_chat_model.1misstraal_ai_contexts_chat_model.1-input-prompt
+    source: misstraal_ai_contexts_guideline_scoring.3
     target: misstraal_ai_contexts_chat_model.1
     data:
       targetNodeType: universalNode
@@ -867,7 +626,7 @@ edges:
       metadata:
         edgeType: data
         sourcePortDataType: string
-    sourceHandle: prompt_template.1-output-prompt
+    sourceHandle: misstraal_ai_contexts_guideline_scoring.3-output-prompt
     targetHandle: misstraal_ai_contexts_chat_model.1-input-prompt
     style: 'stroke: var(--flowdrop-edge-data-color);'
     markerEnd:
@@ -876,11 +635,10 @@ edges:
       height: 16
       color: '#9ca3af'
     class: flowdrop--edge--data
-    selected: false
   -
-    id: xy-edge__misstraal_ai_contexts_chat_model.1misstraal_ai_contexts_chat_model.1-output-response-misstraal_ai_contexts_guideline_scoring.2misstraal_ai_contexts_guideline_scoring.2-input-response
+    id: xy-edge__misstraal_ai_contexts_chat_model.1misstraal_ai_contexts_chat_model.1-output-response-misstraal_ai_contexts_guideline_score_parser.1misstraal_ai_contexts_guideline_score_parser.1-input-response
     source: misstraal_ai_contexts_chat_model.1
-    target: misstraal_ai_contexts_guideline_scoring.2
+    target: misstraal_ai_contexts_guideline_score_parser.1
     data:
       targetNodeType: universalNode
       targetCategory: processing
@@ -888,7 +646,7 @@ edges:
         edgeType: data
         sourcePortDataType: string
     sourceHandle: misstraal_ai_contexts_chat_model.1-output-response
-    targetHandle: misstraal_ai_contexts_guideline_scoring.2-input-response
+    targetHandle: misstraal_ai_contexts_guideline_score_parser.1-input-response
     style: 'stroke: var(--flowdrop-edge-data-color);'
     markerEnd:
       type: arrowclosed
@@ -899,7 +657,7 @@ edges:
 metadata:
   version: 1.0.0
   createdAt: '2026-01-27T15:34:49.378Z'
-  updatedAt: '2026-01-27T21:43:42.044Z'
+  updatedAt: '2026-01-28T07:00:50.499Z'
 created: 1769528027
-changed: 1769550222
+changed: 1769583650
 uid: 0
