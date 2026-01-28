@@ -5,11 +5,11 @@ dependencies:
   config:
     - field.field.node.article.field_ai_reasoning
     - field.field.node.article.field_ai_score
-    - field.field.node.article.field_description
     - field.field.node.article.field_editorial_description
     - field.field.node.article.field_editorial_score
     - field.field.node.article.field_editorial_source
     - field.field.node.article.field_editorial_subject
+    - field.field.node.article.field_formatted_description
     - node.type.article
   module:
     - text
@@ -36,11 +36,11 @@ content:
     weight: 102
     region: content
   field_editorial_description:
-    type: basic_string
+    type: text_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 106
+    weight: 107
     region: content
   field_editorial_score:
     type: string
@@ -65,11 +65,17 @@ content:
     third_party_settings: {  }
     weight: 105
     region: content
+  field_formatted_description:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 106
+    region: content
   links:
     settings: {  }
     third_party_settings: {  }
     weight: 100
     region: content
 hidden:
-  field_description: true
   search_api_excerpt: true
