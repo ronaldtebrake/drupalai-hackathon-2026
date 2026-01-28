@@ -9,7 +9,7 @@ id: node.article.field_editorial_source
 field_name: field_editorial_source
 entity_type: node
 bundle: article
-label: editorial_source
+label: 'Editorial source'
 description: ''
 required: false
 translatable: false

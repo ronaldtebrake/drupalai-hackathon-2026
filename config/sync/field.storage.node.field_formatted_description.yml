@@ -1,12 +1,12 @@
-uuid: 1b60b797-f25f-48b0-9550-c1fb5922e30e
+uuid: 9da5f0b1-b8e4-4d1c-b590-f75f45e1f20a
 langcode: en
 status: true
 dependencies:
   module:
     - node
     - text
-id: node.field_editorial_description
-field_name: field_editorial_description
+id: node.field_formatted_description
+field_name: field_formatted_description
 entity_type: node
 type: text_long
 settings: {  }

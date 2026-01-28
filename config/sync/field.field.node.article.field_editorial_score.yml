@@ -9,7 +9,7 @@ id: node.article.field_editorial_score
 field_name: field_editorial_score
 entity_type: node
 bundle: article
-label: editorial_score
+label: 'Editorial score'
 description: ''
 required: false
 translatable: false

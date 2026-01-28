@@ -6,11 +6,11 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.field.node.article.field_ai_reasoning
     - field.field.node.article.field_ai_score
-    - field.field.node.article.field_description
     - field.field.node.article.field_editorial_description
     - field.field.node.article.field_editorial_score
     - field.field.node.article.field_editorial_source
     - field.field.node.article.field_editorial_subject
+    - field.field.node.article.field_formatted_description
     - node.type.article
   module:
     - user
@@ -19,13 +19,6 @@ targetEntityType: node
 bundle: article
 mode: teaser
 content:
-  field_description:
-    type: basic_string
-    label: hidden
-    settings: {  }
-    third_party_settings: {  }
-    weight: 1
-    region: content
   links:
     settings: {  }
     third_party_settings: {  }
@@ -38,4 +31,5 @@ hidden:
   field_editorial_score: true
   field_editorial_source: true
   field_editorial_subject: true
+  field_formatted_description: true
   search_api_excerpt: true
