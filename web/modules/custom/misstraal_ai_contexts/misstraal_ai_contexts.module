@@ -106,8 +106,8 @@ function misstraal_ai_contexts_build_article_meta_items(NodeInterface $node): ar
   $items = [];
 
   $map = [
-    'field_ai_score' => t('AI score'),
-    'field_ai_reasoning' => t('AI reasoning'),
+    // 'field_ai_score' => t('AI score'),
+    // 'field_ai_reasoning' => t('AI reasoning'),
     'field_editorial_score' => t('Editorial score'),
     'field_editorial_source' => t('Editorial source'),
     'field_editorial_subject' => t('Editorial subject'),
