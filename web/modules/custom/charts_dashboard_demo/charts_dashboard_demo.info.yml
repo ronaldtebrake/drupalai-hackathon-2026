@@ -1,0 +1,6 @@
+name: 'Charts Dashboard Demo'
+type: module
+description: 'Public demo page showcasing Chart.js dashboards (standalone demo).'
+core_version_requirement: ^11
+package: Custom
+version: 1.0.0
