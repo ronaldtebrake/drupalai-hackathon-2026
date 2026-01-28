@@ -48,6 +48,7 @@ function misstraal_ai_contexts_form_alter(array &$form, FormStateInterface $form
     $form['#attached']['library'][] = 'misstraal_ai_contexts/admin_form_panel';
 
     $items = misstraal_ai_contexts_build_article_meta_items($node);
+    $title_revision_items = misstraal_ai_contexts_build_node_title_revision_items($node);
 
     $form['misstraal_ai_meta_panel'] = [
       '#type' => 'container',
@@ -59,6 +60,18 @@ function misstraal_ai_contexts_form_alter(array &$form, FormStateInterface $form
         '#theme' => 'misstraal_article_ai_editorial_meta_panel',
         '#title' => t('AI & editorial metadata'),
         '#items' => $items,
+      ],
+    ];
+    $form['misstraal_title_revision_panel'] = [
+      '#type' => 'container',
+      '#weight' => -49, // Right after the AI meta panel
+      '#attributes' => [
+        'class' => ['misstraal-ai-contexts-form-panel'],
+      ],
+      'panel' => [
+        '#theme' => 'misstraal_article_ai_editorial_meta_panel',
+        '#title' => t('Node information'),
+        '#items' => $title_revision_items,
       ],
     ];
   }
@@ -129,4 +142,29 @@ function misstraal_ai_contexts_build_article_meta_items(NodeInterface $node): ar
   return $items;
 }
 
+/**
+ * Build items for the Node title & revision log panel.
+ */
+function misstraal_ai_contexts_build_node_title_revision_items(NodeInterface $node): array {
+  $items = [];
 
+  // Add node title
+  $title = $node->getTitle();
+  if (!empty($title)) {
+    $items[] = [
+      'label' => (string) t('Title'),
+      'value' => $title,
+    ];
+  }
+
+  // Add revision log message
+  $revision_log = $node->getRevisionLogMessage();
+  if (!empty($revision_log)) {
+    $items[] = [
+      'label' => (string) t('Revision log message'),
+      'value' => $revision_log,
+    ];
+  }
+
+  return $items;
+}
